@@ -1,3 +1,13 @@
+const params =
+new URLSearchParams(
+  window.location.search
+);
+
+const id =
+params.get("id");
+
+console.log("Movie ID:", id);
+
 const supabaseUrl = "https://exjgejujfxejjlbfizgz.supabase.co";
 
 const supabaseKey =
