@@ -1,60 +1,40 @@
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>KivuStreaM - Stream Movies & Series</title>
-
   <meta name="description" content="Watch trending movies, anime and series online on KivuStream.">
   <meta name="keywords" content="movies, series, anime, streaming">
   <meta name="theme-color" content="#050816">
-
   <link rel="icon" href="logo.png">
-
   <link rel="stylesheet" href="style.css">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 </head>
-
 <body>
-
-
   <!-- BLUE GRID BACKGROUND -->
   <div class="bg-grid"></div>
-
   <!-- LOADER -->
   <div id="loader">
     <div class="spinner"></div>
   </div>
-
   <!-- HEADER -->
   <header class="main-header">
     <div class="logo-wrap">
       <img src="logo.png" class="site-logo">
       <a href="#" class="site-title">KIVU<span>Stream</span></a>
     </div>
-
     <nav class="navbar">
       <a href="#movies">Movies</a>
       <a href="#series">Series</a>
       <a href="#trending">Trending</a>
       <a href="#support">Support</a>
     </nav>
-
     <div class="nav-right">
-
       <input id="search-input" type="text" placeholder="Search movies..." aria-label="Search movies">
-
       <!-- 👤 ADMIN BUTTON -->
       <button class="profile-btn" onclick="openAdminLogin()">👤</button>
-
       <button id="theme-toggle">🌙</button>
 
     </div>
@@ -63,35 +43,21 @@
   <!-- =========================
      PREMIUM HERO SECTION
 ========================= -->
-
   <section class="hero-section">
-
     <!-- BACKGROUND -->
-
     <div id="hero-slider" class="hero-slider">
-
     </div>
-
     <!-- OVERLAY -->
-
     <div class="hero-overlay"></div>
-
     <!-- CONTENT -->
-
     <div class="hero-content">
-
       <!-- BADGE -->
-
       <span class="hero-badge">
-
         🔥 #1 STREAMING NOW
 
       </span>
-
       <!-- TITLE -->
-
       <h1 id="hero-title">
-
         Loading...
 
       </h1>
@@ -108,17 +74,11 @@
       </div>
 
       <!-- DESCRIPTION -->
-
       <p id="hero-description">
-
         Unlimited Movies & Series
-
       </p>
-
       <!-- BUTTONS -->
-
       <div class="hero-buttons">
-
         <button class="hero-watch-btn" onclick="watchHero()">
 
           ▶ Watch Now
@@ -179,81 +139,52 @@
   <!-- =========================
      RECENTLY ADDED
 ========================= -->
-
   <section class="section">
-
     <div class="section-header">
-
       <h2>
         🔥 Recently Added
       </h2>
-
     </div>
-
     <div id="recent-slider" class="movies-row"></div>
-
   </section>
-
   <!-- =========================
      LATEST MOVIES
 ========================= -->
-
   <section class="section" id="latestMovies">
-
     <div class="section-header">
-
       <h2>
         🎬 Latest Movies
       </h2>
-
     </div>
-
     <div id="movies-container" class="movies-row"></div>
-
   </section>
-
   <!-- =========================
      LATEST SERIES
 ========================= -->
-
   <section class="section" id="latestSeries">
-
     <div class="section-header">
-
       <h2>
         📺 Latest Series
       </h2>
-
     </div>
-
     <div id="series-container" class="movies-row"></div>
-
   </section>
-
   <!-- =========================
      ACTION
 ========================= -->
-
   <section class="section">
-
     <div class="section-header">
-
       <h2>
         ⚡ Action
       </h2>
-
     </div>
-
     <div id="action-container" class="movies-row"></div>
 
   </section>
-
   <!-- =========================
      HORROR
 ========================= -->
-
   <section class="section">
-
     <div class="section-header">
 
       <h2>
@@ -393,47 +324,33 @@
   <!-- =========================
      ABOUT & SUPPORT PRO
 ========================= -->
-
   <section class="section support-section" id="support">
-
     <!-- SECTION HEADER -->
     <div class="section-heading">
-
       <span class="section-badge">
         PREMIUM SUPPORT
       </span>
-
       <h2 class="section-title">
         💬 About KivuStream
       </h2>
-
       <p class="section-subtitle">
-
         Experience futuristic streaming with
         ultra-fast servers, trending entertainment,
         anime, movies, series and cinematic quality.
-
       </p>
-
     </div>
-
     <!-- GRID -->
     <div class="support-grid">
-
       <!-- ABOUT CARD -->
       <div class="support-card about-card">
-
         <div class="support-icon">
           🚀
         </div>
-
         <h3>
           KivuStream Platform
         </h3>
-
         <p>
           Everything you need in one streaming platform
-
           KivuStream is a next-generation
           entertainment platform built by
           <strong>IT HAWK_RW</strong> for premium
@@ -441,27 +358,21 @@
           modern UI, powerful servers,
           unlimited entertainment and futuristic design.
           also Access thousands of trending movies and TV series in HD quality.
-
         </p>
 
         <div class="feature-list">
-
           <div class="feature-box">
             🎬 Unlimited Movies
           </div>
-
           <div class="feature-box">
             📺 Trending Series
           </div>
-
           <div class="feature-box">
             ⚡ Ultra Fast Streaming
           </div>
-
           <div class="feature-box">
             🔥 Premium Experience
           </div>
-
           <div class="feature-box">
             📱 Cinematic Expriance
           </div>
@@ -476,7 +387,6 @@
 
       <!-- SUPPORT CARD -->
       <div class="support-card support-box">
-
         <div class="support-icon">
           🛠
         </div>
