@@ -162,13 +162,21 @@ document.getElementById("movie-type").innerHTML =
   }
 
   /* SERIES OR MOVIE */
-  if (movie.type === "series") {
-    loadSeriesEpisodes(movie.id);
-  } else {
-    const section = document.getElementById("series-section");
-    if (section) section.style.display = "none";
-  }
-  
+ if (movie.type === "series") {
+
+  document.getElementById(
+    "series-section"
+  ).style.display = "block";
+
+  loadSeriesEpisodes(movie.id);
+
+} else {
+
+  document.getElementById(
+    "series-section"
+  ).style.display = "none";
+
+}
   document.getElementById("comment-btn").onclick = () => {
   postComment(currentMovie.id);
 };
