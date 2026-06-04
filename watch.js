@@ -21,21 +21,6 @@ async function loadMovie() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
 
-   const movie = movies.find(
-  m => m.id == movieId
-);
-
-if(movie){
-  document.getElementById(
-    "movie-title"
-  ).textContent = movie.title;
-
-  document.getElementById(
-    "movie-description"
-  ).textContent =
-    movie.description;
-}
-
   if (!id) {
     console.error("No movie ID found");
     return;
