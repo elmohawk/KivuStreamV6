@@ -1,3 +1,55 @@
+/* =========================
+   TMDB API INTEGRATION
+========================= */
+
+const TMDB_API_KEY = "8b8937bf3e114fa3502358a4f090c0df";
+const TMDB_BASE = "https://api.themoviedb.org/3";
+const TMDB_IMG = "https://image.tmdb.org/t/p/w500";
+
+async function searchTMDBMovies(query) {
+  const res = await fetch(
+    `${TMDB_BASE}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+  );
+
+  const data = await res.json();
+  return data.results || [];
+}
+async function getTMDBMovieDetails(id) {
+  const res = await fetch(
+    `${TMDB_BASE}/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
+  );
+
+  const data = await res.json();
+
+  return {
+    title: data.title,
+    overview: data.overview,
+    poster: data.poster_path ? TMDB_IMG + data.poster_path : null,
+    banner: data.backdrop_path ? TMDB_IMG + data.backdrop_path : null,
+    rating: data.vote_average,
+    release: data.release_date,
+    trailer: data.videos?.results?.find(v => v.type === "Trailer")?.key || null
+  };
+}
+async function enrichMovieWithTMDB(movie) {
+  if (!movie.title) return movie;
+
+  const results = await searchTMDBMovies(movie.title);
+
+  if (results.length === 0) return movie;
+
+  const tmdb = await getTMDBMovieDetails(results[0].id);
+
+  return {
+    ...movie,
+    poster: tmdb.poster || movie.poster,
+    banner: tmdb.banner || movie.banner,
+    overview: tmdb.overview || movie.description,
+    rating: tmdb.rating,
+    trailer: tmdb.trailer
+  };
+}
+
 (function () {
 
   const debugPanel =
@@ -1746,10 +1798,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-/* =========================================
-   KIVUSTREAM PRO ADMIN SYSTEM
-========================================= */
-
 /* =========================
    PRO TOAST
 ========================= */
@@ -2126,7 +2174,7 @@ async function loadMoviePage() {
     .select("*")
     .eq("id", id)
     .single();
-
+movie = await enrichMovieWithTMDB(movie);
   if (error || !movie) {
     console.log(error);
 
