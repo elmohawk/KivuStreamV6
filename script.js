@@ -2134,7 +2134,15 @@ async function loadMoviePage() {
   }
 
   currentMovie = movie;
+const poster =
+document.getElementById(
+"movie-poster"
+);
 
+if (poster) {
+poster.src =
+movie.image || "./logo.png";
+}
   /* TITLE */
 
   $("movie-title").innerText = movie.title;
