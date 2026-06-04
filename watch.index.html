@@ -1,0 +1,314 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Watch</title>
+
+<link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+</head>
+<div id="loading-screen">
+
+    <div class="loader"></div>
+
+</div>
+<body>
+
+<!-- HERO -->
+<!-- HERO SECTION -->
+<header id="movie-banner" class="hero-banner">
+
+    <!-- Background Layer -->
+    <div class="hero-backdrop"></div>
+
+    <!-- Gradient Layers -->
+    <div class="hero-gradient"></div>
+
+    <!-- Content -->
+    <div class="hero-content">
+
+        <!-- Poster -->
+        <div class="poster-wrapper">
+            <img id="movie-poster" class="poster" />
+        </div>
+
+        <!-- Info -->
+        <div class="details">
+
+          <div class="badge-row">
+
+    <span class="badge movie-badge"
+          id="movie-status">
+        🎬 MOVIE
+    </span>
+
+    <span class="badge rating-badge">
+        ⭐ HD
+    </span>
+
+    <span class="badge year-badge"
+          id="movie-year">
+        2026
+    </span>
+
+</div>
+            <h1 id="movie-title">
+                Loading...
+            </h1>
+
+            <div class="meta">
+
+                <span id="movie-category">
+                    Action
+                </span>
+
+                <span id="movie-translator">
+                    KivuStream
+                </span>
+
+                <span id="movie-type">
+                    Movie
+                </span>
+
+            </div>
+
+            <p id="movie-description">
+                Loading description...
+            </p>
+          
+          <div class="movie-stats">
+
+   <div class="stat">
+      🎬 HD Quality
+   </div>
+
+   <div class="stat">
+      ⚡ Fast Streaming
+   </div>
+
+   <div class="stat">
+      🌍 Worldwide
+   </div>
+
+</div>
+
+            <div class="buttons">
+
+                <button id="watch-btn" class="watch-btn">
+                    ▶ Watch Now
+                </button>
+
+                <button id="download-btn" class="download-btn">
+                    ⬇ Download
+                </button>
+
+                <button class="wishlist-btn">
+                    ❤ My List
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+<!-- PLAYER -->
+<div class="player-wrap">
+  <video id="player" controls></video>
+</div>
+
+<!-- SERIES EPISODES (ONLY IF SERIES) -->
+<section id="series-section" style="display:none; padding:20px;">
+
+  <h2>📺 Episodes</h2>
+
+  <div id="season-buttons"></div>
+
+  <div id="episodes-container"></div>
+
+</section>
+
+<!-- COMMENTS -->
+<section class="comments-section">
+
+  <h2 class="comments-title">💬 Community Comments</h2>
+
+  <div class="comment-box">
+
+    <input id="username-input" placeholder="Your name..." />
+
+    <input id="comment-input" placeholder="Write a comment..." />
+
+    <button id="comment-btn">🚀 Post</button>
+
+  </div>
+
+  <div id="comments-container"></div>
+
+</section>
+  <section class="recommended-section">
+
+  <h2>🔥 Recommended For You</h2>
+
+  <div id="recommended-container"
+       class="recommended-grid">
+  </div>
+
+</section>
+<section id="support" class="support-section">
+
+  <h2 class="section-title">🛠 Help & Support</h2>
+
+  <div class="support-grid">
+
+    <!-- EMAIL -->
+<div class="support-card" onclick="window.location.href='mailto:mrhawk2007@gmail.com'">
+  <div class="support-icon">📧</div>
+  <h3>Email Support</h3>
+  <p>Get help via email anytime</p>
+  <a href="mailto:mrhawk2007@gmail.com" onclick="event.stopPropagation()">Send Email</a>
+</div>
+
+<!-- WHATSAPP -->
+<div class="support-card" onclick="window.open('https://wa.me/250794669266','_blank')">
+  <div class="support-icon">💬</div>
+  <h3>WhatsApp Support</h3>
+  <p>Chat with us directly</p>
+  <a href="https://wa.me/250794669266" target="_blank" onclick="event.stopPropagation()">Open Chat</a>
+</div>
+    
+    <!-- RESPONSE TIME -->
+    <div class="support-card">
+      <div class="support-icon">⚡</div>
+      <h3>Fast Response</h3>
+      <p>Usually replies within minutes</p>
+      <span>24/7 Available</span>
+    </div>
+
+  </div>
+
+</section>
+  
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <!-- BRAND -->
+    <div class="footer-brand">
+
+      <h2 class="footer-logo">
+        Kivu<span>Stream</span>
+      </h2>
+
+      <div class="footer-copyright">
+        © 2026 <strong>Kivu<span>Stream</span></strong>
+        • Powered By <strong>IT HAWK_RW</strong>
+        <br>
+        Unlimited Streaming • Premium Entertainment • Cinematic Experience
+      </div>
+
+      <p class="footer-text">
+        Stream trending movies, series, anime and entertainment everywhere.
+        With Most Trust web and APEX HAWK STUDIO
+      </p>
+
+    </div>
+
+   <!-- QUICK LINKS -->
+<div class="footer-links">
+
+  <h3>Explore</h3>
+
+  <div class="link-grid">
+
+    <a class="footer-link movies" href="#movies">
+      <span class="icon">🎬</span>
+      <span>Movies</span>
+    </a>
+
+    <a class="footer-link series" href="#series">
+      <span class="icon">📺</span>
+      <span>Series</span>
+    </a>
+
+    <a class="footer-link support" href="#support">
+      <span class="icon">🛠</span>
+      <span>Support</span>
+    </a>
+
+  </div>
+
+</div>
+
+</div>
+   <!-- SOCIAL -->
+<div class="footer-social">
+
+  <h3>Follow Us</h3>
+
+  <p class="footer-contact">📞 +250794669266</p>
+
+  <div class="social-icons">
+
+    <a class="social-pro whatsapp" href="https://wa.me/250794669266" target="_blank">
+      <span class="icon">🟢</span>
+      <span class="label">WhatsApp</span>
+    </a>
+
+    <a class="social-pro tiktok" href="https://www.tiktok.com/@mrhawk733" target="_blank">
+      <span class="icon">🎵</span>
+      <span class="label">TikTok</span>
+    </a>
+
+    <a class="social-pro twitter" href="https://x.com/mrhawk2007" target="_blank">
+      <span class="icon">𝕏</span>
+      <span class="label">X (Twitter)</span>
+    </a>
+
+    <a class="social-pro facebook" href="https://www.facebook.com/mrhawk734" target="_blank">
+      <span class="icon">📘</span>
+      <span class="label">Facebook</span>
+    </a>
+
+    <a class="social-pro instagram" href="https://www.instagram.com/hawk_mrperfect/" target="_blank">
+      <span class="icon">📸</span>
+      <span class="label">Instagram</span>
+    </a>
+
+    <a class="social-pro youtube" href="https://youtube.com/@mrhawk_rw" target="_blank">
+      <span class="icon">▶</span>
+      <span class="label">YouTube</span>
+    </a>
+
+    <a class="social-pro telegram" href="https://t.me/it_hawk_rw" target="_blank">
+      <span class="icon">✈</span>
+      <span class="label">Telegram</span>
+    </a>
+
+  </div>
+
+</div>
+      <!-- BOTTOM LINKS -->
+      <div class="footer-bottom-links">
+
+        <div class="copyright">
+          © 2026 KivuStream • Built By IT HAWK_RW
+        </div>
+
+        <a href="/terms.html">📜 Terms & Conditions</a>
+        <a href="/privacy.html">🔒 Privacy Policy</a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+<script src="watch.js"></script>
+
+</body>
+</html>
