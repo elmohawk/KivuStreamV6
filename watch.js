@@ -13,6 +13,14 @@ const supabaseUrl = "https://exjgejujfxejjlbfizgz.supabase.co";
 const supabaseKey =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4amdlanVqZnhlampsYmZpemd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTQzMTQsImV4cCI6MjA5NDA5MDMxNH0.CWUYLp4qJfriIYXWScB7wcHHVTCuz0SGDhWUV3tMR1Y";
 console.log("Supabase loaded:", window.supabase);
+if (!window.supabase) {
+
+  console.error("Supabase SDK not loaded");
+
+  alert("Supabase SDK failed to load");
+
+}
+
 const supabaseClient =
 window.supabase.createClient(
   supabaseUrl,
