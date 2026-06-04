@@ -1,28 +1,30 @@
-/* =========================
-   SUPABASE INIT
-========================= */
-const supabaseClient = supabase.createClient(
-  "https://exjgejujfxejjlbfizgz.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4amdlanVqZnhlampsYmZpemd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTQzMTQsImV4cCI6MjA5NDA5MDMxNH0.CWUYLp4qJfriIYXWScB7wcHHVTCuz0SGDhWUV3tMR1Y"
-);
+const supabaseUrl = "https://exjgejujfxejjlbfizgz.supabase.co";
 
-/* =========================
-   STATE
-========================= */
+const supabaseKey =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4amdlanVqZnhlampsYmZpemd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTQzMTQsImV4cCI6MjA5NDA5MDMxNH0.CWUYLp4qJfriIYXWScB7wcHHVTCuz0SGDhWUV3tMR1Y";
+
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
 let currentMovie = null;
 let allEpisodes = [];
 
-/* =========================
+/* ---------------------------
    INIT
-========================= */
+----------------------------*/
 document.addEventListener("DOMContentLoaded", loadMovie);
 
-/* =========================
+/* ---------------------------
    LOAD MOVIE
-========================= */
+----------------------------*/
 async function loadMovie() {
-  const id = new URLSearchParams(location.search).get("id");
-  if (!id) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (!id) {
+    console.error("No movie ID found");
+    return;
+  }
 
   const { data, error } = await supabaseClient
     .from("movies")
@@ -30,183 +32,248 @@ async function loadMovie() {
     .eq("id", id)
     .single();
 
-  if (error) return console.error(error);
+  if (error) {
+    console.error("Error loading movie:", error);
+    return;
+  }
 
   currentMovie = data;
   renderMovie();
 }
 
-/* =========================
+/* ---------------------------
    RENDER MOVIE
-========================= */
+----------------------------*/
 function renderMovie() {
-  const m = currentMovie;
-  if (!m) return;
 
-  document.title = m.title;
+  const movie = currentMovie;
+  if (!movie) return;
 
-  set("movie-title", m.title);
-  set("movie-description", m.description);
+  document.title = movie.title;
 
-  setHTML("movie-category", `🎭 ${m.category || "N/A"}`);
-  setHTML("movie-translator", `🎙 ${m.translator || "KivuStream"}`);
-  setHTML("movie-type", m.type === "series" ? "📺 Series" : "🎬 Movie");
+  setText("movie-title", movie.title);
+  setText("movie-description", movie.description);
+ document.getElementById("movie-category").innerHTML =
+  `🎭 ${movie.category || "Entertainment"}`;
 
-  setAttr("movie-poster", "src", m.image || "./logo.png");
+ document.getElementById("movie-translator").innerHTML =
+  `🎙 ${movie.translator || "KivuStream"}`;
+
+  setAttr("movie-poster", "src", movie.image);
 
   const backdrop = document.querySelector(".hero-backdrop");
-  if (backdrop) {
-    backdrop.style.backgroundImage = `url(${m.banner || m.image})`;
+
+if (backdrop) {
+  backdrop.style.backgroundImage =
+    `url(${movie.banner || movie.image})`;
+}
+  document.body.style.setProperty(
+"--movie-bg",
+`url(${movie.banner || movie.image})`
+);
+document.getElementById("movie-type").innerHTML =
+  movie.type === "series"
+    ? "📺 Series"
+    : "🎬 Movie";
+  document.getElementById("movie-status").innerHTML =
+  movie.status || "🔥 Trending";
+
+  /* PLAY BUTTON */
+  const watchBtn = document.getElementById("watch-btn");
+  if (watchBtn) {
+  watchBtn.onclick = () => {
+
+    const player =
+      document.getElementById("player");
+
+    player.src = movie.video;
+
+    player.scrollIntoView({
+      behavior: "smooth"
+    });
+
+    player.play();
+
+  };
+}
+  /* DOWNLOAD */
+  const downloadBtn = document.getElementById("download-btn");
+  if (downloadBtn) {
+    downloadBtn.onclick = () => {
+      window.open(movie.download, "_blank");
+    };
   }
 
-  document.body.style.setProperty("--movie-bg", `url(${m.banner || m.image})`);
+  /* SERIES OR MOVIE */
+  if (movie.type === "series") {
+    loadSeriesEpisodes(movie.id);
+  } else {
+    const section = document.getElementById("series-section");
+    if (section) section.style.display = "none";
+  }
+  
+  document.getElementById("comment-btn").onclick = () => {
+  postComment(currentMovie.id);
+};
 
-  setHTML("movie-status", m.status || "🔥 Trending");
-
-  setupPlayer(m);
-  setupDownload(m);
-  setupComments(m.id);
-  setupWatchType(m);
+loadComments(currentMovie.id);
 
   loadRecommended();
 }
+/* ---------------------------
+   LOAD EPISODES
+----------------------------*/
+async function loadSeriesEpisodes(seriesId) {
 
-/* =========================
-   PLAYER
-========================= */
-function setupPlayer(m) {
-  const btn = document.getElementById("watch-btn");
-  const player = document.getElementById("player");
-
-  if (!btn || !player) return;
-
-  btn.onclick = () => {
-    if (!m.video) return;
-
-    player.src = m.video;
-    player.play().catch(() => {});
-
-    player.scrollIntoView({ behavior: "smooth" });
-  };
-}
-
-/* =========================
-   DOWNLOAD
-========================= */
-function setupDownload(m) {
-  const btn = document.getElementById("download-btn");
-  if (!btn) return;
-
-  btn.onclick = () => {
-    if (m.download) window.open(m.download, "_blank");
-  };
-}
-
-/* =========================
-   SERIES CHECK
-========================= */
-function setupWatchType(m) {
-  if (m.type !== "series") {
-    document.getElementById("series-section").style.display = "none";
-  }
-}
-
-/* =========================
-   COMMENTS
-========================= */
-function setupComments(movieId) {
-  document.getElementById("comment-btn").onclick = () =>
-    postComment(movieId);
-
-  loadComments(movieId);
-}
-
-async function loadComments(movieId) {
-  const { data } = await supabaseClient
-    .from("comments")
+  const { data, error } = await supabaseClient
+    .from("episodes")
     .select("*")
-    .eq("movie_id", movieId)
-    .order("created_at", { ascending: false });
+    .eq("series_id", seriesId)
+    .order("season");
 
-  const box = document.getElementById("comments-container");
-  if (!box) return;
+  if (error || !data) {
+    console.error("Episode error:", error);
+    return;
+  }
 
-  box.innerHTML = "";
+  allEpisodes = data;
 
-  (data || []).forEach(c => {
-    box.innerHTML += `
-      <div class="comment">
-        <strong>${c.username}</strong>
-        <p>${c.text}</p>
-        <small>${new Date(c.created_at).toLocaleString()}</small>
-      </div>
-    `;
+  const seasons = [...new Set(data.map(e => e.season))];
+
+  const seasonButtons = document.getElementById("season-buttons");
+  if (!seasonButtons) return;
+
+  seasonButtons.innerHTML = "";
+
+  seasons.forEach(season => {
+    const btn = document.createElement("button");
+    btn.textContent = `Season ${season}`;
+    btn.onclick = () => showSeason(season);
+    seasonButtons.appendChild(btn);
+  });
+
+ showSeason(seasons[0]);
+
+if (data.length > 0) {
+  playEpisode(data[0].video);
+}
+
+}
+
+/* ---------------------------
+   SHOW SEASON
+----------------------------*/
+function showSeason(season) {
+  const container = document.getElementById("episodes-container");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  const episodes = allEpisodes.filter(ep => ep.season == season);
+
+  episodes.forEach(ep => {
+
+    const card = document.createElement("div");
+    card.className = "episode-card";
+
+    card.innerHTML = `
+
+<div class="episode-left">
+
+   <span class="episode-number">
+      EP ${ep.episode}
+   </span>
+
+   <div>
+
+      <h3>${ep.title}</h3>
+
+      <small>
+        Season ${ep.season}
+      </small>
+
+   </div>
+
+</div>
+
+<div class="episode-actions">
+
+   <button class="watch-ep">
+      ▶ Watch
+   </button>
+
+   <button class="download-ep">
+      ⬇
+   </button>
+
+</div>
+
+`;
+
+    card.querySelector(".watch-ep").onclick = () => playEpisode(ep.video);
+    card.querySelector(".download-ep").onclick = () => window.open(ep.download);
+
+    container.appendChild(card);
   });
 }
 
-async function postComment(movieId) {
-  const user = document.getElementById("username-input");
-  const text = document.getElementById("comment-input");
-  const btn = document.getElementById("comment-btn");
+/* ---------------------------
+   PLAY EPISODE
+----------------------------*/
+function playEpisode(video) {
 
-  if (!text.value.trim()) return alert("Write comment first");
+  const player = document.getElementById("player");
 
-  btn.disabled = true;
-  btn.innerText = "Posting...";
+  player.src = video;
+  player.play();
 
-  await supabaseClient.from("comments").insert([{
-    movie_id: movieId,
-    username: user.value || "Guest",
-    text: text.value
-  }]);
-
-  text.value = "";
-  loadComments(movieId);
-
-  btn.disabled = false;
-  btn.innerText = "🚀 Post";
+  player.scrollIntoView({ behavior: "smooth" });
 }
 
-/* =========================
+/* ---------------------------
    RECOMMENDED
-========================= */
+----------------------------*/
 async function loadRecommended() {
+
   const { data } = await supabaseClient
     .from("movies")
     .select("*")
-    .limit(10);
+    .limit(12);
 
-  const box = document.getElementById("recommended-container");
-  if (!box) return;
+  const container = document.getElementById("recommended-container");
+  if (!container || !data) return;
 
-  box.innerHTML = "";
+  container.innerHTML = "";
 
-  (data || []).forEach(m => {
+  data.forEach(movie => {
+
     const card = document.createElement("div");
     card.className = "movie-card";
 
     card.innerHTML = `
-      <img src="${m.image}" />
-      <h3>${m.title}</h3>
+      <img src="${movie.image}" />
+      <h3>${movie.title}</h3>
     `;
 
-    card.onclick = () => location.href = `watch.html?id=${m.id}`;
+    card.onclick = () => openMovie(movie.id);
 
-    box.appendChild(card);
+    container.appendChild(card);
   });
 }
 
-/* =========================
-   HELPERS
-========================= */
-function set(id, value) {
-  const el = document.getElementById(id);
-  if (el) el.innerText = value;
+/* ---------------------------
+   NAVIGATION
+----------------------------*/
+function openMovie(id) {
+  window.location.href = `watch.html?id=${id}`;
 }
 
-function setHTML(id, value) {
+/* ---------------------------
+   HELPERS
+----------------------------*/
+function setText(id, value) {
   const el = document.getElementById(id);
-  if (el) el.innerHTML = value;
+  if (el) el.innerText = value || "";
 }
 
 function setAttr(id, attr, value) {
@@ -214,9 +281,102 @@ function setAttr(id, attr, value) {
   if (el && value) el.setAttribute(attr, value);
 }
 
-/* =========================
-   LOADER
-========================= */
-window.addEventListener("load", () => {
-  document.getElementById("loading-screen")?.remove();
+async function loadComments(movieId){
+
+  const { data } = await supabaseClient
+    .from("comments")
+    .select("*")
+    .eq("movie_id", movieId)
+    .order("created_at", { ascending:false });
+
+  const container = document.getElementById("comments-container");
+  if(!container) return;
+
+  container.innerHTML = "";
+
+  data.forEach(c => {
+
+    container.innerHTML += `
+      <div class="comment">
+        <strong>${c.username || "User"}</strong>
+        <p>${c.text}</p>
+        <small>${new Date(c.created_at).toLocaleString()}</small>
+      </div>
+    `;
+  });
+}
+
+/* ---------------------------
+   POST COMMENT (PRO VERSION)
+----------------------------*/
+async function postComment(movieId) {
+
+  const commentInput =
+    document.getElementById("comment-input");
+
+  const usernameInput =
+    document.getElementById("username-input");
+
+  const username =
+    usernameInput?.value.trim() || "Guest";
+
+  const comment =
+    commentInput?.value.trim();
+
+  if (!comment) {
+    alert("Please write a comment.");
+    return;
+  }
+
+  const btn =
+    document.getElementById("comment-btn");
+
+  btn.disabled = true;
+  btn.innerHTML = "⏳ Posting...";
+
+  try {
+
+    const { error } = await supabaseClient
+      .from("comments")
+      .insert([
+        {
+          movie_id: movieId,
+          username: username,
+          text: comment
+        }
+      ]);
+
+    if (error) throw error;
+
+    commentInput.value = "";
+
+    loadComments(movieId);
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert(
+      "Failed to post comment."
+    );
+
+  } finally {
+
+    btn.disabled = false;
+    btn.innerHTML = "🚀 Post";
+
+  }
+}
+
+  window.addEventListener("load",()=>{
+
+const loader =
+document.getElementById(
+"loading-screen"
+);
+
+if(loader){
+loader.remove();
+}
+
 });
