@@ -133,7 +133,10 @@ function renderMovie() {
 "movie-title",
 movie.title || "Unknown Movie"
 );
-
+document.getElementById(
+  "movie-year"
+).innerText =
+movie.year || "2026";
 setText(
 "movie-description",
 movie.description ||
