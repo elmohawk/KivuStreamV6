@@ -19,8 +19,6 @@ window.addEventListener(
 
 function init() {
 
-  loadMovie();
-
 }
 const params =
 new URLSearchParams(
