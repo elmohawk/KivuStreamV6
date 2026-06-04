@@ -18,29 +18,54 @@ document.addEventListener("DOMContentLoaded", loadMovie);
 ----------------------------*/
 async function loadMovie() {
 
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+const id =
+new URLSearchParams(
+window.location.search
+).get("id");
 
-  if (!id) {
-    console.error("No movie ID found");
-    return;
-  }
+console.log("Movie ID:", id);
 
-  const { data, error } = await supabaseClient
-    .from("movies")
-    .select("*")
-    .eq("id", id)
-    .single();
-
-  if (error) {
-    console.error("Error loading movie:", error);
-    return;
-  }
-
-  currentMovie = data;
-  renderMovie();
+if(!id){
+console.error("No ID");
+return;
 }
 
+try{
+
+const { data,error } =
+await supabaseClient
+.from("movies")
+.select("*")
+.eq("id",id)
+.single();
+
+console.log("DATA:",data);
+console.log("ERROR:",error);
+
+if(error){
+throw error;
+}
+
+if(!data){
+alert("Movie not found");
+return;
+}
+
+currentMovie=data;
+
+renderMovie();
+
+}catch(err){
+
+console.error(err);
+
+alert(
+"Movie failed to load"
+);
+
+}
+
+}
 /* ---------------------------
    RENDER MOVIE
 ----------------------------*/
@@ -51,16 +76,27 @@ function renderMovie() {
 
   document.title = movie.title;
 
-  setText("movie-title", movie.title);
-  setText("movie-description", movie.description);
+  setText(
+"movie-title",
+movie.title || "Unknown Movie"
+);
+
+setText(
+"movie-description",
+movie.description ||
+"No description"
+);
  document.getElementById("movie-category").innerHTML =
   `🎭 ${movie.category || "Entertainment"}`;
 
  document.getElementById("movie-translator").innerHTML =
   `🎙 ${movie.translator || "KivuStream"}`;
 
-  setAttr("movie-poster", "src", movie.image);
-
+ setAttr(
+"movie-poster",
+"src",
+movie.image || "./logo.png"
+);
   const backdrop = document.querySelector(".hero-backdrop");
 
 if (backdrop) {
@@ -245,7 +281,7 @@ async function loadRecommended() {
 
   container.innerHTML = "";
 
-  data.forEach(movie => {
+(data || []).forEach(movie => {
 
     const card = document.createElement("div");
     card.className = "movie-card";
