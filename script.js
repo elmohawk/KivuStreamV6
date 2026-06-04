@@ -330,11 +330,12 @@ function createMovieCard(movie) {
       ${movie.type === "series" ? "SERIES" : "MOVIE"}
     </div>
 
-    <img
-  src="${movie.image}"
+   <img
+  src="${movie.image || './logo.png'}"
   alt="${movie.title}"
   loading="lazy"
-  onerror="this.src='fallback.jpg'"
+  onerror="this.onerror=null;this.src='./logo.png';"
+>
 >
 
     <div class="movie-overlay">
