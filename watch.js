@@ -1,3 +1,27 @@
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    if (!window.supabase) {
+
+      alert(
+        "Supabase library not loaded"
+      );
+
+      return;
+
+    }
+
+    init();
+
+  }
+);
+
+function init() {
+
+  loadMovie();
+
+}
 const params =
 new URLSearchParams(
   window.location.search
@@ -21,11 +45,21 @@ if (!window.supabase) {
 
 }
 
-const supabaseClient =
-window.supabase.createClient(
-  supabaseUrl,
-  supabaseKey
-);
+if (!window.supabase) {
+
+  console.error(
+    "Supabase failed to load"
+  );
+
+} else {
+
+  const supabaseClient =
+    window.supabase.createClient(
+      supabaseUrl,
+      supabaseKey
+    );
+
+}
 let currentMovie = null;
 let allEpisodes = [];
 
