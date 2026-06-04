@@ -49,6 +49,20 @@ async function enrichMovieWithTMDB(movie) {
     trailer: tmdb.trailer
   };
 }
+const tmdbCache = new Map();
+
+async function cachedTMDB(id, title) {
+  if (tmdbCache.has(title)) {
+    return tmdbCache.get(title);
+  }
+
+  const result = await enrichMovieWithTMDB({ id, title });
+
+  tmdbCache.set(title, result);
+
+  return result;
+}
+
 
 (function () {
 
@@ -2169,17 +2183,18 @@ async function loadMoviePage() {
 
   if (!id) return;
 
-  const { data: movie, error } = await supabaseClient
-    .from("movies")
-    .select("*")
-    .eq("id", id)
-    .single();
-movie = await enrichMovieWithTMDB(movie);
-  if (error || !movie) {
-    console.log(error);
+  let { data: movie, error } = await supabaseClient
+  .from("movies")
+  .select("*")
+  .eq("id", id)
+  .single();
 
-    return;
-  }
+if (error || !movie) {
+  console.log(error);
+  return;
+}
+
+movie = await cachedTMDB(movie.id, movie.title);
 
   currentMovie = movie;
 const poster =
@@ -2188,8 +2203,8 @@ document.getElementById(
 );
 
 if (poster) {
-poster.src =
-movie.image || "./logo.png";
+poster.src = movie.poster || movie.image || "./logo.png";
+
 }
   /* TITLE */
 
@@ -2295,26 +2310,23 @@ async function loadSeriesDropdown() {
   }
 
   const select = document.getElementById("series-id");
-
   if (!select) return;
 
-  select.innerHTML = `
+  let options = `
     <option value="">
       Select Series
     </option>
   `;
 
   data.forEach((series) => {
-    select.innerHTML += `
-
+    options += `
       <option value="${series.id}">
-
         ${series.title}
-
       </option>
-
     `;
   });
+
+  select.innerHTML = options;
 }
 
 async function loadSeriesEpisodes() {
