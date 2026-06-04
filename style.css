@@ -6195,3 +6195,69 @@ button:disabled{
   z-index:999999;
   display:none;
 }
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* PAGE BACKGROUND */
+body {
+  background: #0f0f0f;
+  color: white;
+  line-height: 1.5;
+}
+
+/* MAIN CONTAINER (fix BIG LOOK issue) */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* HEADINGS */
+h1, h2, h3 {
+  font-weight: 600;
+}
+
+/* IMAGES RESPONSIVE */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+}
+.card {
+  background: #1c1c1c;
+  border-radius: 12px;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
