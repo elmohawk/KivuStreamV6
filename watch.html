@@ -6,14 +6,16 @@
 <title>Watch</title>
 
 <link rel="stylesheet" href="style.css"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
 </head>
+<div id="loading-screen">
 
     <div class="loader"></div>
 
 </div>
 <body>
-<div id="loading-screen">
+
 <!-- HERO -->
 <!-- HERO SECTION -->
 <header id="movie-banner" class="hero-banner">
@@ -113,6 +115,10 @@
     </div>
 
 </header>
+<!-- PLAYER -->
+<div class="player-wrap">
+  <video id="player" controls></video>
+</div>
 
 <!-- SERIES EPISODES (ONLY IF SERIES) -->
 <section id="series-section" style="display:none; padding:20px;">
@@ -134,12 +140,13 @@
 
     <input id="username-input" placeholder="Your name..." />
 
-    <input id="commentInput" placeholder="Write a comment..." />
+    <input id="comment-input" placeholder="Write a comment..." />
+
     <button id="comment-btn">🚀 Post</button>
 
   </div>
 
-  <div id="comments-list"></div>
+  <div id="comments-container"></div>
 
 </section>
   <section class="recommended-section">
@@ -301,9 +308,7 @@
   </div>
 
 </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script src="./script.js"></script>
+<script src="watch.js"></script>
 
 </body>
 </html>
