@@ -79,9 +79,6 @@ function getMovieId() {
 
 const $ = (id) => document.getElementById(id);
 
-/* ===========================
-   MOVIE
-=========================== */
 async function loadMovie(id) {
   const { data, error } = await supabaseClient
     .from("movies")
@@ -89,8 +86,21 @@ async function loadMovie(id) {
     .eq("id", id)
     .single();
 
+  console.log("Movie ID:", id);
+  console.log("Movie Data:", data);
+  console.log("Movie Error:", error);
+
   if (error || !data) {
-    console.error("Movie load failed");
+    console.error("Movie load failed:", error);
+
+    document.getElementById("loader").style.display = "none";
+
+    document.body.innerHTML += `
+      <div style="color:white;text-align:center;padding:40px">
+        Movie not found or database error.
+      </div>
+    `;
+
     return;
   }
 
@@ -105,6 +115,8 @@ async function loadMovie(id) {
 
   loadComments(data.id);
   loadRecommended();
+
+  document.getElementById("loader").style.display = "none";
 }
 
 /* ===========================
