@@ -1137,9 +1137,7 @@ async function uploadMoviePro() {
 
     let result;
 
-    /* =========================
-       EDIT MODE
-    ========================= */
+    /* EDIT MODE */
     if (editingMovieId) {
       result = await supabaseClient
         .from("movies")
@@ -1149,11 +1147,8 @@ async function uploadMoviePro() {
       showToast("Updated successfully ✔");
       editingMovieId = null;
 
-    } 
-    /* =========================
-       CREATE MODE
-    ========================= */
-    else {
+    } else {
+      /* CREATE MODE */
       const table =
         movieData.type === "series" ? "series" : "movies";
 
