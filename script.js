@@ -2197,7 +2197,12 @@ if (error || !movie) {
   return;
 }
 
-movie = await cachedTMDB(movie.id, movie.title);
+const tmdbMovie = await cachedTMDB(movie.id, movie.title);
+
+movie = {
+  ...movie,
+  ...tmdbMovie
+};
 
   currentMovie = movie;
 const poster =
@@ -2206,8 +2211,10 @@ document.getElementById(
 );
 
 if (poster) {
-poster.src = movie.poster || movie.image || "./logo.png";
-
+  poster.src =
+    movie.poster ||
+    movie.image ||
+    "./logo.png";
 }
   /* TITLE */
 
@@ -2215,7 +2222,10 @@ poster.src = movie.poster || movie.image || "./logo.png";
 
   /* DESCRIPTION */
 
-  $("movie-description").innerText = movie.description || "";
+ $("movie-description").innerText =
+  movie.overview ||
+  movie.description ||
+  "";
 
   /* CATEGORY */
 
@@ -2226,15 +2236,14 @@ poster.src = movie.poster || movie.image || "./logo.png";
   $("movie-translator").innerText = movie.translator || "KivuStream";
 
   /* BANNER */
-
-  $("movie-banner").style.backgroundImage = `
-    linear-gradient(
-      to top,
-      rgba(0,0,0,.95),
-      rgba(0,0,0,.3)
-    ),
-    url(${movie.banner || movie.image})
-  `;
+$("movie-banner").style.backgroundImage = `
+linear-gradient(
+  to top,
+  rgba(0,0,0,.95),
+  rgba(0,0,0,.3)
+),
+url(${movie.banner || movie.poster || movie.image || './logo.png'})
+`;
 
   /* WATCH */
 
