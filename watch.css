@@ -871,3 +871,43 @@ backdrop-filter:blur(20px);
     font-size:.9rem;
     font-weight:600;
 }
+
+/* =========================
+   RECOMMENDED HORIZONTAL ROW
+========================= */
+
+#recommended-container {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 10px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* hide scrollbar (optional clean look) */
+#recommended-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* each card */
+#recommended-container .movie-card {
+  flex: 0 0 auto;
+  width: 160px;
+  scroll-snap-align: start;
+}
+
+/* image inside card */
+#recommended-container .movie-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* title */
+#recommended-container .movie-card h3 {
+  font-size: 14px;
+  margin-top: 6px;
+  color: white;
+}
