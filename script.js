@@ -1237,8 +1237,6 @@ async function addEpisode() {
     showToast("Episode added ✔");
 
     loadEpisodesCount();
-
-}
 /* =========================
    STATS LOADER
 ========================= */
