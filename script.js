@@ -1099,7 +1099,6 @@ async function loadDashboardStats() {
 /* =========================
    MOVIE UPLOAD (CREATE / UPDATE)
 ========================= */
-
 async function uploadMoviePro() {
   try {
     showToast("Uploading...");
@@ -1138,6 +1137,31 @@ async function uploadMoviePro() {
 
     let result;
 
+    if (editingMovieId) {
+      result = await supabaseClient
+        .from("movies")
+        .update(movieData)
+        .eq("id", editingMovieId);
+
+      showToast("Updated successfully ✔");
+      editingMovieId = null;
+
+    } else {
+      const table =
+        movieData.type === "series" ? "series" : "movies";
+
+      result = await supabaseClient
+        .from(table)
+        .insert([movieData]);
+
+      showToast("Uploaded successfully ✔");
+    }
+
+  } catch (err) {
+    console.error(err);
+    showToast("Upload failed ❌", "error");
+  }
+}
     /* =========================
        EDIT MODE (UPDATE)
     ========================= */
