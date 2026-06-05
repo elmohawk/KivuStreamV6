@@ -38,6 +38,7 @@ async function getTMDBMovieDetails(id) {
   trailer:
     data.videos?.results?.find(v => v.type === "Trailer")?.key || null
 };
+}
 async function enrichMovieWithTMDB(movie) {
   if (!movie.title) return movie;
 
@@ -1136,15 +1137,6 @@ async function uploadMoviePro() {
     };
 
     let result;
-    window.allMovies = [];
-
-let allMovies = window.allMovies;
-
-let currentMovie = null;
-
-let currentHero = null;
-
-let editingMovieId = null;
 
     /* =========================
        EDIT MODE (UPDATE)
@@ -2085,7 +2077,6 @@ sectionData[id] = items;
   paginatedItems.forEach((movie) => {
     container.appendChild(createMovieCard(movie));
   });
-renderPaginatedRow()
   renderPagination(id, items.length);
 }
 
