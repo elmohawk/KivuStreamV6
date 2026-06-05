@@ -1137,7 +1137,9 @@ async function uploadMoviePro() {
 
     let result;
 
-    /* EDIT MODE */
+    /* =========================
+       EDIT MODE
+    ========================= */
     if (editingMovieId) {
       result = await supabaseClient
         .from("movies")
@@ -1147,8 +1149,11 @@ async function uploadMoviePro() {
       showToast("Updated successfully ✔");
       editingMovieId = null;
 
-    } else {
-      /* CREATE MODE */
+    } 
+    /* =========================
+       CREATE MODE
+    ========================= */
+    else {
       const table =
         movieData.type === "series" ? "series" : "movies";
 
@@ -1158,25 +1163,12 @@ async function uploadMoviePro() {
 
       showToast("Uploaded successfully ✔");
     }
-      /* =========================
-       CREATE MODE (INSERT)
-    ========================= */
-     const table =
-movieData.type ===
-"series"
-?
-"series"
-:
-"movies";
 
-result =
-await supabaseClient
-.from(table)
-.insert([movieData]);
-       
-      showToast("Uploaded successfully ✔");
-    }
-
+  } catch (err) {
+    console.error(err);
+    showToast("Upload failed ❌", "error");
+  }
+}
 /* =========================
    EDIT MOVIE (AUTO FILL + EDIT MODE)
 ========================= */
