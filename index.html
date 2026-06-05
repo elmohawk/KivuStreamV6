@@ -723,17 +723,23 @@ View All →
 
         </div>
 
-        <!-- FLOATING CALL BUTTON -->
-        <a href="tel:+250794669266" class="call-float" aria-label="Call now" title="Call now">
+      <a
+href="tel:+250794669266"
+class="call-float">
 
-          📱
+📱
 
-          <!-- FLOATING WHATSAPP BUTTON -->
-          <a href="https://wa.me/250794669266" class="whatsapp-float" target="_blank" aria-label="Chat on WhatsApp">
+</a>
 
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+<a
+href="https://wa.me/250794669266"
+class="whatsapp-float"
+target="_blank">
 
-          </a>
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
+
+</a>
 
           <!-- =========================
      MOBILE FOOTER NAV
@@ -1018,38 +1024,48 @@ View All →
                 </button>
 
               </div>
-              <div class="admin-card">
+         <div class="admin-card">
 
-                <h2>📺 Create Series</h2>
+<h2>
+📺 Create Series
+</h2>
 
-                <input id="series-title" placeholder="Series Title">
+<input
+id="series-title"
+placeholder="Series Title">
 
-                <textarea id="series-description" placeholder="Description">
+<textarea
+id="series-description"
+placeholder="Description">
 </textarea>
 
-                <input id="series-image" placeholder="Poster URL">
+<input
+type="file"
+id="series-image-file">
 
-                <input id="series-banner" placeholder="Banner URL">
+<input
+type="file"
+id="series-banner-file">
 
-                <select id="series-category">
+<select id="series-category">
 
-                  <option>Action</option>
-                  <option>Drama</option>
-                  <option>Comedy</option>
-                  <option>Animation</option>
-                  <option>Horror</option>
-                  <option>HighSchool</option>
+<option>Action</option>
+<option>Drama</option>
+<option>Comedy</option>
+<option>Animation</option>
+<option>Horror</option>
+<option>HighSchool</option>
 
-                </select>
+</select>
 
-                <button class="create-series-btn" onclick="createSeries()">
+<button
+onclick="createSeries()">
 
-                  <i class="fas fa-tv"></i>
-                  Create Series
+Create Series
 
-                </button>
+</button>
 
-              </div>
+</div>
               <!-- EPISODE PANEL -->
               <div class="admin-card admin-only">
 
@@ -1057,7 +1073,9 @@ View All →
 
                 <div class="admin-grid">
 
-                 <input id="series-id-input" placeholder="Series ID">
+                <input
+id="series-id"
+placeholder="Series ID">
 
 <select id="series-select" onchange="loadSeasons(this.value)">
                     <option value="">
@@ -1105,7 +1123,6 @@ View All →
               </div>
  <!-- APP JS -->
              <script src="./script.js"></script>
-<link rel="stylesheet" href="./style.css">
 
 </body>
 
