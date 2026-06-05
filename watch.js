@@ -358,27 +358,50 @@ function loadComments(movieId) {
 /* ===========================
    RECOMMENDED
 =========================== */
-function loadRecommended() {
-  supabaseClient
+async function loadRecommended() {
+
+  const { data } = await supabaseClient
     .from("movies")
     .select("*")
-    .limit(10)
-    .then(({ data }) => {
-      const box = $("recommended-container");
-      box.innerHTML = "";
+    .limit(10);
 
-      (data || []).forEach((m) => {
-        const div = document.createElement("div");
-        div.className = "movie-card";
+  const box = $("recommended-container");
+  box.innerHTML = "";
 
-        div.innerHTML = `<img src="${m.image}"><h3>${m.title}</h3>`;
+  for (const movie of (data || [])) {
 
-        div.onclick = () =>
-          (window.location.href = `watch.html?id=${m.id}`);
+    let m = movie;
 
-        box.appendChild(div);
-      });
-    });
+    try {
+      m = await enrichMovieWithTMDB(movie);
+    } catch (err) {
+      console.log("TMDB recommendation error:", err);
+    }
+
+    const img =
+      m.poster ||
+      m.image ||
+      "./logo.png";
+
+    const div = document.createElement("div");
+    div.className = "movie-card";
+
+    div.innerHTML = `
+      <img src="${img}">
+      <h3>${m.title}</h3>
+    `;
+
+    div.querySelector("img").onerror = () => {
+      div.querySelector("img").src = "./logo.png";
+    };
+
+    div.onclick = () => {
+      window.location.href =
+        `watch.html?id=${m.id}`;
+    };
+
+    box.appendChild(div);
+  }
 }
 
 /* ===========================
