@@ -22,22 +22,22 @@ async function getTMDBMovieDetails(id) {
 
   const data = await res.json();
 
- return {
-  title: data.title,
-  overview: data.overview,
-  poster: data.poster_path
-    ? TMDB_POSTER + data.poster_path
-    : null,
+  return {
+    title: data.title,
+    overview: data.overview,
+    poster: data.poster_path
+      ? TMDB_POSTER + data.poster_path
+      : null,
 
-  banner: data.backdrop_path
-    ? TMDB_BACKDROP + data.backdrop_path
-    : null,
+    banner: data.backdrop_path
+      ? TMDB_BACKDROP + data.backdrop_path
+      : null,
 
-  rating: data.vote_average,
-  release: data.release_date,
-  trailer:
-    data.videos?.results?.find(v => v.type === "Trailer")?.key || null
-};
+    rating: data.vote_average,
+    release: data.release_date,
+    trailer:
+      data.videos?.results?.find(v => v.type === "Trailer")?.key || null
+  };
 }
 async function enrichMovieWithTMDB(movie) {
   if (!movie.title) return movie;
