@@ -2685,8 +2685,8 @@ alert(
 }
 window.createSeries = async function () {
   try {
-    const title = document.getElementById("series-title").value.trim();
-    const description = document.getElementById("series-description").value.trim();
+    const title = document.getElementById("series-title").value;
+    const description = document.getElementById("series-description").value;
     const category = document.getElementById("series-category").value;
 
     const imageFile = document.getElementById("series-image-file").files[0];
@@ -2700,12 +2700,10 @@ window.createSeries = async function () {
     let imageUrl = "";
     let bannerUrl = "";
 
-    // upload image
     if (imageFile) {
       imageUrl = await uploadImageToSupabase(imageFile, "series");
     }
 
-    // upload banner
     if (bannerFile) {
       bannerUrl = await uploadImageToSupabase(bannerFile, "series");
     }
@@ -2714,9 +2712,9 @@ window.createSeries = async function () {
       {
         title,
         description,
+        category,
         image: imageUrl,
-        banner: bannerUrl,
-        category
+        banner: bannerUrl
       }
     ]);
 
@@ -2728,17 +2726,12 @@ window.createSeries = async function () {
 
     alert("✅ Series Created");
 
-    // clear inputs
-    document.getElementById("series-title").value = "";
-    document.getElementById("series-description").value = "";
-    document.getElementById("series-image-file").value = "";
-    document.getElementById("series-banner-file").value = "";
-
     loadSeriesDropdown();
-
+    loadMovies(); // refresh UI automatically
+     loadSeries();
   } catch (err) {
     console.error(err);
-    alert("Failed to create series ❌");
+    alert("Failed creating series ❌");
   }
 };
 
@@ -2794,3 +2787,16 @@ setTimeout(() => {
     "visible";
 
 },10000);
+async function loadSeries() {
+  const { data } = await supabaseClient.from("series").select("*");
+
+  const container = document.getElementById("series-container");
+  if (!container) return;
+
+  container.innerHTML = data.map(s => `
+    <div class="movie-card">
+      <img src="${s.image}">
+      <h3>${s.title}</h3>
+    </div>
+  `).join("");
+}
