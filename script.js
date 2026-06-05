@@ -1158,25 +1158,6 @@ async function uploadMoviePro() {
 
       showToast("Uploaded successfully ✔");
     }
-
-  } catch (err) {
-    console.error(err);
-    showToast("Upload failed ❌", "error");
-  }
-}
-    /* =========================
-       EDIT MODE (UPDATE)
-    ========================= */
-    if (editingMovieId) {
-      result = await supabaseClient
-        .from("movies")
-        .update(movieData)
-        .eq("id", editingMovieId);
-
-      showToast("Updated successfully ✔");
-
-      editingMovieId = null;
-    } else {
       /* =========================
        CREATE MODE (INSERT)
     ========================= */
