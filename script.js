@@ -1202,7 +1202,6 @@ async function editMovie(id) {
 /* =========================
    ADD EPISODE (SERIES)
 ========================= */
-
 async function addEpisode() {
   try {
     const series_id = $("series-id").value;
@@ -1217,7 +1216,7 @@ async function addEpisode() {
       return;
     }
 
-    const { error } = await supabaseClient.from("episodes").insert([
+    await supabaseClient.from("episodes").insert([
       {
         series_id,
         season_id,
@@ -1229,8 +1228,13 @@ async function addEpisode() {
     ]);
 
     showToast("Episode added ✔");
-
     loadEpisodesCount();
+
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to add episode ❌", "error");
+  }
+}
 /* =========================
    STATS LOADER
 ========================= */
