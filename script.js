@@ -1,4 +1,4 @@
-let editingMovieId = null;
+
 /* =========================
    TMDB API INTEGRATION
 ========================= */
