@@ -85,15 +85,13 @@ async function loadMovie(id) {
     .select("*")
     .eq("id", id)
     .single();
-
-  console.log("Movie ID:", id);
-  console.log("Movie Data:", data);
-  console.log("Movie Error:", error);
-
+console.log("Movie ID:", id);
+console.log("Movie Data:", data);
+console.log("Movie Error:", error);
   if (error || !data) {
     console.error("Movie load failed:", error);
 
-    document.getElementById("loader").style.display = "none";
+document.getElementById("loading-screen")?.remove();
 
     document.body.innerHTML += `
       <div style="color:white;text-align:center;padding:40px">
@@ -116,7 +114,7 @@ async function loadMovie(id) {
   loadComments(data.id);
   loadRecommended();
 
-  document.getElementById("loader").style.display = "none";
+document.getElementById("loading-screen")?.remove();
 }
 
 /* ===========================
