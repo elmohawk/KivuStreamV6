@@ -4,7 +4,8 @@
 
 const TMDB_API_KEY = "8b8937bf3e114fa3502358a4f090c0df";
 const TMDB_BASE = "https://api.themoviedb.org/3";
-const TMDB_IMG = "https://image.tmdb.org/t/p/w500";
+const TMDB_POSTER = "https://image.tmdb.org/t/p/w500";
+const TMDB_BACKDROP = "https://image.tmdb.org/t/p/original";
 
 async function searchTMDBMovies(query) {
   const res = await fetch(
@@ -21,16 +22,22 @@ async function getTMDBMovieDetails(id) {
 
   const data = await res.json();
 
-  return {
-    title: data.title,
-    overview: data.overview,
-    poster: data.poster_path ? TMDB_IMG + data.poster_path : null,
-    banner: data.backdrop_path ? TMDB_IMG + data.backdrop_path : null,
-    rating: data.vote_average,
-    release: data.release_date,
-    trailer: data.videos?.results?.find(v => v.type === "Trailer")?.key || null
-  };
-}
+ return {
+  title: data.title,
+  overview: data.overview,
+  poster: data.poster_path
+    ? TMDB_POSTER + data.poster_path
+    : null,
+
+  banner: data.backdrop_path
+    ? TMDB_BACKDROP + data.backdrop_path
+    : null,
+
+  rating: data.vote_average,
+  release: data.release_date,
+  trailer:
+    data.videos?.results?.find(v => v.type === "Trailer")?.key || null
+};
 async function enrichMovieWithTMDB(movie) {
   if (!movie.title) return movie;
 
@@ -213,19 +220,21 @@ async function loadMovies() {
     return;
   }
 
-  allMovies = data || [];
-  window.allMovies = data || [];
-  allMovies = window.allMovies;
-  // RENDER EVERYTHING
-  renderAll(allMovies);
+  const enrichedMovies = await Promise.all(
+    (data || []).map(movie =>
+      cachedTMDB(movie.id, movie.title)
+    )
+  );
 
-  // HERO
-  initHero(allMovies);
+  allMovies = enrichedMovies;
+  window.allMovies = enrichedMovies;
 
-  // PERFORMANCE
+  renderAll(enrichedMovies);
+
+  initHero(enrichedMovies);
+
   setTimeout(() => {
     enableLazyImages();
-
     enableCardEffects();
   }, 100);
 }
@@ -396,13 +405,12 @@ function createMovieCard(movie) {
       ${movie.type === "series" ? "SERIES" : "MOVIE"}
     </div>
 
-   <img
-  src="${movie.image || './logo.png'}"
+  <img
+  src="${movie.poster || movie.image || './logo.png'}"
   alt="${movie.title}"
   loading="lazy"
   onerror="this.onerror=null;this.src='./logo.png';"
->
->
+/>
 
     <div class="movie-overlay">
 
@@ -467,9 +475,13 @@ function renderHero() {
   const hero = document.getElementById("hero-slider");
   if (!hero || !currentHero) return;
 
-  hero.style.backgroundImage = `linear-gradient(to right, rgba(0,0,0,.85), rgba(0,0,0,.2)),
-     url(${currentHero.banner || currentHero.image})`;
-
+ hero.style.backgroundImage = `linear-gradient(
+  to right,
+  rgba(0,0,0,.85),
+  rgba(0,0,0,.2)
+),
+url(${currentHero.banner || currentHero.poster || currentHero.image})`;
+   
   const title =
  document.getElementById(
    "hero-title"
