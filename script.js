@@ -2684,52 +2684,63 @@ alert(
 
 }
 window.createSeries = async function () {
-  const title = document.getElementById("series-title").value;
+  try {
+    const title = document.getElementById("series-title").value.trim();
+    const description = document.getElementById("series-description").value.trim();
+    const category = document.getElementById("series-category").value;
 
-  const description = document.getElementById("series-description").value;
+    const imageFile = document.getElementById("series-image-file").files[0];
+    const bannerFile = document.getElementById("series-banner-file").files[0];
 
-  const image = document.getElementById("series-image").value;
-
-  const banner = document.getElementById("series-banner").value;
-
-  const category = document.getElementById("series-category").value;
-
-  if (!title) {
-    alert("Series title required");
-
-    return;
-  }
-
-  const { error } = await supabaseClient.from("series").insert([
-    {
-      title,
-      description,
-      image,
-      banner,
-      category
+    if (!title) {
+      alert("Series title required");
+      return;
     }
-  ]);
 
-  if (error) {
-    console.log(error);
+    let imageUrl = "";
+    let bannerUrl = "";
 
-    alert(error.message);
+    // upload image
+    if (imageFile) {
+      imageUrl = await uploadImageToSupabase(imageFile, "series");
+    }
 
-    return;
+    // upload banner
+    if (bannerFile) {
+      bannerUrl = await uploadImageToSupabase(bannerFile, "series");
+    }
+
+    const { error } = await supabaseClient.from("series").insert([
+      {
+        title,
+        description,
+        image: imageUrl,
+        banner: bannerUrl,
+        category
+      }
+    ]);
+
+    if (error) {
+      console.log(error);
+      alert(error.message);
+      return;
+    }
+
+    alert("✅ Series Created");
+
+    // clear inputs
+    document.getElementById("series-title").value = "";
+    document.getElementById("series-description").value = "";
+    document.getElementById("series-image-file").value = "";
+    document.getElementById("series-banner-file").value = "";
+
+    loadSeriesDropdown();
+
+  } catch (err) {
+    console.error(err);
+    alert("Failed to create series ❌");
   }
-
-  alert("✅ Series Created");
-
-  loadSeriesDropdown();
 };
-
-setTimeout(() => {
-  const loader = document.getElementById("loader");
-
-  if (loader) {
-    loader.style.display = "none";
-  }
-}, 5000);
 
 async function loadEpisodesCount() {
   const { data } =
