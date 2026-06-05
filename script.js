@@ -2047,7 +2047,7 @@ document.addEventListener("DOMContentLoaded", () => {
    PAGINATION ENGINE
 ========================= */
 
-const ITEMS_PER_PAGE = 10;
+const HOMEPAGE_LIMIT = 6;
 
 const sectionPages = {};
 const sectionData = {};
@@ -2056,30 +2056,58 @@ const sectionData = {};
 ========================= */
 
 function renderPaginatedRow(id, items) {
+
   const container = $(id);
 
   if (!container) return;
 
-  if (!sectionPages[id]) {
-    sectionPages[id] = 1;
-  }
-sectionData[id] = items;
-  const currentPage = sectionPages[id];
-
-  const start = (currentPage - 1) * ITEMS_PER_PAGE;
-
-  const end = start + ITEMS_PER_PAGE;
-
-  const paginatedItems = items.slice(start, end);
-
   container.innerHTML = "";
 
-  paginatedItems.forEach((movie) => {
-    container.appendChild(createMovieCard(movie));
-  });
-  renderPagination(id, items.length);
-}
+  /* ONLY SHOW 6 */
+  const latest =
+    items.slice(0, HOMEPAGE_LIMIT);
 
+  latest.forEach((movie) => {
+    container.appendChild(
+      createMovieCard(movie)
+    );
+  });
+
+  /* VIEW ALL BUTTON */
+
+  if (
+    items.length >
+    HOMEPAGE_LIMIT
+  ) {
+
+    const btn =
+      document.createElement(
+        "button"
+      );
+
+    btn.className =
+      "view-all-btn";
+
+    btn.innerHTML =
+      "View All →";
+
+    btn.onclick =
+      () => {
+
+        localStorage.setItem(
+          "viewAllData",
+          JSON.stringify(items)
+        );
+
+        window.location.href =
+          "viewall.html";
+      };
+
+    container.appendChild(
+      btn
+    );
+  }
+}
 /* =========================
    PAGINATION BUTTONS
 ========================= */
