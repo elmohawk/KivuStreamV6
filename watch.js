@@ -184,9 +184,19 @@ document.getElementById("loading-screen")?.remove();
  let movie = data;
 
 try {
+
+  const results = await searchTMDBMovies(movie.title);
+
+  console.log("TMDB Search Results:", results);
+
   movie = await enrichMovieWithTMDB(movie);
+
+  console.log("Movie After TMDB:", movie);
+
 } catch (err) {
+
   console.log("TMDB Error:", err);
+
 }
 
 state.movie = movie;
