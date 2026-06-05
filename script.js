@@ -1095,7 +1095,11 @@ async function loadDashboardStats() {
 
   document.getElementById("episodes-count").innerText = (episodes || []).length;
 }
+/* =========================
+   CURRENT EDITING MOVIE
+========================= */
 
+let editingMovieId = null;
 /* =========================
    MOVIE UPLOAD (CREATE / UPDATE)
 ========================= */
