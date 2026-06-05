@@ -7,7 +7,86 @@ const SUPABASE_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV4amdlanVqZnhlampsYmZpemd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1MTQzMTQsImV4cCI6MjA5NDA5MDMxNH0.CWUYLk4qJfriIYXWScB7wcHHVTCuz0SGDhWUV3tMR1Y";
 
 let supabaseClient = null;
+/* ==========================
+   TMDB
+========================== */
 
+const TMDB_API_KEY =
+"8b8937bf3e114fa3502358a4f090c0df";
+
+const TMDB_BASE =
+"https://api.themoviedb.org/3";
+
+const TMDB_POSTER =
+"https://image.tmdb.org/t/p/w500";
+
+const TMDB_BACKDROP =
+"https://image.tmdb.org/t/p/original";
+
+async function searchTMDBMovies(query) {
+
+  const res = await fetch(
+    `${TMDB_BASE}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+  );
+
+  const data = await res.json();
+
+  return data.results || [];
+}
+
+async function getTMDBMovieDetails(id) {
+
+  const res = await fetch(
+    `${TMDB_BASE}/movie/${id}?api_key=${TMDB_API_KEY}`
+  );
+
+  const data = await res.json();
+
+  return {
+
+    poster: data.poster_path
+      ? TMDB_POSTER + data.poster_path
+      : null,
+
+    banner: data.backdrop_path
+      ? TMDB_BACKDROP + data.backdrop_path
+      : null,
+
+    overview: data.overview,
+
+    rating: data.vote_average
+  };
+}
+
+async function enrichMovieWithTMDB(movie) {
+
+  if (!movie.title) return movie;
+
+  const results =
+    await searchTMDBMovies(movie.title);
+
+  if (!results.length) return movie;
+
+  const tmdb =
+    await getTMDBMovieDetails(results[0].id);
+
+  return {
+
+    ...movie,
+
+    poster:
+      tmdb.poster || movie.image,
+
+    banner:
+      tmdb.banner || movie.banner,
+
+    description:
+      tmdb.overview || movie.description,
+
+    rating:
+      tmdb.rating || movie.rating
+  };
+}
 /* ===========================
    STATE
 =========================== */
@@ -102,9 +181,17 @@ document.getElementById("loading-screen")?.remove();
     return;
   }
 
-  state.movie = data;
+ let movie = data;
 
-  renderMovie(data);
+try {
+  movie = await enrichMovieWithTMDB(movie);
+} catch (err) {
+  console.log("TMDB Error:", err);
+}
+
+state.movie = movie;
+
+renderMovie(movie);
 
   if (data.type === "series") {
     $("series-section").style.display = "block";
@@ -136,18 +223,27 @@ function renderMovie(movie) {
 
   const poster = $("movie-poster");
 
-  poster.src = movie.image || "./logo.png";
+  poster.src =
+  movie.poster ||
+  movie.image ||
+  "./logo.png";
 
   poster.onerror = () => {
     console.error("Poster failed:", movie.image);
     poster.src = "./logo.png";
   };
 
-  const bg = movie.banner || movie.image || "./logo.png";
+  const bg =
+movie.banner ||
+movie.poster ||
+movie.image ||
+"./logo.png";
 
   document.querySelector(".hero-backdrop").style.backgroundImage =
     `url("${bg}")`;
-
+console.log("TMDB Poster:", movie.poster);
+console.log("TMDB Banner:", movie.banner);
+console.log("Supabase Image:", movie.image);
   setupPlayer(movie);
   setupDownload(movie);
 }
