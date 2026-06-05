@@ -33,6 +33,8 @@ function waitForSupabase(retries = 20) {
           SUPABASE_URL,
           SUPABASE_KEY
         );
+         console.log("Supabase loaded successfully");
+console.log(supabaseClient);
         resolve(true);
       }
 
