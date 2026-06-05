@@ -2202,7 +2202,110 @@ function goToPage(id, page) {
 
   renderAll(allMovies);
 }
+/* =========================
+   VIEW ALL SYSTEM
+========================= */
 
+function openSection(
+type
+){
+
+let filtered=[];
+
+/* RECENT */
+
+if(
+type==="recent"
+){
+
+filtered=
+allMovies
+.slice();
+
+}
+
+/* MOVIES */
+
+else if(
+type==="movie"
+){
+
+filtered=
+allMovies.filter(
+m=>
+m.type==="movie"
+);
+
+}
+
+/* SERIES */
+
+else if(
+type==="series"
+){
+
+filtered=
+allMovies.filter(
+m=>
+m.type==="series"
+);
+
+}
+
+/* RECOMMENDED */
+
+else if(
+type==="recommended"
+){
+
+filtered=
+allMovies.slice(
+0,
+30
+);
+
+}
+
+/* CONTINUE */
+
+else if(
+type==="continue"
+){
+
+filtered=
+JSON.parse(
+localStorage.getItem(
+"continueWatching"
+)
+)||[];
+
+}
+
+/* CATEGORY */
+
+else{
+
+filtered=
+allMovies.filter(
+m=>
+m.category===
+type
+);
+
+}
+
+localStorage.setItem(
+"viewAllData",
+
+JSON.stringify(
+filtered
+)
+);
+
+window.location.href=
+"./viewall.html";
+
+}
 /* =========================
    FULL PAGE MOVIE LOADER
 ========================= */
