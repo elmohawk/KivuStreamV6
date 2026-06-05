@@ -121,6 +121,9 @@ document.getElementById("loading-screen")?.remove();
    RENDER
 =========================== */
 function renderMovie(movie) {
+  console.log("Poster URL:", movie.image);
+  console.log("Banner URL:", movie.banner);
+
   document.title = movie.title;
 
   $("movie-title").innerText = movie.title;
@@ -131,19 +134,23 @@ function renderMovie(movie) {
   $("movie-type").innerText =
     movie.type === "series" ? "Series" : "Movie";
 
-  $("movie-poster").src = movie.image || "./logo.png";
+  const poster = $("movie-poster");
 
-  const bg = movie.banner || movie.image;
+  poster.src = movie.image || "./logo.png";
+
+  poster.onerror = () => {
+    console.error("Poster failed:", movie.image);
+    poster.src = "./logo.png";
+  };
+
+  const bg = movie.banner || movie.image || "./logo.png";
 
   document.querySelector(".hero-backdrop").style.backgroundImage =
-    `url(${bg})`;
-
-  document.body.style.setProperty("--movie-bg", `url(${bg})`);
+    `url("${bg}")`;
 
   setupPlayer(movie);
   setupDownload(movie);
 }
-
 /* ===========================
    PLAYER
 =========================== */
