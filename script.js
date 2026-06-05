@@ -1,3 +1,4 @@
+let editingMovieId = null;
 /* =========================
    TMDB API INTEGRATION
 ========================= */
@@ -1158,24 +1159,21 @@ async function uploadMoviePro() {
       /* =========================
        CREATE MODE (INSERT)
     ========================= */
-      result = await supabaseClient.from("movies").insert([movieData]);
+     const table =
+movieData.type ===
+"series"
+?
+"series"
+:
+"movies";
 
+result =
+await supabaseClient
+.from(table)
+.insert([movieData]);
+       
       showToast("Uploaded successfully ✔");
     }
-
-    if (result.error) {
-      console.log(result.error);
-      showToast("Upload failed ❌");
-      return;
-    }
-
-    loadMovies();
-    loadManageContent();
-  } catch (err) {
-    console.log(err);
-    showToast("Error uploading ❌");
-  }
-}
 
 /* =========================
    EDIT MOVIE (AUTO FILL + EDIT MODE)
@@ -1241,19 +1239,10 @@ async function addEpisode() {
       }
     ]);
 
-    if (error) {
-      console.log(error);
-      showToast("Episode error ❌");
-      return;
-    }
-
     showToast("Episode added ✔");
 
     loadEpisodesCount();
-  } catch (err) {
-    console.log(err);
-    showToast("Error adding episode ❌");
-  }
+
 }
 /* =========================
    STATS LOADER
@@ -2520,38 +2509,189 @@ async function loadSeriesEpisodes() {
     .join("");
 }
 
-async function createSeries() {
-  const title = document.getElementById("series-title").value;
+/* =========================
+   CREATE SERIES
+========================= */
 
-  const description = document.getElementById("series-description").value;
+async function createSeries(){
 
-  const image = document.getElementById("series-image").value;
+try{
 
-  const banner = document.getElementById("series-banner").value;
+const title =
+document
+.getElementById(
+"series-title"
+)
+.value
+.trim();
 
-  const category = document.getElementById("series-category").value;
+const description =
+document
+.getElementById(
+"series-description"
+)
+.value
+.trim();
 
-  const { error } = await supabaseClient.from("series").insert([
-    {
-      title,
-      description,
-      image,
-      banner,
-      category
-    }
-  ]);
+const image =
+document
+.getElementById(
+"series-image"
+)
+.value
+.trim();
 
-  if (error) {
-    console.log(error);
-    alert(error.message);
-    return;
-  }
+const banner =
+document
+.getElementById(
+"series-banner"
+)
+.value
+.trim();
 
-  alert("Series Created");
+const category =
+document
+.getElementById(
+"series-category"
+)
+.value;
 
-  loadSeriesDropdown();
+if(
+!title
+){
+
+alert(
+"Enter series title"
+);
+
+return;
+
 }
 
+const {
+
+data,
+
+error
+
+}
+
+=
+
+await supabaseClient
+
+.from(
+"series"
+)
+
+.insert([
+{
+
+title,
+
+description,
+
+image,
+
+banner,
+
+category
+
+}
+])
+
+.select();
+
+if(
+error
+){
+
+console.log(
+error
+);
+
+alert(
+error.message
+);
+
+return;
+
+}
+
+alert(
+"Series Created ✔"
+);
+
+/* refresh website */
+
+if(
+typeof loadSeries
+===
+"function"
+)
+await loadSeries();
+
+if(
+typeof loadMovies
+===
+"function"
+)
+await loadMovies();
+
+if(
+typeof loadHero
+===
+"function"
+)
+await loadHero();
+
+if(
+typeof loadSeriesDropdown
+===
+"function"
+)
+await loadSeriesDropdown();
+
+/* clear inputs */
+
+document
+.getElementById(
+"series-title"
+)
+.value="";
+
+document
+.getElementById(
+"series-description"
+)
+.value="";
+
+document
+.getElementById(
+"series-image"
+)
+.value="";
+
+document
+.getElementById(
+"series-banner"
+)
+.value="";
+
+}
+catch(err){
+
+console.log(
+err
+);
+
+alert(
+"Failed creating series ❌"
+);
+
+}
+
+}
 window.createSeries = async function () {
   const title = document.getElementById("series-title").value;
 
