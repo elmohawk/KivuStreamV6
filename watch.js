@@ -459,10 +459,10 @@ function renderSeason(season) {
 
       card.innerHTML = `
         <div class="episode-badge">
-          EP ${ep.episode || ep.number || ""}
+         EP ${ep.episode_number}
         </div>
 
-       <h3>Episode</h3>
+       <h3>Episode ${ep.episode_number}</h3>
 
         <div class="episode-actions">
 
@@ -593,16 +593,4 @@ function setupLoadingScreen() {
   window.addEventListener("load", () => {
     $("loading-screen")?.remove();
   });
-}
-
-async function loadEpisodes(seriesId) {
-  const { data } = await supabaseClient
-    .from("episodes")
-    .select("*")
-    .eq("series_id", seriesId);
-
- console.log("EPISODES DATA:", data);
-console.log("FIRST EPISODE:", data[0]);
-console.log(data[0]);
-  if (!data) return;
 }
