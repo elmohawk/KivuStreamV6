@@ -416,9 +416,8 @@ renderPaginatedRow(
 );
   renderPaginatedRow(
     "series-container",
-    movies.filter((m) => m.type === "series")
-     movies.filter((m) => m.type?.toLowerCase() === "series")
-  );
+    movies.filter((m) => m.type?.toLowerCase() === "series")
+);
    renderPaginatedRow(
   "romance-container",
   movies.filter((m) => m.category === "Romance")
