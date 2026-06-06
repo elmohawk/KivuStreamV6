@@ -604,6 +604,4 @@ async function loadEpisodes(seriesId) {
   console.log("EPISODES DATA:", data);
 
   if (!data) return;
-
-  ...
 }
