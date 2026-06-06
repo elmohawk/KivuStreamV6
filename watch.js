@@ -373,29 +373,74 @@ async function loadEpisodes(seriesId) {
 }
 
 function renderSeason(season) {
+
   const container = $("episodes-container");
   container.innerHTML = "";
 
   state.episodes
-    .filter((e) => e.season == season)
-    .forEach((ep) => {
-      const div = document.createElement("div");
-      div.className = "episode-card";
+    .filter(ep => ep.season == season)
+    .forEach(ep => {
 
-      div.innerHTML = `
+      const card = document.createElement("div");
+      card.className = "episode-card";
+
+      card.innerHTML = `
+        <div class="episode-badge">
+          EP ${ep.episode || ep.number || ""}
+        </div>
+
         <h3>${ep.title}</h3>
-        <button>▶ Watch</button>
+
+        <div class="episode-actions">
+
+          <button class="watch-episode">
+            ▶ Watch
+          </button>
+
+          <button class="download-episode">
+            ⬇ Download
+          </button>
+
+        </div>
       `;
 
-      div.querySelector("button").onclick = () => {
+      /* WATCH */
+      card.querySelector(".watch-episode").onclick = () => {
+
         $("player").src = ep.video;
+
         $("player").play().catch(() => {});
+
+        $("player").scrollIntoView({
+          behavior: "smooth"
+        });
+
       };
 
-      container.appendChild(div);
+      /* DOWNLOAD */
+      card.querySelector(".download-episode").onclick = () => {
+
+        if (ep.download) {
+          window.open(ep.download, "_blank");
+          return;
+        }
+
+        if (ep.download_url) {
+          window.open(ep.download_url, "_blank");
+          return;
+        }
+
+        if (ep.download_link) {
+          window.open(ep.download_link, "_blank");
+          return;
+        }
+
+        alert("Download link not found.");
+      };
+
+      container.appendChild(card);
     });
 }
-
 /* ===========================
    COMMENTS
 =========================== */
