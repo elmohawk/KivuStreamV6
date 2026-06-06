@@ -210,23 +210,52 @@ const $ = (id) => document.getElementById(id);
 ========================= */
 
 async function loadMovies() {
-  const { data, error } = await supabaseClient
-    .from("movies")
-    .select("*")
-    .order("created_at", {
-      ascending: false
-    });
 
-  if (error) {
-    console.error(error);
-    return;
+  const { data: movies, error: movieError } =
+    await supabaseClient
+      .from("movies")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  const { data: series, error: seriesError } =
+    await supabaseClient
+      .from("series")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (movieError) {
+    console.error(movieError);
   }
 
-  const enrichedMovies = await Promise.all(
-    (data || []).map(movie =>
-      cachedTMDB(movie.id, movie.title)
-    )
-  );
+  if (seriesError) {
+    console.error(seriesError);
+  }
+
+  const formattedSeries =
+    (series || []).map(item => ({
+      ...item,
+      type: "series"
+    }));
+
+  const combined =
+    [
+      ...(movies || []),
+      ...formattedSeries
+    ];
+
+  const enrichedMovies =
+    await Promise.all(
+      combined.map(item =>
+        cachedTMDB(
+          item.id,
+          item.title
+        )
+      )
+    );
 
   allMovies = enrichedMovies;
   window.allMovies = enrichedMovies;
