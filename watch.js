@@ -159,13 +159,10 @@ function getMovieId() {
 const $ = (id) => document.getElementById(id);
 
 async function loadMovie(id) {
- let movie = null;
+let movie = null;
 
-/* TRY MOVIES TABLE FIRST */
-const {
-  data: movieData,
-  error: movieError
-} = await supabaseClient
+/* TRY MOVIES */
+const { data: movieData } = await supabaseClient
   .from("movies")
   .select("*")
   .eq("id", id)
@@ -175,26 +172,17 @@ if (movieData) {
   movie = movieData;
 }
 
-/* IF NOT FOUND, TRY SERIES TABLE */
+/* TRY SERIES IF MOVIE NOT FOUND */
 if (!movie) {
-
-  const {
-    data: seriesData,
-    error: seriesError
-  } = await supabaseClient
+  const { data: seriesData } = await supabaseClient
     .from("series")
     .select("*")
     .eq("id", id)
     .single();
 
   if (seriesData) {
-
     movie = {
-
       ...seriesData,
-
-      /* force series type */
-
       type: "series"
     };
   }
