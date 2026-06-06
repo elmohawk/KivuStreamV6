@@ -16,6 +16,16 @@ async function searchTMDBMovies(query) {
   const data = await res.json();
   return data.results || [];
 }
+async function searchTMDBSeries(query) {
+
+  const res = await fetch(
+    `${TMDB_BASE}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+  );
+
+  const data = await res.json();
+
+  return data.results || [];
+}
 async function getTMDBMovieDetails(id) {
   const res = await fetch(
     `${TMDB_BASE}/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
@@ -41,53 +51,101 @@ async function getTMDBMovieDetails(id) {
   };
 }
 async function enrichMovieWithTMDB(item) {
+
   if (!item.title) return item;
 
-  const results = await searchTMDBMovies(item.title);
+  /* SERIES */
+  if (item.type === "series") {
 
-  if (results.length === 0) return item;
+    const results =
+      await searchTMDBSeries(item.title);
 
-  const tmdbId = results[0].id;
+    if (!results.length) return item;
 
-  // MOVIE
-  if (item.type !== "series") {
-    const tmdb = await getTMDBMovieDetails(tmdbId);
+    const tmdb =
+      await getTMDBSeriesDetails(results[0].id);
 
     return {
+
       ...item,
-      poster: tmdb.poster || item.image,
-      banner: tmdb.banner || item.banner,
-      overview: tmdb.overview || item.description,
-      rating: tmdb.rating,
-      trailer: tmdb.trailer,
-      year: tmdb.release
+
+      poster:
+        tmdb.poster || item.image,
+
+      image:
+        tmdb.poster || item.image,
+
+      banner:
+        tmdb.banner || item.banner,
+
+      description:
+        tmdb.overview || item.description,
+
+      rating:
+        tmdb.rating || item.rating,
+
+      year:
+        tmdb.release || item.year,
+
+      seasons:
+        tmdb.seasons,
+
+      episodesCount:
+        tmdb.episodes,
+
+      trailer:
+        tmdb.trailer
     };
   }
 
-  // SERIES (TV API 🔥)
-  const tmdb = await getTMDBSeriesDetails(tmdbId);
+  /* MOVIES */
+  const results =
+    await searchTMDBMovies(item.title);
+
+  if (!results.length) return item;
+
+  const tmdb =
+    await getTMDBMovieDetails(results[0].id);
 
   return {
+
     ...item,
-    poster: tmdb.poster || item.image,
-    banner: tmdb.banner || item.banner,
-    description: tmdb.overview || item.description,
-    rating: tmdb.rating,
-    year: tmdb.release,
-    seasons: tmdb.seasons,
-    episodesCount: tmdb.episodes,
-    trailer: tmdb.trailer
+
+    poster:
+      tmdb.poster || item.image,
+
+    image:
+      tmdb.poster || item.image,
+
+    banner:
+      tmdb.banner || item.banner,
+
+    description:
+      tmdb.overview || item.description,
+
+    rating:
+      tmdb.rating || item.rating,
+
+    year:
+      tmdb.release || item.year,
+
+    trailer:
+      tmdb.trailer
   };
 }
+async function cachedTMDB(item) {
 
-async function cachedTMDB(id, title) {
-  if (tmdbCache.has(title)) {
-    return tmdbCache.get(title);
+  const key =
+    `${item.type}-${item.title}`;
+
+  if (tmdbCache.has(key)) {
+    return tmdbCache.get(key);
   }
 
-  const result = await enrichMovieWithTMDB({ id, title });
+  const result =
+    await enrichMovieWithTMDB(item);
 
-  tmdbCache.set(title, result);
+  tmdbCache.set(key, result);
 
   return result;
 }
@@ -316,7 +374,7 @@ const formattedSeries = (series || []).map(item => ({
 
     // movie
     if (item.type !== "series") {
-      return await cachedTMDB(item.id, item.title);
+      return await cachedTMDB(item);
     }
 
     // series (TV API route)
@@ -2156,7 +2214,7 @@ document.addEventListener("DOMContentLoaded", () => {
    PAGINATION ENGINE
 ========================= */
 
-const HOMEPAGE_LIMIT = 10;
+const HOMEPAGE_LIMIT = 5;
 
 const sectionPages = {};
 const sectionData = {};
@@ -2172,7 +2230,7 @@ function renderPaginatedRow(id, items) {
 
   container.innerHTML = "";
 
-  /* ONLY SHOW 10 */
+  /* ONLY SHOW 5 */
   const latest =
     items.slice(0, HOMEPAGE_LIMIT);
 
@@ -2920,7 +2978,36 @@ async function loadSeries() {
 
   container.innerHTML = data.map(s => `
     <div class="movie-card">
-      <img src="${s.image}">
+     const enriched =
+  await Promise.all(
+    data.map(s =>
+      enrichMovieWithTMDB({
+        ...s,
+        type: "series"
+      })
+    )
+  );
+
+container.innerHTML =
+  enriched.map(s => `
+    <div class="movie-card">
+
+      <img src="${
+        s.poster ||
+        s.image ||
+        './logo.png'
+      }">
+
+      <h3>${s.title}</h3>
+
+      <p>⭐ ${
+        s.rating
+          ? Number(s.rating).toFixed(1)
+          : "N/A"
+      }</p>
+
+    </div>
+  `).join("");
       <h3>${s.title}</h3>
     </div>
   `).join("");
