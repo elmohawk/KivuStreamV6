@@ -275,8 +275,40 @@ function setupPlayer(movie) {
    DOWNLOAD
 =========================== */
 function setupDownload(movie) {
+
   $("download-btn").onclick = () => {
-    if (movie.download) window.open(movie.download, "_blank");
+
+    let links = movie.download_links;
+
+    if (!links) {
+
+      if (movie.download) {
+        window.open(movie.download, "_blank");
+      }
+
+      return;
+    }
+
+    if (typeof links === "string") {
+      links = JSON.parse(links);
+    }
+
+    let choices = "";
+
+    links.forEach((item, index) => {
+      choices += `${index + 1}. ${item.name}\n`;
+    });
+
+    const selected = prompt(
+      "Choose download:\n\n" + choices
+    );
+
+    const item =
+      links[parseInt(selected) - 1];
+
+    if (item) {
+      window.open(item.url, "_blank");
+    }
   };
 }
 
