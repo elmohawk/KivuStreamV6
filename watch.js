@@ -159,30 +159,67 @@ function getMovieId() {
 const $ = (id) => document.getElementById(id);
 
 async function loadMovie(id) {
-  const { data, error } = await supabaseClient
-    .from("movies")
+ let movie = null;
+
+/* TRY MOVIES TABLE FIRST */
+const {
+  data: movieData,
+  error: movieError
+} = await supabaseClient
+  .from("movies")
+  .select("*")
+  .eq("id", id)
+  .single();
+
+if (movieData) {
+  movie = movieData;
+}
+
+/* IF NOT FOUND, TRY SERIES TABLE */
+if (!movie) {
+
+  const {
+    data: seriesData,
+    error: seriesError
+  } = await supabaseClient
+    .from("series")
     .select("*")
     .eq("id", id)
     .single();
-console.log("Movie ID:", id);
-console.log("Movie Data:", data);
-console.log("Movie Error:", error);
-  if (error || !data) {
-    console.error("Movie load failed:", error);
 
-document.getElementById("loading-screen")?.remove();
+  if (seriesData) {
 
-    document.body.innerHTML += `
-      <div style="color:white;text-align:center;padding:40px">
-        Movie not found or database error.
-      </div>
-    `;
+    movie = {
 
-    return;
+      ...seriesData,
+
+      /* force series type */
+
+      type: "series"
+    };
   }
+}
 
- let movie = data;
+console.log("Movie ID:", id);
+console.log("Loaded Item:", movie);
 
+if (!movie) {
+
+  document.getElementById("loading-screen")?.remove();
+
+  document.body.innerHTML += `
+    <div style="
+      color:white;
+      text-align:center;
+      padding:40px;
+    ">
+      Content not found.
+    </div>
+  `;
+
+  return;
+}
+   
 try {
 
   const results = await searchTMDBMovies(movie.title);
@@ -203,12 +240,19 @@ state.movie = movie;
 
 renderMovie(movie);
 
-  if (data.type === "series") {
-    $("series-section").style.display = "block";
-    loadEpisodes(data.id);
+  if (movie.type === "series") {
+
+  const section =
+    $("series-section");
+
+  if (section) {
+    section.style.display = "block";
   }
 
-  loadComments(data.id);
+  loadEpisodes(movie.id);
+}
+
+loadComments(movie.id);
   loadRecommended();
 
 document.getElementById("loading-screen")?.remove();
