@@ -40,25 +40,45 @@ async function getTMDBMovieDetails(id) {
       data.videos?.results?.find(v => v.type === "Trailer")?.key || null
   };
 }
-async function enrichMovieWithTMDB(movie) {
-  if (!movie.title) return movie;
+async function enrichMovieWithTMDB(item) {
+  if (!item.title) return item;
 
-  const results = await searchTMDBMovies(movie.title);
+  const results = await searchTMDBMovies(item.title);
 
-  if (results.length === 0) return movie;
+  if (results.length === 0) return item;
 
-  const tmdb = await getTMDBMovieDetails(results[0].id);
+  const tmdbId = results[0].id;
+
+  // MOVIE
+  if (item.type !== "series") {
+    const tmdb = await getTMDBMovieDetails(tmdbId);
+
+    return {
+      ...item,
+      poster: tmdb.poster || item.image,
+      banner: tmdb.banner || item.banner,
+      overview: tmdb.overview || item.description,
+      rating: tmdb.rating,
+      trailer: tmdb.trailer,
+      year: tmdb.release
+    };
+  }
+
+  // SERIES (TV API 🔥)
+  const tmdb = await getTMDBSeriesDetails(tmdbId);
 
   return {
-    ...movie,
-    poster: tmdb.poster || movie.poster,
-    banner: tmdb.banner || movie.banner,
-    overview: tmdb.overview || movie.description,
+    ...item,
+    poster: tmdb.poster || item.image,
+    banner: tmdb.banner || item.banner,
+    description: tmdb.overview || item.description,
     rating: tmdb.rating,
+    year: tmdb.release,
+    seasons: tmdb.seasons,
+    episodesCount: tmdb.episodes,
     trailer: tmdb.trailer
   };
 }
-const tmdbCache = new Map();
 
 async function cachedTMDB(id, title) {
   if (tmdbCache.has(title)) {
@@ -71,7 +91,32 @@ async function cachedTMDB(id, title) {
 
   return result;
 }
+async function getTMDBSeriesDetails(id) {
+  const res = await fetch(
+    `${TMDB_BASE}/tv/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
+  );
 
+  const data = await res.json();
+
+  return {
+    title: data.name,
+    overview: data.overview,
+    poster: data.poster_path
+      ? TMDB_POSTER + data.poster_path
+      : null,
+
+    banner: data.backdrop_path
+      ? TMDB_BACKDROP + data.backdrop_path
+      : null,
+
+    rating: data.vote_average,
+    release: data.first_air_date,
+    seasons: data.number_of_seasons,
+    episodes: data.number_of_episodes,
+    trailer:
+      data.videos?.results?.find(v => v.type === "Trailer")?.key || null
+  };
+}
 
 (function () {
 
@@ -235,11 +280,13 @@ async function loadMovies() {
     console.error(seriesError);
   }
 
-  const formattedSeries =
-    (series || []).map(item => ({
-      ...item,
-      type: "series"
-    }));
+const formattedSeries = (series || []).map(item => ({
+  ...item,
+  type: "series",
+  category: item.category || "Series",
+  image: item.image || item.poster,
+  banner: item.banner || item.image
+}));
 
   const combined =
     [
@@ -247,16 +294,27 @@ async function loadMovies() {
       ...formattedSeries
     ];
 
-  const enrichedMovies =
-    await Promise.all(
-      combined.map(item =>
-        cachedTMDB(
-          item.id,
-          item.title
-        )
-      )
-    );
+  const enrichedMovies = await Promise.all(
+  combined.map(async (item) => {
 
+    // movie
+    if (item.type !== "series") {
+      return await cachedTMDB(item.id, item.title);
+    }
+
+    // series (TV API route)
+    const results = await searchTMDBMovies(item.title);
+
+    if (!results.length) return item;
+
+    const tmdb = await getTMDBSeriesDetails(results[0].id);
+
+    return {
+      ...item,
+      ...tmdb
+    };
+  })
+);
   allMovies = enrichedMovies;
   window.allMovies = enrichedMovies;
 
@@ -359,6 +417,7 @@ renderPaginatedRow(
   renderPaginatedRow(
     "series-container",
     movies.filter((m) => m.type === "series")
+     movies.filter((m) => m.type?.toLowerCase() === "series")
   );
    renderPaginatedRow(
   "romance-container",
@@ -1147,7 +1206,7 @@ async function loadDashboardStats() {
   document.getElementById("episodes-count").innerText = (episodes || []).length;
 }
 /* =========================
-   MOVIE UPLOAD (CREATE / UPDATE)
+  UPLOAD MOVIE PRO
 ========================= */
 async function uploadMoviePro() {
   try {
@@ -1199,11 +1258,11 @@ async function uploadMoviePro() {
 
     } else {
       /* CREATE MODE */
-      const table =
-        movieData.type === "series" ? "series" : "movies";
+     const table =
+  movieData.type === "series" ? "series" : "movies";
 
-     result = await supabaseClient
-  .from("movies")
+result = await supabaseClient
+  .from(table)
   .insert([movieData]);
        
       showToast("Uploaded successfully ✔");
