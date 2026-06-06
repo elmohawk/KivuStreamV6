@@ -479,48 +479,145 @@ async function loadEpisodes(seriesId) {
 /* =========================
    RENDER ALL
 ========================= */
+function normalize(str) {
+  return (str || "")
+    .toString()
+    .trim()
+    .toLowerCase();
+}
+
 function renderAll(movies) {
+
   const safe = (movies || []).filter(Boolean);
 
+  // RECENT (latest 10)
+  renderPaginatedRow("recent-slider", safe.slice(0, 10));
+
+  // MOVIES
   renderPaginatedRow(
-    "action-container",
-    safe.filter(m => normalize(m.category) === "action")
+    "movies-container",
+    safe.filter(m => (m.type || "").toLowerCase() === "movie")
   );
 
-  renderPaginatedRow(
-    "drama-container",
-    safe.filter(m => normalize(m.category) === "drama")
-  );
-
-  renderPaginatedRow(
-    "romance-container",
-    safe.filter(m => normalize(m.category) === "romance")
-  );
-
-  renderPaginatedRow(
-    "comedy-container",
-    safe.filter(m => normalize(m.category) === "comedy")
-  );
-
-  renderPaginatedRow(
-    "horror-container",
-    safe.filter(m => normalize(m.category) === "horror")
-  );
-
-  renderPaginatedRow(
-    "scifi-container",
-    safe.filter(m => normalize(m.category) === "sci-fi")
-  );
-
+  // SERIES (Latest Series section)
   renderPaginatedRow(
     "series-container",
     safe.filter(m =>
-      normalize(m.type) === "series" ||
+      (m.type || "").toLowerCase() === "series"
+    )
+  );
+
+  // ACTION
+  renderPaginatedRow(
+    "action-container",
+    safe.filter(m =>
+      normalize(m.category) === "action"
+    )
+  );
+
+  // INDIAN
+  renderPaginatedRow(
+    "indian-container",
+    safe.filter(m =>
+      normalize(m.category) === "indian"
+    )
+  );
+
+  // HORROR
+  renderPaginatedRow(
+    "horror-container",
+    safe.filter(m =>
+      normalize(m.category) === "horror"
+    )
+  );
+
+  // COMEDY
+  renderPaginatedRow(
+    "comedy-container",
+    safe.filter(m =>
+      normalize(m.category) === "comedy"
+    )
+  );
+
+  // ROMANCE
+  renderPaginatedRow(
+    "romance-container",
+    safe.filter(m =>
+      normalize(m.category) === "romance"
+    )
+  );
+
+  // DRAMA
+  renderPaginatedRow(
+    "drama-container",
+    safe.filter(m =>
+      normalize(m.category) === "drama"
+    )
+  );
+
+  // CRIME
+  renderPaginatedRow(
+    "crime-container",
+    safe.filter(m =>
+      normalize(m.category) === "crime"
+    )
+  );
+
+  // SCI-FI
+  renderPaginatedRow(
+    "scifi-container",
+    safe.filter(m =>
+      normalize(m.category) === "sci-fi"
+    )
+  );
+
+  // HIGHSCHOOL
+  renderPaginatedRow(
+    "highschool-container",
+    safe.filter(m =>
+      normalize(m.category) === "highschool"
+    )
+  );
+
+  // ANIMATION
+  renderPaginatedRow(
+    "animation-container",
+    safe.filter(m =>
+      normalize(m.category) === "animation"
+    )
+  );
+
+  // TV SERIES (IMPORTANT FIX)
+  renderPaginatedRow(
+    "tvseries-container",
+    safe.filter(m =>
+      (m.type || "").toLowerCase() === "series" ||
       normalize(m.category) === "tv series"
     )
   );
 
-  renderPaginatedRow("recent-slider", safe.slice(0, 20));
+  // OTHER MOVIES
+  renderPaginatedRow(
+    "othermovies-container",
+    safe.filter(m =>
+      normalize(m.category) === "other movies"
+    )
+  );
+
+  // RECOMMENDED
+  renderPaginatedRow(
+    "updates-container",
+    safe.slice(0, 15)
+  );
+
+  // CONTINUE WATCHING
+  const continueWatching =
+    JSON.parse(localStorage.getItem("continueWatching")) || [];
+
+  renderPaginatedRow(
+    "continue-container",
+    continueWatching
+  );
 }
 /* =========================
    RENDER ROW
