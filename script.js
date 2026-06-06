@@ -323,11 +323,28 @@ function renderAll(movies) {
     "movies-container",
     movies.filter((m) => m.type === "movie")
   );
-
+renderPaginatedRow(
+  "indian-container",
+  movies.filter((m) => m.category === "Indian")
+);
   renderPaginatedRow(
     "series-container",
     movies.filter((m) => m.type === "series")
   );
+   renderPaginatedRow(
+  "romance-container",
+  movies.filter((m) => m.category === "Romance")
+);
+
+renderPaginatedRow(
+  "tvseries-container",
+  movies.filter((m) => m.category === "TV SERIES")
+);
+
+renderPaginatedRow(
+  "crime-container",
+  movies.filter((m) => m.category === "Crime")
+);
 
   renderPaginatedRow(
     "action-container",
@@ -363,6 +380,10 @@ function renderAll(movies) {
     "animation-container",
     movies.filter((m) => m.category === "Animation")
   );
+renderPaginatedRow(
+  "othermovies-container",
+  movies.filter((m) => m.category === "Other Movies")
+);
 
   renderPaginatedRow("recent-slider", movies.slice(0, 20));
 
@@ -1152,10 +1173,10 @@ async function uploadMoviePro() {
       const table =
         movieData.type === "series" ? "series" : "movies";
 
-      result = await supabaseClient
-        .from(table)
-        .insert([movieData]);
-
+     result = await supabaseClient
+  .from("movies")
+  .insert([movieData]);
+       
       showToast("Uploaded successfully ✔");
     }
 
