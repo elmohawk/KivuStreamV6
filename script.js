@@ -479,77 +479,48 @@ async function loadEpisodes(seriesId) {
 /* =========================
    RENDER ALL
 ========================= */
-
 function renderAll(movies) {
-  renderPaginatedRow(
-    "movies-container",
-    movies.filter((m) => m.type === "movie")
-  );
-renderPaginatedRow(
-  "indian-container",
-  movies.filter((m) => m.category === "Indian")
-);
-  renderPaginatedRow(
-    "series-container",
-    movies.filter((m) => m.type?.toLowerCase() === "series")
-);
-   renderPaginatedRow(
-  "romance-container",
-  movies.filter((m) => m.category === "Romance")
-);
-
-renderPaginatedRow(
-  "tvseries-container",
-  movies.filter((m) => m.category === "TV SERIES")
-);
-
-renderPaginatedRow(
-  "crime-container",
-  movies.filter((m) => m.category === "Crime")
-);
+  const safe = (movies || []).filter(Boolean);
 
   renderPaginatedRow(
     "action-container",
-    movies.filter((m) => m.category === "Action")
-  );
-
-  renderPaginatedRow(
-    "horror-container",
-    movies.filter((m) => m.category === "Horror")
-  );
-
-  renderPaginatedRow(
-    "comedy-container",
-    movies.filter((m) => m.category === "Comedy")
+    safe.filter(m => normalize(m.category) === "action")
   );
 
   renderPaginatedRow(
     "drama-container",
-    movies.filter((m) => m.category === "Drama")
+    safe.filter(m => normalize(m.category) === "drama")
+  );
+
+  renderPaginatedRow(
+    "romance-container",
+    safe.filter(m => normalize(m.category) === "romance")
+  );
+
+  renderPaginatedRow(
+    "comedy-container",
+    safe.filter(m => normalize(m.category) === "comedy")
+  );
+
+  renderPaginatedRow(
+    "horror-container",
+    safe.filter(m => normalize(m.category) === "horror")
   );
 
   renderPaginatedRow(
     "scifi-container",
-    movies.filter((m) => m.category === "Sci-Fi")
+    safe.filter(m => normalize(m.category) === "sci-fi")
   );
 
   renderPaginatedRow(
-    "highschool-container",
-    movies.filter((m) => m.category === "HighSchool")
+    "series-container",
+    safe.filter(m =>
+      normalize(m.type) === "series" ||
+      normalize(m.category) === "tv series"
+    )
   );
 
-  renderPaginatedRow(
-    "animation-container",
-    movies.filter((m) => m.category === "Animation")
-  );
-renderPaginatedRow(
-  "othermovies-container",
-  movies.filter((m) => m.category === "Other Movies")
-);
-
-  renderPaginatedRow("recent-slider", movies.slice(0, 20));
-
-  renderPaginatedRow("updates-container", movies.slice(0, 15));
+  renderPaginatedRow("recent-slider", safe.slice(0, 20));
 }
 /* =========================
    RENDER ROW
