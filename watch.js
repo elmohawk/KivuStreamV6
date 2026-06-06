@@ -462,7 +462,7 @@ function renderSeason(season) {
           EP ${ep.episode || ep.number || ""}
         </div>
 
-        <h3>${ep.title}</h3>
+       <h3>Episode</h3>
 
         <div class="episode-actions">
 
@@ -601,7 +601,8 @@ async function loadEpisodes(seriesId) {
     .select("*")
     .eq("series_id", seriesId);
 
-  console.log("EPISODES DATA:", data);
-
+ console.log("EPISODES DATA:", data);
+console.log("FIRST EPISODE:", data[0]);
+console.log(data[0]);
   if (!data) return;
 }
