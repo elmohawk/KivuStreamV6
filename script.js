@@ -2031,7 +2031,7 @@ document.addEventListener("DOMContentLoaded", () => {
    PAGINATION ENGINE
 ========================= */
 
-const HOMEPAGE_LIMIT = 6;
+const HOMEPAGE_LIMIT = 10;
 
 const sectionPages = {};
 const sectionData = {};
@@ -2047,7 +2047,7 @@ function renderPaginatedRow(id, items) {
 
   container.innerHTML = "";
 
-  /* ONLY SHOW 6 */
+  /* ONLY SHOW 10 */
   const latest =
     items.slice(0, HOMEPAGE_LIMIT);
 
