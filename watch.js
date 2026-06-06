@@ -57,7 +57,44 @@ async function getTMDBMovieDetails(id) {
     rating: data.vote_average
   };
 }
+async function searchTMDBSeries(query) {
 
+  const res = await fetch(
+    `${TMDB_BASE}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
+  );
+
+  const data = await res.json();
+
+  return data.results || [];
+}
+
+async function getTMDBSeriesDetails(id) {
+
+  const res = await fetch(
+    `${TMDB_BASE}/tv/${id}?api_key=${TMDB_API_KEY}`
+  );
+
+  const data = await res.json();
+
+  return {
+
+    poster: data.poster_path
+      ? TMDB_POSTER + data.poster_path
+      : null,
+
+    banner: data.backdrop_path
+      ? TMDB_BACKDROP + data.backdrop_path
+      : null,
+
+    description: data.overview,
+
+    rating: data.vote_average,
+
+    year: data.first_air_date
+      ? data.first_air_date.slice(0,4)
+      : null
+  };
+}
 async function enrichMovieWithTMDB(movie) {
 
   if (!movie.title) return movie;
@@ -210,15 +247,51 @@ if (!movie) {
    
 try {
 
-  const results = await searchTMDBMovies(movie.title);
+  if(movie.type === "series") {
 
-  console.log("TMDB Search Results:", results);
+    const results =
+      await searchTMDBSeries(movie.title);
 
-  movie = await enrichMovieWithTMDB(movie);
+    console.log("TMDB Series Results:", results);
+
+    if(results.length) {
+
+      const tmdb =
+        await getTMDBSeriesDetails(results[0].id);
+
+      movie = {
+
+        ...movie,
+
+        poster:
+          tmdb.poster || movie.poster || movie.image,
+
+        banner:
+          tmdb.banner || movie.banner || movie.image,
+
+        description:
+          tmdb.description || movie.description,
+
+        rating:
+          tmdb.rating || movie.rating,
+
+        year:
+          tmdb.year || movie.year
+
+      };
+
+    }
+
+  } else {
+
+    movie =
+      await enrichMovieWithTMDB(movie);
+
+  }
 
   console.log("Movie After TMDB:", movie);
 
-} catch (err) {
+} catch(err) {
 
   console.log("TMDB Error:", err);
 
