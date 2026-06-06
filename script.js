@@ -175,24 +175,8 @@ async function getTMDBSeriesDetails(id) {
       data.videos?.results?.find(v => v.type === "Trailer")?.key || null
   };
 }
-async function cachedTMDB(id, title) {
-  if (!title) return null;
 
-  if (tmdbCache.has(title)) {
-    return tmdbCache.get(title);
-  }
 
-  try {
-    const result = await enrichMovieWithTMDB({ id, title });
-
-    tmdbCache.set(title, result);
-
-    return result;
-  } catch (err) {
-    console.error("TMDB Cache Error:", err);
-    return null;
-  }
-}
 (function () {
 
   const debugPanel =
@@ -378,8 +362,7 @@ const formattedSeries = (series || []).map(item => ({
     }
 
     // series (TV API route)
-    const results = await searchTMDBMovies(item.title);
-
+   const results = await searchTMDBSeries(item.title);
     if (!results.length) return item;
 
     const tmdb = await getTMDBSeriesDetails(results[0].id);
