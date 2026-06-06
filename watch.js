@@ -594,3 +594,16 @@ function setupLoadingScreen() {
     $("loading-screen")?.remove();
   });
 }
+
+async function loadEpisodes(seriesId) {
+  const { data } = await supabaseClient
+    .from("episodes")
+    .select("*")
+    .eq("series_id", seriesId);
+
+  console.log("EPISODES DATA:", data);
+
+  if (!data) return;
+
+  ...
+}
