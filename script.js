@@ -2971,44 +2971,55 @@ setTimeout(() => {
 
 },10000);
 async function loadSeries() {
-  const { data } = await supabaseClient.from("series").select("*");
 
-  const container = document.getElementById("series-container");
-  if (!container) return;
+  const { data } = await supabaseClient
+    .from("series")
+    .select("*");
 
-  container.innerHTML = data.map(s => `
-    <div class="movie-card">
-     const enriched =
-  await Promise.all(
-    data.map(s =>
+  const container =
+    document.getElementById("series-container");
+
+  if (!container || !data) return;
+
+  container.innerHTML =
+    "<div class='loading'>Loading Series...</div>";
+
+  const enriched = await Promise.all(
+
+    data.map(series =>
+
       enrichMovieWithTMDB({
-        ...s,
+        ...series,
         type: "series"
       })
+
     )
+
   );
 
-container.innerHTML =
-  enriched.map(s => `
-    <div class="movie-card">
+  container.innerHTML = enriched.map(s => `
 
-      <img src="${
-        s.poster ||
-        s.image ||
-        './logo.png'
-      }">
+    <div class="movie-card"
+         onclick="window.location.href='watch.html?id=${s.id}'">
 
-      <h3>${s.title}</h3>
+      <img
+        src="${s.poster || s.image || './logo.png'}"
+        alt="${s.title}"
+        loading="lazy"
+      >
 
-      <p>⭐ ${
-        s.rating
-          ? Number(s.rating).toFixed(1)
-          : "N/A"
-      }</p>
+      <div class="movie-info">
+
+        <h3>${s.title}</h3>
+
+        <p class="rating">
+          ⭐ ${s.rating ? Number(s.rating).toFixed(1) : "N/A"}
+        </p>
+
+      </div>
 
     </div>
+
   `).join("");
-      <h3>${s.title}</h3>
-    </div>
-  `).join("");
+
 }
