@@ -517,30 +517,51 @@ function renderSeason(season) {
 /* ===========================
    COMMENTS
 =========================== */
-async function loadComments(movieId) {
-  const { data, error } = await supabaseClient
+function loadComments(movieId) {
+  supabaseClient
     .from("comments")
     .select("*")
-    .eq("movie_id", movieId);
+    .eq("movie_id", movieId)
+    .order("id", { ascending: false })
+    .then(({ data, error }) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      const box = document.getElementById("comments-container");
+      box.innerHTML = "";
+
+      (data || []).forEach((c) => {
+        box.innerHTML += `
+          <div class="comment">
+            <p>${c.comment}</p>
+
+            <button onclick="likeComment(${c.id}, ${c.likes || 0})">
+              ❤️ ${c.likes || 0}
+            </button>
+          </div>
+        `;
+      });
+    });
+}
+async function likeComment(commentId, currentLikes) {
+  const newLikes = currentLikes + 1;
+
+  const { error } = await supabaseClient
+    .from("comments")
+    .update({ likes: newLikes })
+    .eq("id", commentId);
 
   if (error) {
-    console.error("Comments error:", error);
+    console.error("Like error:", error);
     return;
   }
 
-  const box = document.getElementById("comments-container");
-  box.innerHTML = "";
-
-  data.forEach((c) => {
-    box.innerHTML += `
-      <div class="comment">
-        <strong>${c.username}</strong>
-        <p>${c.text}</p>
-      </div>
-    `;
-  });
+  // reload comments after like
+  const movieId = new URLSearchParams(window.location.search).get("id");
+  loadComments(movieId);
 }
-
 document.getElementById("comment-btn").addEventListener("click", async () => {
   const movieId = new URLSearchParams(window.location.search).get("id");
 
