@@ -1450,6 +1450,7 @@ async function addEpisode() {
       return;
     }
 
+    // 1. insert episode
     await supabaseClient.from("episodes").insert([
       {
         series_id,
@@ -1460,6 +1461,14 @@ async function addEpisode() {
         download_url
       }
     ]);
+
+    // 2. IMPORTANT: update series activity (THIS IS WHAT YOU ARE MISSING)
+    await supabaseClient
+      .from("series")
+      .update({
+        last_activity_at: new Date()
+      })
+      .eq("id", series_id);
 
     showToast("Episode added ✔");
     loadEpisodesCount();
@@ -3024,8 +3033,9 @@ setTimeout(() => {
 async function loadSeries() {
 
   const { data } = await supabaseClient
-    .from("series")
-    .select("*");
+  .from("series")
+  .select("*")
+  .order("last_activity_at", { ascending: false });
 
   const container =
     document.getElementById("series-container");
