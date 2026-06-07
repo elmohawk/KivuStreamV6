@@ -3032,32 +3032,43 @@ setTimeout(() => {
 },10000);
 async function loadSeries() {
 
-  const { data } = await supabaseClient
-  .from("series")
-  .select("*")
-  .order("last_activity_at", { ascending: false });
+  // 1. get series
+  const { data: series } = await supabaseClient
+    .from("series")
+    .select("*")
+    .order("last_activity_at", { ascending: false });
 
   const container =
     document.getElementById("series-container");
 
-  if (!container || !data) return;
+  if (!container || !series) return;
 
   container.innerHTML =
     "<div class='loading'>Loading Series...</div>";
 
+  // 2. get latest episodes map (YOU ALREADY HAVE THIS FUNCTION)
+  const latestMap = await getLatestEpisodesMap();
+
+  // 3. enrich series with TMDB + episode info
   const enriched = await Promise.all(
+    series.map(async (s) => {
 
-    data.map(series =>
-
-      enrichMovieWithTMDB({
-        ...series,
+      const tmdb = await enrichMovieWithTMDB({
+        ...s,
         type: "series"
-      })
+      });
 
-    )
+      const latest = latestMap[s.id];
 
+      return {
+        ...tmdb,
+        latestSeason: latest?.season,
+        latestEpisode: latest?.episode
+      };
+    })
   );
 
+  // 4. render UI (UPDATED CARD)
   container.innerHTML = enriched.map(s => `
 
     <div class="movie-card"
@@ -3077,10 +3088,44 @@ async function loadSeries() {
           ⭐ ${s.rating ? Number(s.rating).toFixed(1) : "N/A"}
         </p>
 
+        <!-- 🔥 NEW: Latest Episode Display -->
+        <p class="episode-tag">
+          ${s.latestEpisode
+            ? `🔥 S${s.latestSeason} EP${s.latestEpisode}`
+            : "No episodes yet"}
+        </p>
+
       </div>
 
     </div>
 
   `).join("");
+}
 
+async function getLatestEpisodesMap() {
+
+  const { data, error } = await supabaseClient
+    .from("episodes")
+    .select("series_id, season_number, episode_number")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.log(error);
+    return {};
+  }
+
+  const map = {};
+
+  for (const ep of data || []) {
+
+    // first one per series = latest (because sorted DESC)
+    if (!map[ep.series_id]) {
+      map[ep.series_id] = {
+        season: ep.season_number,
+        episode: ep.episode_number
+      };
+    }
+  }
+
+  return map;
 }
