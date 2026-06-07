@@ -517,26 +517,61 @@ function renderSeason(season) {
 /* ===========================
    COMMENTS
 =========================== */
-function loadComments(movieId) {
-  supabaseClient
+async function loadComments(movieId) {
+  const { data, error } = await supabaseClient
     .from("comments")
     .select("*")
-    .eq("movie_id", movieId)
-    .then(({ data }) => {
-      const box = $("comments-container");
-      box.innerHTML = "";
+    .eq("movie_id", movieId);
 
-      (data || []).forEach((c) => {
-        box.innerHTML += `
-          <div class="comment">
-            <strong>${c.username}</strong>
-            <p>${c.text}</p>
-          </div>
-        `;
-      });
-    });
+  if (error) {
+    console.error("Comments error:", error);
+    return;
+  }
+
+  const box = document.getElementById("comments-container");
+  box.innerHTML = "";
+
+  data.forEach((c) => {
+    box.innerHTML += `
+      <div class="comment">
+        <strong>${c.username}</strong>
+        <p>${c.text}</p>
+      </div>
+    `;
+  });
 }
 
+document.getElementById("comment-btn").addEventListener("click", async () => {
+  const movieId = new URLSearchParams(window.location.search).get("id");
+
+  const username = document.getElementById("username-input").value;
+  const comment = document.getElementById("comment-input").value;
+
+  if (!comment) {
+    alert("Please write a comment");
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("comments")
+    .insert([
+      {
+        movie_id: movieId,
+        comment: comment
+      }
+    ]);
+
+  if (error) {
+    console.error("Insert error:", error);
+    return;
+  }
+
+  // clear input
+  document.getElementById("comment-input").value = "";
+
+  // reload comments
+  loadComments(movieId);
+});
 /* ===========================
    RECOMMENDED
 =========================== */
