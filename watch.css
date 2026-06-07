@@ -959,3 +959,15 @@ backdrop-filter:blur(20px);
   margin-top: 6px;
   color: white;
 }
+.comment button {
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 5px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.comment button:hover {
+  background: #ffe6e6;
+}
