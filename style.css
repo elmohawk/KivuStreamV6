@@ -6369,3 +6369,36 @@ button {
 .card:hover {
   transform: scale(1.03);
 }
+
+.movie-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  font-size:13px;
+  margin-top:8px;
+}
+
+.movie-meta span{
+  color:#ddd;
+}
+
+.episode-meta{
+  margin-top:6px;
+  color:#ff3b30;
+  font-weight:700;
+  font-size:13px;
+}
+
+.translator-badge{
+  margin-top:8px;
+  display:inline-block;
+
+  background:rgba(0,170,255,.15);
+  border:1px solid rgba(0,170,255,.3);
+
+  color:#00aaff;
+
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
