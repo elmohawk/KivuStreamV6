@@ -347,11 +347,28 @@ const formattedSeries = (series || []).map(item => ({
   banner: item.banner || item.image
 }));
 
-  const combined =
-    [
-      ...(movies || []),
-      ...formattedSeries
-    ];
+ const combined =
+[
+  ...(movies || []),
+  ...formattedSeries
+].sort((a, b) => {
+
+  const dateA =
+    new Date(
+      a.last_activity_at ||
+      a.updated_at ||
+      a.created_at
+    );
+
+  const dateB =
+    new Date(
+      b.last_activity_at ||
+      b.updated_at ||
+      b.created_at
+    );
+
+  return dateB - dateA;
+});
 
   const enrichedMovies = await Promise.all(
   combined.map(async (item) => {
@@ -472,9 +489,30 @@ function normalize(str) {
 function renderAll(movies) {
 
   const safe = (movies || []).filter(Boolean);
+   const sortedContent = [...safe].sort((a, b) => {
+
+  const dateA = new Date(
+    a.last_activity_at ||
+    a.updated_at ||
+    a.created_at ||
+    0
+  );
+
+  const dateB = new Date(
+    b.last_activity_at ||
+    b.updated_at ||
+    b.created_at ||
+    0
+  );
+
+  return dateB - dateA;
+});
 
   // RECENT (latest 10)
-  renderPaginatedRow("recent-slider", safe.slice(0, 10));
+ renderPaginatedRow(
+  "recent-slider",
+  sortedContent.slice(0, 10)
+);
 
   // MOVIES
   renderPaginatedRow(
@@ -483,12 +521,13 @@ function renderAll(movies) {
   );
 
   // SERIES (Latest Series section)
-  renderPaginatedRow(
-    "series-container",
-    safe.filter(m =>
-      (m.type || "").toLowerCase() === "series"
-    )
-  );
+ renderPaginatedRow(
+  "series-container",
+
+  sortedContent.filter(m =>
+    (m.type || "").toLowerCase() === "series"
+  )
+);
 
   // ACTION
   renderPaginatedRow(
@@ -588,10 +627,10 @@ function renderAll(movies) {
   );
 
   // RECOMMENDED
-  renderPaginatedRow(
-    "updates-container",
-    safe.slice(0, 15)
-  );
+ renderPaginatedRow(
+  "updates-container",
+  sortedContent.slice(0, 15)
+);
 
   // CONTINUE WATCHING
   const continueWatching =
