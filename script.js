@@ -743,7 +743,7 @@ ${movie.latestEpisode ? `
    HERO SLIDER
 ========================= */
 
-let heroIndex = 0;
+let heroIndex = 10;
 let heroMovies = [];
 let heroInterval = null;
 
