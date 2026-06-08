@@ -702,18 +702,35 @@ function createMovieCard(movie) {
       <p>
         ${truncateText(movie.description || "", 70)}
       </p>
+<div class="movie-meta">
 
-      <div class="movie-meta">
+  <span>
+    ⭐ ${movie.rating || "8.5"}
+  </span>
 
-  <span>⭐ ${movie.rating || "8.5"}</span>
+  <span>
+    HD
+  </span>
 
-  <span>${movie.year || "2026"}</span>
+  <span>
+    ${movie.year || "2026"}
+  </span>
+
+  <span>
+    ${movie.category || "Drama"}
+  </span>
 
 </div>
 
-<div class="translator-tag">
+${movie.latestEpisode ? `
+<div class="episode-meta">
+  🔥 NEW EP
+</div>
+` : ""}
 
-  🎙 ${movie.translator || "KivuStream"}
+<div class="translator-badge">
+  🛡 ${movie.translator || "KivuStream"}
+</div>
 
 </div>
 
