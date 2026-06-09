@@ -2977,35 +2977,21 @@ alert(
 "Series Created ✔"
 );
 
-/* refresh website */
+if (typeof loadSeries === "function") {
+  await loadSeries();
+}
 
-if(
-typeof loadSeries
-===
-"function"
-)
-await loadSeries();
+if (typeof loadMovies === "function") {
+  await loadMovies();
+}
 
-if(
-typeof loadMovies
-===
-"function"
-)
-await loadMovies();
+if (typeof loadHero === "function") {
+  await loadHero();
+}
 
-if(
-typeof loadHero
-===
-"function"
-)
-await loadHero();
-
-if(
-typeof loadSeriesDropdown
-===
-"function"
-)
-await loadSeriesDropdown();
+if (typeof loadSeriesDropdown === "function") {
+  await loadSeriesDropdown();
+}
 
 /* clear inputs */
 
