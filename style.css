@@ -1,3 +1,109 @@
+/* ===== HEADER BASE ===== */
+.main-header, .watch-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  background: rgba(5, 8, 22, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* LOGO */
+.logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-logo {
+  width: 38px;
+  height: 38px;
+}
+
+.site-title {
+  color: white;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.site-title span {
+  color: #00c3ff;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: white;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* NAVBAR */
+.navbar {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.navbar a:hover {
+  color: #00c3ff;
+}
+
+/* RIGHT SIDE */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-right input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+/* MOBILE */
+.menu-btn {
+  display: none;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: #050816;
+    flex-direction: column;
+    padding: 15px;
+  }
+
+  .navbar.active {
+    display: flex;
+  }
+
+  .menu-btn {
+    display: block;
+  }
+}
 /* =========================================
    KIVUSTREAM PRO ULTRA CSS
    PREMIUM CINEMATIC UI
