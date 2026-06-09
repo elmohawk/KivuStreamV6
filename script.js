@@ -2674,7 +2674,7 @@ if (error || !movie) {
   return;
 }
 
-const tmdbMovie = await cachedTMDB(movie.id, movie.title);
+const tmdbMovie = await cachedTMDB(movie);
 
 movie = {
   ...movie,
