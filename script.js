@@ -390,6 +390,9 @@ const formattedSeries = (series || []).map(item => ({
     };
   })
 );
+   console.log("MOVIES FROM SUPABASE:", movies);
+console.log("SERIES FROM SUPABASE:", series);
+console.log("COMBINED:", combined);
   allMovies = enrichedMovies;
   window.allMovies = enrichedMovies;
 
@@ -509,10 +512,12 @@ function renderAll(movies) {
 });
 
   // RECENT (latest 10)
- renderPaginatedRow(
-  "recent-slider",
-  sortedContent.slice(0, 10)
-);
+const latest = [...safe]
+  .sort((a, b) =>
+    new Date(b.created_at || 0) - new Date(a.created_at || 0)
+  );
+
+renderPaginatedRow("recent-slider", latest.slice(0, 10));
 
   // MOVIES
   renderPaginatedRow(
