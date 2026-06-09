@@ -1,4 +1,15 @@
 const tmdbCache = new Map();
+supabaseClient.auth.onAuthStateChange(
+  async (event, session) => {
+
+    if (
+      event === "SIGNED_OUT" ||
+      !session
+    ) {
+      console.log("No active session");
+    }
+  }
+);
 /* =========================
    TMDB API INTEGRATION
 ========================= */
