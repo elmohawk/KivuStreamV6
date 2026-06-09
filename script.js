@@ -1005,14 +1005,13 @@ async function loadComments(movieId) {
   $("comments-list").innerHTML = (data || [])
     .map(
       (c) => `
-  <p>💬 ${c.comment}</p>
-`
+        <div class="comment">
+          ${c.comment}
+        </div>
+      `
     )
     .join("");
 }
-
-("use strict");
-
 /* =========================================
    KIVUSTREAM AI SEARCH ENGINE PRO
 ========================================= */
