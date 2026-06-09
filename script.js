@@ -789,78 +789,153 @@ function renderRow(id, items) {
    CREATE MOVIE CARD
 ========================= */
 
-function createMovieCard(movie) {
-  const card = document.createElement("div");
+function createMovieCard(movie){
 
-  card.className = "movie-card";
+const card=
+document.createElement(
+"div"
+);
 
-  card.onclick = () => openMovie(movie.id);
+card.className=
+"movie-card";
 
-  card.innerHTML = `
+card.onclick=
+()=>
+openMovie(
+movie.id
+);
 
-    <div class="movie-badge ${movie.type === "series" ? "series" : ""}">
-      ${movie.type === "series" ? "SERIES" : "MOVIE"}
-    </div>
+card.innerHTML=`
 
-  <img
-  src="${movie.poster || movie.image || './logo.png'}"
-  alt="${movie.title}"
-  loading="lazy"
-  onerror="this.onerror=null;this.src='./logo.png';"
-/>
+<div class="
+movie-badge
+${movie.type==="series"
+?
+"series"
+:
+""}
+">
 
-    <div class="movie-overlay">
-
-      <button class="play-btn">
-        ▶
-      </button>
-
-    </div>
-
-    <div class="movie-info">
-
-      <h3>${movie.title}</h3>
-
-      <p>
-        ${truncateText(movie.description || "", 70)}
-      </p>
-<div class="movie-meta">
-
-  <span>
-    ⭐ ${movie.rating || "8.5"}
-  </span>
-
-  <span>
-    HD
-  </span>
-
-  <span>
-    ${movie.year || "2026"}
-  </span>
-
-  <span>
-    ${movie.category || "Drama"}
-  </span>
-
-</div>
-
-${movie.latestEpisode ? `
-<div class="episode-meta">
-  🔥 NEW EP
-</div>
-` : ""}
-
-<div class="translator-badge">
-  🛡 ${movie.translator || "KivuStream"}
-</div>
-
-</div>
-
-  `;
-
-  return card;
+${
+movie.type==="series"
+?
+"SERIES"
+:
+"MOVIE"
 }
 
+</div>
+
+
+<img
+src="${
+movie.poster||
+movie.image||
+'./logo.png'
+}"
+loading="lazy"
+>
+
+
+<div class="
+movie-info
+">
+
+<h3>
+
+${
+movie.title
+}
+
+</h3>
+
+
+${
+movie.latestEpisode
+?
+
+`
+<div class="
+episode-meta
+">
+
+🔥 S
+${movie.latestSeason}
+
+EP
+${movie.latestEpisode}
+
+</div>
+`
+
+:
+
+""
+
+}
+
+
+<div class="
+movie-meta
+">
+
+<span>
+
+⭐
+${
+movie.rating
+||
+"8.5"
+}
+
+</span>
+
+
+<span>
+
+${
+movie.category
+||
+"Drama"
+}
+
+</span>
+
+
+<span>
+
+${
+movie.year
+||
+"2026"
+}
+
+</span>
+
+</div>
+
+
+<div class="
+translator-badge
+">
+
+🛡
+
+${
+movie.translator
+||
+"KivuStream"
+}
+
+</div>
+
+</div>
+
+`;
+
+return card;
+
+}
 /* ========================
    HERO SLIDER
 ========================= */
@@ -3331,7 +3406,11 @@ async function getLatestEpisodesMap() {
 
   const { data, error } = await supabaseClient
     .from("episodes")
-    .select("series_id, season_number, episode_number")
+    .select(`
+series_id,
+season,
+episode
+`)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -3346,8 +3425,8 @@ async function getLatestEpisodesMap() {
     // first one per series = latest (because sorted DESC)
     if (!map[ep.series_id]) {
       map[ep.series_id] = {
-        season: ep.season_number,
-        episode: ep.episode_number
+       season: ep.season,
+episode: ep.episode
       };
     }
   }
