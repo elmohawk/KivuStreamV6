@@ -312,24 +312,26 @@ const $ = (id) => document.getElementById(id);
 /* =========================
    LOAD MOVIES
 ========================= */
+/* =========================
+   LOAD MOVIES + SMART RECENT
+========================= */
 
 async function loadMovies() {
 
-  const { data: movies, error: movieError } =
-    await supabaseClient
-      .from("movies")
-      .select("*")
-      .order("created_at", {
-        ascending: false
-      });
+  const [
+    { data: movies, error: movieError },
+    { data: series, error: seriesError }
+  ] = await Promise.all([
 
-  const { data: series, error: seriesError } =
-    await supabaseClient
+    supabaseClient
+      .from("movies")
+      .select("*"),
+
+    supabaseClient
       .from("series")
       .select("*")
-      .order("created_at", {
-        ascending: false
-      });
+
+  ]);
 
   if (movieError) {
     console.error(movieError);
@@ -339,88 +341,156 @@ async function loadMovies() {
     console.error(seriesError);
   }
 
-const formattedSeries = (series || []).map(item => ({
-  ...item,
-  type: "series",
-  category: item.category || "Series",
-  image: item.image || item.poster,
-  banner: item.banner || item.image
-}));
+  /* SERIES FORMAT */
 
- const combined =
-[
-  ...(movies || []),
-  ...formattedSeries
-].sort((a, b) => {
+  const formattedSeries =
+    (series || []).map(item => ({
 
-  const dateA =
-    new Date(
-      a.last_activity_at ||
-      a.updated_at ||
-      a.created_at
-    );
-
-  const dateB =
-    new Date(
-      b.last_activity_at ||
-      b.updated_at ||
-      b.created_at
-    );
-
-  return dateB - dateA;
-});
-
-  const enrichedMovies = await Promise.all(
-  combined.map(async (item) => {
-
-    // movie
-    if (item.type !== "series") {
-      return await cachedTMDB(item);
-    }
-
-    // series (TV API route)
-   const results = await searchTMDBSeries(item.title);
-    if (!results.length) return item;
-
-    const tmdb = await getTMDBSeriesDetails(results[0].id);
-
-    return {
       ...item,
-      ...tmdb
-    };
-  })
-);
-   console.log("MOVIES FROM SUPABASE:", movies);
-console.log("SERIES FROM SUPABASE:", series);
-console.log("COMBINED:", combined);
- allMovies = enrichedMovies;
-window.allMovies = enrichedMovies;
 
-renderAll(enrichedMovies);
+      type: "series",
 
-/* HERO PRIORITY SYSTEM */
+      category:
+        item.category || "Series",
 
-const heroContent =
-  [...enrichedMovies].sort((a, b) => {
+      image:
+        item.image || item.poster,
 
-    const dateA = new Date(
-      a.last_activity_at ||
-      a.updated_at ||
-      a.created_at ||
-      0
+      banner:
+        item.banner || item.image,
+
+      activity_date:
+
+        item.last_activity_at ||
+
+        item.updated_at ||
+
+        item.created_at ||
+
+        0
+
+    }));
+
+
+  /* MERGE + SORT */
+
+  const combined = [
+
+    ...(movies || []).map(item => ({
+      ...item,
+
+      activity_date:
+
+        item.last_activity_at ||
+
+        item.updated_at ||
+
+        item.created_at ||
+
+        0
+    })),
+
+    ...formattedSeries
+
+  ].sort((a, b) => {
+
+    return (
+      new Date(b.activity_date)
+      -
+      new Date(a.activity_date)
     );
 
-    const dateB = new Date(
-      b.last_activity_at ||
-      b.updated_at ||
-      b.created_at ||
-      0
-    );
-
-    return dateB - dateA;
   });
 
-initHero(heroContent);
+
+  /* TMDB ENRICH */
+
+  const enrichedMovies =
+    await Promise.all(
+
+      combined.map(async item => {
+
+        try {
+
+          if (
+            item.type !==
+            "series"
+          ) {
+
+            return await cachedTMDB(
+              item
+            );
+
+          }
+
+          const results =
+            await searchTMDBSeries(
+              item.title
+            );
+
+          if (
+            !results.length
+          ) {
+
+            return item;
+
+          }
+
+          const tmdb =
+            await getTMDBSeriesDetails(
+              results[0].id
+            );
+
+          return {
+            ...item,
+            ...tmdb
+          };
+
+        } catch (err) {
+
+          console.log(
+            "TMDB ERROR",
+            err
+          );
+
+          return item;
+        }
+
+      })
+
+    );
+
+
+  console.log(
+    "SORTED RECENT:",
+    enrichedMovies.map(x => ({
+      title:
+        x.title,
+
+      activity:
+        x.activity_date
+    }))
+  );
+
+
+  allMovies =
+    enrichedMovies;
+
+  window.allMovies =
+    enrichedMovies;
+
+
+  renderAll(
+    enrichedMovies
+  );
+
+
+  /* HERO */
+
+  initHero(
+    enrichedMovies
+  );
+
 }
 
 async function loadEpisodes(seriesId) {
