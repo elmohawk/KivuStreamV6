@@ -599,10 +599,40 @@ function renderAll(movies) {
 });
 
   // RECENT (latest 10)
-const latest = [...safe]
-  .sort((a, b) =>
-    new Date(b.created_at || 0) - new Date(a.created_at || 0)
-  );
+const latest =
+[...safe]
+
+.sort((a,b)=>{
+
+const dateA=
+new Date(
+
+a.last_activity_at ||
+
+a.updated_at ||
+
+a.created_at ||
+
+0
+
+);
+
+const dateB=
+new Date(
+
+b.last_activity_at ||
+
+b.updated_at ||
+
+b.created_at ||
+
+0
+
+);
+
+return dateB-dateA;
+
+});
 
 renderPaginatedRow("recent-slider", latest.slice(0, 10));
 
@@ -888,7 +918,7 @@ if (badge) {
 
   if (
     currentHero.type === "series" &&
-    recentDays <= 14
+   recentDays <= 30
   ) {
     badge.innerHTML =
       "🔥 NEW EPISODE";
@@ -1648,12 +1678,23 @@ await supabaseClient
     ]);
 
     // 2. IMPORTANT: update series activity (THIS IS WHAT YOU ARE MISSING)
-    await supabaseClient
-      .from("series")
-      .update({
-        last_activity_at: new Date()
-      })
-      .eq("id", series_id);
+   /* UPDATE SERIES ACTIVITY */
+
+await supabaseClient
+.from("series")
+.update({
+
+  last_activity_at:
+    new Date().toISOString(),
+
+  latest_episode:
+    episode_number,
+
+  latest_season:
+    season_id
+
+})
+.eq("id", series_id);
 
     showToast("Episode added ✔");
     loadEpisodesCount();
