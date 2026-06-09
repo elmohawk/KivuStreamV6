@@ -19,25 +19,38 @@
   <div id="loader">
     <div class="spinner"></div>
   </div>
+    <!-- BACK BUTTON (hidden on home via JS or CSS) -->
+    <button class="back-btn" onclick="goBack()">
+      ←
+    </button>
   <!-- HEADER -->
   <header class="main-header">
     <div class="logo-wrap">
       <img src="logo.png" class="site-logo">
       <a href="#" class="site-title">KIVU<span>Stream</span></a>
     </div>
-    <nav class="navbar">
-      <a href="#movies">Movies</a>
-      <a href="#series">Series</a>
-      <a href="#trending">Trending</a>
-      <a href="#support">Support</a>
-    </nav>
-    <div class="nav-right">
-      <input id="search-input" type="text" placeholder="Search movies..." aria-label="Search movies">
-      <!-- 👤 ADMIN BUTTON -->
-      <button class="profile-btn" onclick="openAdminLogin()">👤</button>
-      <button id="theme-toggle">🌙</button>
+   <nav class="navbar">
 
-    </div>
+    <a href="index.html#movies">Movies</a>
+    <a href="index.html#series">Series</a>
+    <a href="index.html#trending">Trending</a>
+    <a href="index.html#support">Support</a>
+
+  </nav>
+    <!-- RIGHT CONTROLS -->
+  <div class="nav-right">
+
+    <input id="search-input" type="text" placeholder="Search movies...">
+
+    <button class="profile-btn" onclick="openAdminLogin()">👤</button>
+
+    <button id="theme-toggle">🌙</button>
+
+    <!-- MOBILE MENU BUTTON -->
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+  </div>
+
   </header>
 
   <!-- =========================
