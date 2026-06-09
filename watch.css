@@ -1,3 +1,59 @@
+/* ===== WATCH HEADER ===== */
+.watch-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+}
+
+/* LOGO */
+.watch-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+  font-weight: 700;
+}
+
+.watch-logo img {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+}
+
+/* PRO BACK BUTTON */
+.back-btn-pro {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.back-btn-pro:hover {
+  background: rgba(255,255,255,0.18);
+  transform: scale(1.05);
+}
+
+.back-btn-pro span {
+  font-size: 16px;
+  font-weight: bold;
+}
 /* ===== HEADER BASE ===== */
 .main-header, .watch-header {
   position: sticky;
