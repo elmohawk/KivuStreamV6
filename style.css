@@ -1,3 +1,20 @@
+.hero-badge{
+  display:none;
+  background:#ff3b30;
+  color:white;
+  padding:8px 14px;
+  border-radius:30px;
+  font-weight:700;
+  margin-bottom:10px;
+  width:max-content;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
+}
 /* ===== HEADER BASE ===== */
 .main-header, .watch-header {
   position: sticky;
