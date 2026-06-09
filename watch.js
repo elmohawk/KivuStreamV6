@@ -650,3 +650,12 @@ function setupLoadingScreen() {
     $("loading-screen")?.remove();
   });
 }
+function goBack() {
+  // If user came from inside your site → go back
+  if (document.referrer && document.referrer.includes(window.location.hostname)) {
+    history.back();
+  } else {
+    // If opened directly → go home safely
+    window.location.href = "index.html";
+  }
+}
