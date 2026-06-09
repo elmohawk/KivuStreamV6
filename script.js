@@ -421,6 +421,7 @@ const heroContent =
   });
 
 initHero(heroContent);
+}
 
 async function loadEpisodes(seriesId) {
   const { data, error } = await supabaseClient
