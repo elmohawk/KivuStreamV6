@@ -310,9 +310,6 @@ let currentHero = null;
 const $ = (id) => document.getElementById(id);
 
 /* =========================
-   LOAD MOVIES
-========================= */
-/* =========================
    LOAD MOVIES + SMART RECENT
 ========================= */
 
@@ -472,24 +469,96 @@ async function loadMovies() {
     }))
   );
 
+/* =========================
+ATTACH LATEST EPISODES
+========================= */
 
-  allMovies =
-    enrichedMovies;
+const latestMap =
+await getLatestEpisodesMap();
 
-  window.allMovies =
-    enrichedMovies;
+const finalMovies =
+enrichedMovies.map(
+item=>{
+
+if(
+item.type!=="series"
+){
+
+return item;
+
+}
+
+const latest =
+latestMap[
+item.id
+];
+
+return{
+
+...item,
+
+latestSeason:
+latest?.season ||
+
+null,
+
+latestEpisode:
+latest?.episode ||
+
+null
+
+};
+
+}
+);
 
 
-  renderAll(
-    enrichedMovies
-  );
+/* SAVE */
+
+allMovies =
+finalMovies;
+
+window.allMovies =
+finalMovies;
 
 
-  /* HERO */
+/* RENDER */
 
-  initHero(
-    enrichedMovies
-  );
+renderAll(
+finalMovies
+);
+
+
+/* HERO */
+
+initHero(
+finalMovies
+);
+
+
+/* DEBUG */
+
+console.log(
+"SERIES WITH EP:",
+finalMovies
+.filter(
+x=>
+x.type==="series"
+)
+.map(
+x=>({
+
+title:
+x.title,
+
+season:
+x.latestSeason,
+
+episode:
+x.latestEpisode
+
+}))
+);
 
 }
 
