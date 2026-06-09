@@ -393,18 +393,34 @@ const formattedSeries = (series || []).map(item => ({
    console.log("MOVIES FROM SUPABASE:", movies);
 console.log("SERIES FROM SUPABASE:", series);
 console.log("COMBINED:", combined);
-  allMovies = enrichedMovies;
-  window.allMovies = enrichedMovies;
+ allMovies = enrichedMovies;
+window.allMovies = enrichedMovies;
 
-  renderAll(enrichedMovies);
+renderAll(enrichedMovies);
 
-  initHero(enrichedMovies);
+/* HERO PRIORITY SYSTEM */
 
-  setTimeout(() => {
-    enableLazyImages();
-    enableCardEffects();
-  }, 100);
-}
+const heroContent =
+  [...enrichedMovies].sort((a, b) => {
+
+    const dateA = new Date(
+      a.last_activity_at ||
+      a.updated_at ||
+      a.created_at ||
+      0
+    );
+
+    const dateB = new Date(
+      b.last_activity_at ||
+      b.updated_at ||
+      b.created_at ||
+      0
+    );
+
+    return dateB - dateA;
+  });
+
+initHero(heroContent);
 
 async function loadEpisodes(seriesId) {
   const { data, error } = await supabaseClient
@@ -783,7 +799,35 @@ url(${currentHero.banner || currentHero.poster || currentHero.image})`;
  document.getElementById(
    "hero-title"
  );
+const badge =
+document.getElementById("hero-badge");
 
+if (badge) {
+
+  const recentDays =
+    Math.floor(
+      (
+        Date.now() -
+        new Date(
+          currentHero.last_activity_at ||
+          currentHero.created_at
+        )
+      ) / 86400000
+    );
+
+  if (
+    currentHero.type === "series" &&
+    recentDays <= 14
+  ) {
+    badge.innerHTML =
+      "🔥 NEW EPISODE";
+    badge.style.display =
+      "inline-block";
+  } else {
+    badge.style.display =
+      "none";
+  }
+}
 if (title) {
   title.innerText =
     currentHero.title;
@@ -1510,7 +1554,17 @@ async function addEpisode() {
       showToast("Select series + season");
       return;
     }
-
+await supabaseClient
+.from("series")
+.update({
+  last_activity_at: new Date(),
+  featured_until:
+    new Date(
+      Date.now() + 7 * 24 * 60 * 60 * 1000
+    )
+})
+.eq("id", series_id);
+     
     // 1. insert episode
     await supabaseClient.from("episodes").insert([
       {
@@ -1588,7 +1642,9 @@ async function loadSeasons(seriesId) {
     select.appendChild(option);
   });
 }
-
+/* =========================
+     RENDER SEASON
+========================= */
 function renderSeasonButtons(seasons, episodes) {
   const container = $("episodes-container");
 
@@ -1610,7 +1666,9 @@ function renderSeasonButtons(seasons, episodes) {
   container.innerHTML = "";
   container.appendChild(buttonsWrap);
 }
-
+/* =========================
+   RENDER EPISODES
+========================= */
 function renderEpisodes(season, episodes) {
   const container = $("episodes-container");
 
@@ -2759,7 +2817,9 @@ async function loadSeriesDropdown() {
 
   select.innerHTML = options;
 }
-
+/* =========================
+ LOAD SERIES EPISODES
+========================= */
 async function loadSeriesEpisodes() {
   const seriesId = document.getElementById("series-id").value;
 
@@ -3038,7 +3098,9 @@ window.createSeries = async function () {
     alert("Failed creating series ❌");
   }
 };
-
+/* =========================
+   LOAD EPISODES COUNT
+========================= */
 async function loadEpisodesCount() {
   const { data } =
     await supabaseClient
@@ -3091,6 +3153,9 @@ setTimeout(() => {
     "visible";
 
 },10000);
+   /* =========================
+   LOAD SERIES
+========================= */
 async function loadSeries() {
 
   // 1. get series
@@ -3162,7 +3227,9 @@ async function loadSeries() {
 
   `).join("");
 }
-
+/* =========================
+   GET LATEST EPISODE
+========================= */
 async function getLatestEpisodesMap() {
 
   const { data, error } = await supabaseClient
