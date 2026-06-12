@@ -3549,3 +3549,109 @@ episode: ep.episode
 
   return map;
 }
+
+
+/* =========================
+   PERFORMANCE BOOST
+   ADD BELOW EXISTING CODE
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    /* Remove loader quickly */
+
+    setTimeout(() => {
+
+      const loader =
+        document.getElementById(
+          "loader"
+        );
+
+      if (loader) {
+        loader.style.display =
+          "none";
+      }
+
+    }, 800);
+
+    /* Preload hero image */
+
+    setTimeout(() => {
+
+      if (
+        typeof currentHero !==
+        "undefined" &&
+        currentHero
+      ) {
+
+        const img =
+          new Image();
+
+        img.src =
+          currentHero.banner ||
+          currentHero.poster ||
+          currentHero.image;
+
+      }
+
+    }, 100);
+
+    /* Lazy load images */
+
+    document
+      .querySelectorAll("img")
+      .forEach((img) => {
+
+        img.loading =
+          "lazy";
+
+        img.decoding =
+          "async";
+
+      });
+
+    /* Prevent heavy reflow */
+
+    requestAnimationFrame(() => {
+
+      document.body.style.opacity =
+        "1";
+
+    });
+
+  }
+);
+
+/* Faster scrolling */
+window.addEventListener(
+  "load",
+  () => {
+
+    document.body.style.visibility =
+      "visible";
+
+  }
+);
+
+/* Disable expensive resize events */
+
+let resizeTimeout;
+
+window.addEventListener(
+  "resize",
+  () => {
+
+    clearTimeout(
+      resizeTimeout
+    );
+
+    resizeTimeout =
+      setTimeout(
+        () => {},
+        300
+      );
+
+  }
+);
