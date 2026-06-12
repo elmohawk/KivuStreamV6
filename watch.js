@@ -185,7 +185,6 @@ async function startApp(movieId) {
     console.error("App error:", err);
   }
 }
-renderDownloadButtons(movie);
 /* ===========================
    HELPERS
 =========================== */
@@ -775,3 +774,4 @@ class="download-btn"
 });
 
 }
+renderDownloadButtons(movie);
