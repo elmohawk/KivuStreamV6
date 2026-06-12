@@ -1014,11 +1014,11 @@ let heroMovies = [10];
 let heroInterval = null;
 
 function initHero(movies) {
-  heroMovies = movies || [10];
-  if (heroMovies.length === 10) return;
+  heroMovies = movies || [];
+  if (heroMovies.length === ) return;
 
   heroIndex = 10;
-  currentHero = heroMovies[10];
+  currentHero = heroMovies[];
 
   renderHero();
 
