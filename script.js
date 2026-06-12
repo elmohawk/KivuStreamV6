@@ -1009,16 +1009,30 @@ return card;
    HERO SLIDER
 ========================= */
 
-let heroIndex = 10;
+let heroIndex = 0;
 let heroMovies = [];
+let currentHero = null;
 let heroInterval = null;
 
 function initHero(movies) {
-  heroMovies = movies || [] 0;
-  if (heroMovies.length === ) return;
 
-  heroIndex = 10;
-  currentHero = heroMovies[] 0;
+  if (!Array.isArray(movies) || movies.length === 0) {
+    console.log("No movies found for hero slider");
+    return;
+  }
+
+  // Sort by newest first
+  heroMovies = [...movies]
+    .sort((a, b) => {
+      return new Date(b.created_at || 0) -
+             new Date(a.created_at || 0);
+    })
+    .slice(0, 10); // Only latest 10 items
+
+  if (heroMovies.length === 0) return;
+
+  heroIndex = 0;
+  currentHero = heroMovies[0];
 
   renderHero();
 
@@ -1030,27 +1044,52 @@ function initHero(movies) {
 }
 
 function renderHero() {
-  const hero = document.getElementById("hero-slider");
+
+  const hero =
+    document.getElementById("hero-slider");
+
   if (!hero || !currentHero) return;
 
- hero.style.backgroundImage = `linear-gradient(
-  to right,
-  rgba(0,0,0,.85),
-  rgba(0,0,0,.2)
-),
-url(${currentHero.banner || currentHero.poster || currentHero.image})`;
-   
+  hero.style.backgroundImage = `
+    linear-gradient(
+      to right,
+      rgba(0,0,0,.85),
+      rgba(0,0,0,.2)
+    ),
+    url(${
+      currentHero.banner ||
+      currentHero.poster ||
+      currentHero.image ||
+      "assets/fallback.jpg"
+    })
+  `;
+
   const title =
- document.getElementById(
-   "hero-title"
- );
-const badge =
-document.getElementById("hero-badge");
+    document.getElementById("hero-title");
 
-if (badge) {
+  const description =
+    document.getElementById(
+      "hero-description"
+    );
 
-  const recentDays =
-    Math.floor(
+  const badge =
+    document.getElementById(
+      "hero-badge"
+    );
+
+  if (title) {
+    title.textContent =
+      currentHero.title || "Untitled";
+  }
+
+  if (description) {
+    description.textContent =
+      currentHero.description || "";
+  }
+
+  if (badge) {
+
+    const recentDays = Math.floor(
       (
         Date.now() -
         new Date(
@@ -1060,47 +1099,51 @@ if (badge) {
       ) / 86400000
     );
 
-  if (
-    currentHero.type === "series" &&
-   recentDays <= 30
-  ) {
-    badge.innerHTML =
-      "🔥 NEW EPISODE";
-    badge.style.display =
-      "inline-block";
-  } else {
-    badge.style.display =
-      "none";
-  }
-}
-if (title) {
-  title.innerText =
-    currentHero.title;
-}
+    if (
+      currentHero.type === "series" &&
+      recentDays <= 30
+    ) {
+      badge.textContent =
+        "🔥 NEW EPISODE";
 
-  document.getElementById("hero-description").innerText =
-    currentHero.description || "";
+      badge.style.display =
+        "inline-block";
+    } else {
+      badge.style.display =
+        "none";
+    }
+  }
 }
 
 function nextHero() {
+
+  if (heroMovies.length === 0) return;
+
   heroIndex++;
 
   if (heroIndex >= heroMovies.length) {
     heroIndex = 0;
   }
 
-  currentHero = heroMovies[heroIndex];
+  currentHero =
+    heroMovies[heroIndex];
+
   renderHero();
 }
 
 function prevHero() {
+
+  if (heroMovies.length === 0) return;
+
   heroIndex--;
 
   if (heroIndex < 0) {
-    heroIndex = heroMovies.length - 1;
+    heroIndex =
+      heroMovies.length - 1;
   }
 
-  currentHero = heroMovies[heroIndex];
+  currentHero =
+    heroMovies[heroIndex];
 
   renderHero();
 }
@@ -1110,6 +1153,7 @@ function prevHero() {
 ========================= */
 
 function watchHero() {
+
   if (!currentHero) return;
 
   currentMovie = currentHero;
@@ -1118,15 +1162,19 @@ function watchHero() {
 }
 
 function openHeroInfo() {
+
   if (!currentHero) return;
 
   openMovie(currentHero.id);
 }
 
 function openMovie(id) {
-  window.location.href = `watch.html?id=${id}`;
-}
 
+  if (!id) return;
+
+  window.location.href =
+    `watch.html?id=${id}`;
+}
 /* =========================
    CLOSE INFO
 ========================= */
