@@ -185,7 +185,7 @@ async function startApp(movieId) {
     console.error("App error:", err);
   }
 }
-
+renderDownloadButtons(movie);
 /* ===========================
    HELPERS
 =========================== */
@@ -658,6 +658,65 @@ function goBack() {
     // If opened directly → go home safely
     window.location.href = "index.html";
   }
+}
+function renderDownloadButtons(movie){
+
+const container =
+document.getElementById(
+"download-links"
+);
+
+if(
+!container
+) return;
+
+container.innerHTML="";
+
+const parts =
+movie.download_links || [];
+
+parts.forEach(
+(part,index)=>{
+
+container.innerHTML+=`
+
+<div class="download-card">
+
+<div>
+
+<div class="part-name">
+
+${part.name}
+
+</div>
+
+<div>
+
+Click to download
+
+</div>
+
+</div>
+
+<button
+class="download-btn"
+onclick="
+window.open(
+'${part.url}',
+'_blank'
+)
+">
+
+Download
+
+</button>
+
+</div>
+
+`;
+
+});
+
 }
 function renderDownloadLinks(movie){
 
