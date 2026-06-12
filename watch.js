@@ -659,3 +659,60 @@ function goBack() {
     window.location.href = "index.html";
   }
 }
+function renderDownloadLinks(movie){
+
+const container =
+document.getElementById(
+"download-links"
+);
+
+if(!container) return;
+
+container.innerHTML = "";
+
+const links = [
+movie.video_url,
+movie.download_url,
+movie.download_url_2,
+movie.download_url_3
+].filter(Boolean);
+
+links.forEach((link,index)=>{
+
+container.innerHTML += `
+<div class="download-card">
+
+<div class="download-left">
+
+<div class="download-number">
+${index+1}
+</div>
+
+<div>
+
+<div class="download-title">
+Download
+</div>
+
+<div class="download-sub">
+Click to download or play
+</div>
+
+</div>
+
+</div>
+
+<a
+href="${link}"
+target="_blank"
+class="download-btn"
+>
+⬇ Download
+</a>
+
+</div>
+`;
+
+});
+
+}
