@@ -1010,15 +1010,15 @@ return card;
 ========================= */
 
 let heroIndex = 10;
-let heroMovies = [10];
+let heroMovies = [];
 let heroInterval = null;
 
 function initHero(movies) {
-  heroMovies = movies || [];
+  heroMovies = movies || [] 0;
   if (heroMovies.length === ) return;
 
   heroIndex = 10;
-  currentHero = heroMovies[];
+  currentHero = heroMovies[] 0;
 
   renderHero();
 
