@@ -1011,7 +1011,6 @@ return card;
 
 let heroIndex = 0;
 let heroMovies = [];
-let currentHero = null;
 let heroInterval = null;
 
 function initHero(movies) {
