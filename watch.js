@@ -124,6 +124,48 @@ async function enrichMovieWithTMDB(movie) {
       tmdb.rating || movie.rating
   };
 }
+async function getTrailer(title,type="movie"){
+
+const searchUrl =
+type==="series"
+? `${TMDB_BASE}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}`
+: `${TMDB_BASE}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}`;
+
+const searchRes =
+await fetch(searchUrl);
+
+const searchData =
+await searchRes.json();
+
+if(!searchData.results?.length)
+return null;
+
+const tmdbId =
+searchData.results[0].id;
+
+const videosUrl =
+type==="series"
+? `${TMDB_BASE}/tv/${tmdbId}/videos?api_key=${TMDB_API_KEY}`
+: `${TMDB_BASE}/movie/${tmdbId}/videos?api_key=${TMDB_API_KEY}`;
+
+const videosRes =
+await fetch(videosUrl);
+
+const videosData =
+await videosRes.json();
+
+const trailer =
+videosData.results?.find(
+v =>
+v.site==="YouTube" &&
+v.type==="Trailer"
+);
+
+if(!trailer)
+return null;
+
+return `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+}
 /* ===========================
    STATE
 =========================== */
@@ -361,18 +403,102 @@ console.log("Supabase Image:", movie.image);
 setupPlayer(movie);
 renderDownloadButtons(movie);
 }
+const trailer =
+await getTrailer(
+movie.title,
+movie.type==="series"
+? "series"
+: "movie"
+);
+
+if(trailer){
+
+const iframe =
+document.getElementById(
+"trailer-player"
+);
+
+iframe.style.display=
+"block";
+
+iframe.src=
+trailer;
+
+}
 /* ===========================
    PLAYER
 =========================== */
-function setupPlayer(movie) {
-  $("watch-btn").onclick = () => {
-    const player = $("player");
-    if (!player) return;
+async function setupPlayer(movie){
 
-    player.src = movie.video;
-    player.play().catch(() => {});
-    player.scrollIntoView({ behavior: "smooth" });
-  };
+const player =
+$("player");
+
+const iframe =
+$("trailer-player");
+
+const playMovieBtn =
+$("playMovieBtn");
+
+const playTrailerBtn =
+$("playTrailerBtn");
+
+playMovieBtn.onclick=()=>{
+
+iframe.style.display="none";
+iframe.src="";
+
+player.style.display="block";
+
+player.src=
+movie.video;
+
+player.play();
+
+player.scrollIntoView({
+behavior:"smooth"
+});
+
+};
+
+const trailer =
+await getTrailer(
+movie.title,
+movie.type==="series"
+? "series"
+: "movie"
+);
+
+if(trailer){
+
+playTrailerBtn.style.display=
+"inline-block";
+
+playTrailerBtn.onclick=()=>{
+
+player.pause();
+
+player.style.display=
+"none";
+
+iframe.style.display=
+"block";
+
+iframe.src=
+trailer;
+
+iframe.scrollIntoView({
+behavior:"smooth"
+});
+
+};
+
+}else{
+
+playTrailerBtn.style.display=
+"none";
+
+}
+
 }
 /* ===========================
    EPISODES
