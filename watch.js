@@ -358,8 +358,8 @@ movie.image ||
 console.log("TMDB Poster:", movie.poster);
 console.log("TMDB Banner:", movie.banner);
 console.log("Supabase Image:", movie.image);
-  setupPlayer(movie);
-  setupDownload(movie);
+setupPlayer(movie);
+renderDownloadButtons(movie);
 }
 /* ===========================
    PLAYER
@@ -374,48 +374,6 @@ function setupPlayer(movie) {
     player.scrollIntoView({ behavior: "smooth" });
   };
 }
-
-/* ===========================
-   DOWNLOAD
-=========================== */
-function setupDownload(movie) {
-
-  $("download-btn").onclick = () => {
-
-    let links = movie.download_links;
-
-    if (!links) {
-
-      if (movie.download) {
-        window.open(movie.download, "_blank");
-      }
-
-      return;
-    }
-
-    if (typeof links === "string") {
-      links = JSON.parse(links);
-    }
-
-    let choices = "";
-
-    links.forEach((item, index) => {
-      choices += `${index + 1}. ${item.name}\n`;
-    });
-
-    const selected = prompt(
-      "Choose download:\n\n" + choices
-    );
-
-    const item =
-      links[parseInt(selected) - 1];
-
-    if (item) {
-      window.open(item.url, "_blank");
-    }
-  };
-}
-
 /* ===========================
    EPISODES
 =========================== */
@@ -661,99 +619,49 @@ function goBack() {
 function renderDownloadButtons(movie){
 
 const container =
-document.getElementById(
-"download-links"
-);
-
-if(
-!container
-) return;
-
-container.innerHTML="";
-
-const parts =
-movie.download_links || [];
-
-parts.forEach(
-(part,index)=>{
-
-container.innerHTML+=`
-
-<div class="download-card">
-
-<div>
-
-<div class="part-name">
-
-${part.name}
-
-</div>
-
-<div>
-
-Click to download
-
-</div>
-
-</div>
-
-<button
-class="download-btn"
-onclick="
-window.open(
-'${part.url}',
-'_blank'
-)
-">
-
-Download
-
-</button>
-
-</div>
-
-`;
-
-});
-
-}
-function renderDownloadLinks(movie){
-
-const container =
-document.getElementById(
-"download-links"
-);
+document.getElementById("download-links");
 
 if(!container) return;
 
 container.innerHTML = "";
 
-const links = [
-movie.video_url,
-movie.download_url,
-movie.download_url_2,
-movie.download_url_3
-].filter(Boolean);
+let links = movie.download_links;
 
-links.forEach((link,index)=>{
+if(!links){
+container.innerHTML =
+"<p>No download links available.</p>";
+return;
+}
+
+if(typeof links === "string"){
+try{
+links = JSON.parse(links);
+}catch(e){
+console.error(e);
+return;
+}
+}
+
+links.forEach((part,index)=>{
 
 container.innerHTML += `
+
 <div class="download-card">
 
 <div class="download-left">
 
 <div class="download-number">
-${index+1}
+${index + 1}
 </div>
 
 <div>
 
 <div class="download-title">
-Download
+${part.name}
 </div>
 
 <div class="download-sub">
-Click to download or play
+Click to download
 </div>
 
 </div>
@@ -761,7 +669,7 @@ Click to download or play
 </div>
 
 <a
-href="${link}"
+href="${part.url}"
 target="_blank"
 class="download-btn"
 >
@@ -769,9 +677,9 @@ class="download-btn"
 </a>
 
 </div>
+
 `;
 
 });
 
 }
-renderDownloadButtons(movie);
