@@ -123,7 +123,41 @@
 </header>
 <!-- PLAYER -->
 <div class="player-wrap">
-  <video id="player" controls></video>
+
+  <div class="player-actions">
+
+    <button id="playMovieBtn">
+      ▶ Play Movie
+    </button>
+
+    <button id="playTrailerBtn">
+      🎬 Watch Trailer
+    </button>
+
+  </div>
+
+  <div id="video-container">
+
+    <video
+      id="player"
+      controls
+      style="width:100%;display:none;"
+    ></video>
+
+    <iframe
+      id="trailer-player"
+      allowfullscreen
+      style="
+      width:100%;
+      height:600px;
+      border:none;
+      border-radius:14px;
+      display:none;
+      "
+    ></iframe>
+
+  </div>
+
 </div>
 <section class="download-section">
 
