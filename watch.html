@@ -124,39 +124,38 @@
 <!-- PLAYER -->
 <div class="player-wrap">
 
-  <div class="player-actions">
+  <div class="player-buttons">
 
-    <button id="playMovieBtn">
-      ▶ Play Movie
+    <button id="playMovieBtn" class="watch-btn">
+      ▶ Watch Movie
     </button>
 
-    <button id="playTrailerBtn">
+    <button id="playTrailerBtn"
+            class="download-btn"
+            style="display:none;">
       🎬 Watch Trailer
     </button>
 
   </div>
 
-  <div id="video-container">
+  <video
+    id="player"
+    controls
+    style="width:100%;">
+  </video>
 
-    <video
-      id="player"
-      controls
-      style="width:100%;display:none;"
-    ></video>
-
-    <iframe
-      id="trailer-player"
-      allowfullscreen
-      style="
+  <iframe
+    id="trailer-player"
+    style="
+      display:none;
       width:100%;
       height:600px;
       border:none;
       border-radius:14px;
-      display:none;
-      "
-    ></iframe>
-
-  </div>
+      margin-top:15px;
+    "
+    allowfullscreen>
+  </iframe>
 
 </div>
 <section class="download-section">
