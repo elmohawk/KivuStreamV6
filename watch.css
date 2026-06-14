@@ -1132,77 +1132,235 @@ backdrop-filter:blur(20px);
 .comment button:hover {
   background: #ffe6e6;
 }
+/* =========================
+   PREMIUM DOWNLOAD SECTION
+========================= */
+
 .download-section{
-padding:30px;
-max-width:1200px;
-margin:auto;
+  max-width:1200px;
+  margin:40px auto;
+  padding:30px;
 }
 
 .download-section h2{
-font-size:32px;
-font-weight:700;
-margin-bottom:25px;
-color:#fff;
+  position:relative;
+  font-size:34px;
+  font-weight:800;
+  color:#fff;
+  margin-bottom:30px;
+  padding-left:18px;
+  letter-spacing:.5px;
 }
+
+.download-section h2::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:4px;
+  width:5px;
+  height:38px;
+  border-radius:20px;
+  background:linear-gradient(
+    180deg,
+    #00d4ff,
+    #7c3aed
+  );
+}
+
+/* CARD */
 
 .download-card{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px;
-margin-bottom:15px;
-border-radius:16px;
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(12px);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+
+  padding:22px;
+  margin-bottom:18px;
+
+  border-radius:22px;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.03)
+  );
+
+  border:1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(20px);
+
+  transition:.35s ease;
+
+  overflow:hidden;
+  position:relative;
 }
+
+/* Glow */
+
+.download-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+    135deg,
+    transparent,
+    rgba(0,212,255,.08),
+    transparent
+  );
+
+  opacity:0;
+  transition:.35s;
+}
+
+.download-card:hover::before{
+  opacity:1;
+}
+
+.download-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(0,212,255,.35);
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,.4),
+  0 0 25px rgba(0,212,255,.12);
+}
+
+/* LEFT */
 
 .download-left{
-display:flex;
-align-items:center;
-gap:15px;
+  display:flex;
+  align-items:center;
+  gap:18px;
 }
+
+/* NUMBER BOX */
 
 .download-number{
-width:48px;
-height:48px;
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:700;
-font-size:18px;
-background:linear-gradient(
-135deg,
-#4f8cff,
-#b84dff
-);
-color:#fff;
+  width:58px;
+  height:58px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:16px;
+
+  font-size:20px;
+  font-weight:800;
+
+  color:#fff;
+
+  background:
+  linear-gradient(
+    135deg,
+    #00d4ff,
+    #7c3aed
+  );
+
+  box-shadow:
+  0 10px 25px rgba(124,58,237,.35);
 }
+
+/* TITLE */
 
 .download-title{
-font-size:22px;
-font-weight:600;
-color:#fff;
+  font-size:22px;
+  font-weight:700;
+  color:#fff;
 }
+
+/* SUBTITLE */
 
 .download-sub{
-font-size:14px;
-opacity:.7;
-color:#ccc;
+  margin-top:4px;
+  color:#9ca3af;
+  font-size:14px;
 }
 
+/* BUTTON */
+
 .download-btn{
-background:#16c784;
-color:#fff;
-padding:14px 30px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-font-weight:700;
-font-size:16px;
+  position:relative;
+
+  padding:14px 28px;
+
+  border:none;
+  border-radius:14px;
+
+  font-size:15px;
+  font-weight:700;
+
+  color:white;
+
+  cursor:pointer;
+
+  background:
+  linear-gradient(
+    135deg,
+    #00c853,
+    #00e676
+  );
+
+  transition:.3s ease;
+
+  text-decoration:none;
+
+  box-shadow:
+  0 10px 25px rgba(0,200,83,.25);
+}
+
+/* Shine Effect */
+
+.download-btn::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+
+  background:
+  linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.25),
+    transparent
+  );
+
+  transition:.5s;
+}
+
+.download-btn:hover::before{
+  left:100%;
 }
 
 .download-btn:hover{
-transform:translateY(-2px);
+  transform:translateY(-3px) scale(1.03);
+
+  box-shadow:
+  0 15px 30px rgba(0,230,118,.4);
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .download-card{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .download-btn{
+    width:100%;
+    text-align:center;
+  }
+
+  .download-title{
+    font-size:18px;
+  }
+
 }
