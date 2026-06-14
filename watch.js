@@ -363,7 +363,7 @@ document.getElementById("loading-screen")?.remove();
 /* ===========================
    RENDER
 =========================== */
-function renderMovie(movie) {
+async function renderMovie(movie) {
   console.log("Poster URL:", movie.image);
   console.log("Banner URL:", movie.banner);
 
