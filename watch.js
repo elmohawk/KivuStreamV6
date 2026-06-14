@@ -340,7 +340,7 @@ try {
 
 state.movie = movie;
 
-renderMovie(movie);
+await renderMovie(movie);
 
   if (movie.type === "series") {
 
@@ -403,28 +403,6 @@ console.log("Supabase Image:", movie.image);
 setupPlayer(movie);
 renderDownloadButtons(movie);
 }
-const trailer =
-await getTrailer(
-movie.title,
-movie.type==="series"
-? "series"
-: "movie"
-);
-
-if(trailer){
-
-const iframe =
-document.getElementById(
-"trailer-player"
-);
-
-iframe.style.display=
-"block";
-
-iframe.src=
-trailer;
-
-}
 /* ===========================
    PLAYER
 =========================== */
@@ -432,15 +410,10 @@ async function setupPlayer(movie){
 
 const player =
 $("player");
-
-const iframe =
-$("trailer-player");
-
-const playMovieBtn =
-$("playMovieBtn");
-
-const playTrailerBtn =
-$("playTrailerBtn");
+   
+const iframe = $("trailer-player");
+const playMovieBtn = $("playMovieBtn");
+const playTrailerBtn = $("playTrailerBtn");
 
 playMovieBtn.onclick=()=>{
 
