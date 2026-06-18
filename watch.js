@@ -782,3 +782,14 @@ class="download-btn"
 });
 
 }
+// Hide download section when Episodes section exists
+document.addEventListener("DOMContentLoaded", () => {
+    const downloadSection = document.getElementById("downloadSection");
+
+    const episodesTitle = [...document.querySelectorAll("h1,h2,h3,h4")]
+        .find(el => el.textContent.includes("Episodes"));
+
+    if (downloadSection && episodesTitle) {
+        downloadSection.style.display = "none";
+    }
+});
