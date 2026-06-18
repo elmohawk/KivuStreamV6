@@ -782,14 +782,14 @@ class="download-btn"
 });
 
 }
-// Hide download section when Episodes section exists
+// Hide "GET IT HERE" section for series
 document.addEventListener("DOMContentLoaded", () => {
     const downloadSection = document.getElementById("downloadSection");
 
-    const episodesTitle = [...document.querySelectorAll("h1,h2,h3,h4")]
-        .find(el => el.textContent.includes("Episodes"));
+    // If episode cards exist, treat as a series
+    const episodes = document.querySelectorAll(".episode-card");
 
-    if (downloadSection && episodesTitle) {
+    if (downloadSection && episodes.length > 0) {
         downloadSection.style.display = "none";
     }
 });
