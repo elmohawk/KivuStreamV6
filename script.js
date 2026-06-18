@@ -3655,3 +3655,61 @@ window.addEventListener(
 
   }
 );
+async function loadHeroTrailer(movie){
+
+const iframe =
+document.getElementById("heroTrailer");
+
+const heroVideo =
+document.querySelector(".hero-video");
+
+if(!iframe || !movie) return;
+
+const trailer =
+await getTrailer(
+movie.title,
+movie.type === "series"
+? "series"
+: "movie"
+);
+
+if(!trailer){
+iframe.src="";
+return;
+}
+
+/* show poster first */
+heroVideo.classList.remove("show");
+
+setTimeout(()=>{
+
+iframe.src =
+trailer +
+"&mute=1" +
+"&controls=0" +
+"&loop=1" +
+"&playlist=" +
+trailer.split("/embed/")[1].split("?")[0];
+
+heroVideo.classList.add("show");
+
+},2500);
+
+}
+async function showHero(index){
+
+const movie =
+heroMovies[index];
+
+document.getElementById("hero-title").textContent =
+movie.title;
+
+document.getElementById("hero-description").textContent =
+movie.description || "";
+
+document.getElementById("hero-slider").style.backgroundImage =
+`url('${movie.banner || movie.poster || movie.image}')`;
+
+loadHeroTrailer(movie);
+
+}
