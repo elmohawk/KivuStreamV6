@@ -402,6 +402,7 @@ console.log("TMDB Banner:", movie.banner);
 console.log("Supabase Image:", movie.image);
 setupPlayer(movie);
 renderDownloadButtons(movie);
+setupHeroTrailer(movie);
 }
 /* ===========================
    PLAYER
@@ -860,3 +861,65 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadSection.style.display = "none";
     }
 });
+async function setupHeroTrailer(movie){
+
+const trailer =
+await getTrailer(
+  movie.title,
+  movie.type === "series"
+    ? "series"
+    : "movie"
+);
+
+if(!trailer) return;
+
+const container =
+document.getElementById(
+"hero-trailer-container"
+);
+
+const iframe =
+document.getElementById(
+"hero-trailer"
+);
+
+if(!container || !iframe) return;
+
+/* Wait 3 seconds */
+setTimeout(()=>{
+
+container.classList.add("show");
+
+iframe.src =
+trailer +
+"&mute=1" +
+"&loop=1" +
+"&playlist=" +
+trailer.split("/embed/")[1].split("?")[0] +
+"&controls=0" +
+"&modestbranding=1";
+
+},3000);
+
+}
+playMovieBtn.onclick = ()=>{
+
+const heroTrailer =
+document.getElementById("hero-trailer");
+
+if(heroTrailer){
+heroTrailer.src = "";
+}
+
+document
+.getElementById("hero-trailer-container")
+?.classList.remove("show");
+
+iframe.style.display="none";
+iframe.src="";
+
+player.style.display="block";
+player.src=movie.video;
+player.play();
+
+};
