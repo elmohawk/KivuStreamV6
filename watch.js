@@ -164,7 +164,7 @@ v.type==="Trailer"
 if(!trailer)
 return null;
 
-return `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+return `https://www.youtube.com/embed/${trailer.key}?autoplay=1&mute=1&playsinline=1&enablejsapi=1`;
 }
 /* ===========================
    STATE
@@ -406,71 +406,138 @@ renderDownloadButtons(movie);
 /* ===========================
    PLAYER
 =========================== */
+/* ===========================
+   PLAYER + AUTO TRAILER
+=========================== */
 async function setupPlayer(movie){
 
-const player =
-$("player");
-   
+const player = $("player");
 const iframe = $("trailer-player");
 const playMovieBtn = $("playMovieBtn");
 const playTrailerBtn = $("playTrailerBtn");
 
-playMovieBtn.onclick=()=>{
+/* Hide movie player initially */
+player.style.display = "none";
 
-iframe.style.display="none";
-iframe.src="";
-
-player.style.display="block";
-
-player.src=
-movie.video;
-
-player.play();
-
-player.scrollIntoView({
-behavior:"smooth"
-});
-
-};
-
-const trailer =
-await getTrailer(
-movie.title,
-movie.type==="series"
-? "series"
-: "movie"
+/* Get Trailer */
+const trailer = await getTrailer(
+  movie.title,
+  movie.type === "series"
+    ? "series"
+    : "movie"
 );
 
+/* AUTO PLAY TRAILER */
 if(trailer){
 
-playTrailerBtn.style.display=
-"inline-block";
+  iframe.style.display = "block";
 
-playTrailerBtn.onclick=()=>{
+  iframe.src =
+  trailer +
+  "&mute=1&controls=1&rel=0";
 
-player.pause();
+  /* Show Trailer Button */
+  playTrailerBtn.style.display =
+  "inline-block";
 
-player.style.display=
-"none";
+  playTrailerBtn.onclick = () => {
 
-iframe.style.display=
-"block";
+    player.pause();
 
-iframe.src=
-trailer;
+    player.style.display =
+    "none";
 
-iframe.scrollIntoView({
-behavior:"smooth"
-});
+    iframe.style.display =
+    "block";
 
-};
+    iframe.src =
+    trailer +
+    "&mute=1&controls=1";
+
+  };
 
 }else{
 
-playTrailerBtn.style.display=
-"none";
+  iframe.style.display = "none";
 
 }
+
+/* WATCH MOVIE */
+if(playMovieBtn){
+
+playMovieBtn.onclick = () => {
+
+  iframe.style.display = "none";
+
+  iframe.src = "";
+
+  player.style.display = "block";
+
+  player.src = movie.video;
+
+  player.play();
+
+  player.scrollIntoView({
+    behavior:"smooth"
+  });
+
+};
+
+}
+
+/* AUTO SWITCH TO MOVIE BUTTON AFTER 30 SEC */
+setTimeout(() => {
+
+  if(iframe.style.display === "block"){
+
+    const startWatchBtn =
+    document.createElement("button");
+
+    startWatchBtn.className =
+    "download-btn";
+
+    startWatchBtn.innerHTML =
+    "▶ Watch Full Movie";
+
+    startWatchBtn.onclick = () => {
+
+      iframe.style.display = "none";
+      iframe.src = "";
+
+      player.style.display =
+      "block";
+
+      player.src =
+      movie.video;
+
+      player.play();
+
+      player.scrollIntoView({
+        behavior:"smooth"
+      });
+
+    };
+
+    const container =
+    document.querySelector(".player-buttons");
+
+    if(
+      container &&
+      !document.getElementById("autoWatchBtn")
+    ){
+
+      startWatchBtn.id =
+      "autoWatchBtn";
+
+      container.appendChild(
+        startWatchBtn
+      );
+
+    }
+
+  }
+
+},30000);
 
 }
 /* ===========================
