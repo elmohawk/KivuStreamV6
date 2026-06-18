@@ -6607,3 +6607,15 @@ button {
   background-position:center;
   transition:all .8s ease;
 }
+.hero-slider{
+ animation:heroZoom 10s linear;
+}
+
+@keyframes heroZoom{
+ from{
+  transform:scale(1);
+ }
+ to{
+  transform:scale(1.08);
+ }
+}
