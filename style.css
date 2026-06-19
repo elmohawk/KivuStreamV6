@@ -917,11 +917,6 @@ scale(.95);
   font-weight:700;
 
 }
-
-/* =========================
-   MOVIES ROW
-========================= */
-
 /* =========================
    MOVIES ROW
 ========================= */
@@ -1200,7 +1195,7 @@ max-height:300px;
 
 .social-btn{
 
-  padding:14px 22px;
+  padding:9px 18px;
 
   border-radius:50px;
 
@@ -1489,7 +1484,7 @@ select:focus{
 
 .footer{
 
-  padding:60px 5% 120px;
+  padding:40px 5% 80px;
 
   background:
   linear-gradient(
@@ -1535,7 +1530,7 @@ select:focus{
 
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:8px;
 
 }
 
@@ -1550,7 +1545,7 @@ select:focus{
 .social-icons{
 
   display:flex;
-  gap:12px;
+  gap:8px;
 
   margin-top:15px;
 
