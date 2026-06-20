@@ -2053,13 +2053,6 @@ select:focus{
   }
 
 }
-
-
-
-/* =========================================
-   KIVUSTREAM ULTRA UPGRADE PATCH
-========================================= */
-
 /* =========================
    GLOBAL ANIMATION
 ========================= */
@@ -3207,7 +3200,7 @@ img{
 
 .footer{
 
-  padding:70px 5% 140px;
+ padding:40px 5% 90px;
 
   background:
   linear-gradient(
@@ -3228,13 +3221,14 @@ img{
   grid-template-columns:
   repeat(auto-fit,minmax(240px,1fr));
 
-  gap:40px;
+ gap:20px;
+    align-items:start;
 
 }
 
 .footer-logo{
 
-  font-size:2rem;
+  font-size:1.5rem;
   font-weight:800;
 
 }
@@ -3297,9 +3291,9 @@ img{
 }
 
 .icon{
-
-  width:50px;
-  height:50px;
+    width:42px;
+    height:42px;
+    font-size:0.95rem;
 
   display:flex;
   align-items:center;
@@ -3647,9 +3641,9 @@ img{
 
   position:relative;
 
-  padding:35px;
+  padding:22px;
 
-  border-radius:32px;
+ border-radius:20px;
 
   overflow:hidden;
 
@@ -3684,18 +3678,18 @@ img{
 
 .support-icon{
 
-  width:80px;
-  height:80px;
+  width:58px;
+  height:58px;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  border-radius:24px;
+   border-radius:16px;
 
-  font-size:2rem;
+  font-size:1.4rem;
 
-  margin-bottom:25px;
+   margin-bottom:16px;
 
   background:
   linear-gradient(
@@ -3874,12 +3868,15 @@ img{
 
 .social-wrapper{
 
-  margin-top:70px;
+ margin-top:35px;
 
   text-align:center;
 
 }
-
+.social-wrapper{
+    max-width:1100px;
+    margin:50px auto 0;
+}
 .social-title{
 
   font-size:2rem;
@@ -3902,12 +3899,11 @@ img{
 
 .social-pro{
 
-  min-width:180px;
+   min-width:140px;
 
-  padding:16px 22px;
-
-  border-radius:22px;
-
+  padding:12px 18px;
+  border-radius:14px;
+ font-size:14px;
   text-decoration:none;
 
   color:white;
@@ -4589,11 +4585,6 @@ textarea::placeholder{
 
 }
 
-/* =========================================
-   KIVUSTREAM FINAL CLEAN PATCH
-   REMOVE CONFLICTS + ULTRA PRO UI
-========================================= */
-
 /* =========================
    REMOVE DUPLICATE FLOAT STYLES
 ========================= */
@@ -4957,10 +4948,6 @@ body{
   }
 
 }
-
-/* =========================================
-   KIVUSTREAM PRO LOGO UPLOADER
-========================================= */
 
 /* =========================
    LOGO UPLOAD WRAPPER
@@ -6613,4 +6600,17 @@ button {
  to{
   transform:scale(1.08);
  }
+}
+.support-item{
+    padding:14px 18px;
+    border-radius:14px;
+    margin-bottom:10px;
+}
+
+.support-label{
+    font-size:14px;
+}
+
+.support-value{
+    font-size:14px;
 }
