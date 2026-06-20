@@ -4,16 +4,31 @@ const tmdbCache = new Map();
 ========================= */
 
 const TMDB_API_KEY = "8b8937bf3e114fa3502358a4f090c0df";
-const TMDB_BASE = "https://api.themoviedb.org/3";
-const TMDB_POSTER = "https://image.tmdb.org/t/p/w500";
-const TMDB_BACKDROP = "https://image.tmdb.org/t/p/original";
+
+const TMDB_BASE =
+  "https://api.themoviedb.org/3";
+
+const TMDB_POSTER =
+  "https://image.tmdb.org/t/p/w500";
+
+const TMDB_BACKDROP =
+  "https://image.tmdb.org/t/p/original";
 
 async function searchTMDBMovies(query) {
   const res = await fetch(
     `${TMDB_BASE}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
   );
 
-  const data = await res.json();
+ if (!res.ok) {
+    console.error(
+      "TMDB Error:",
+      res.status
+    );
+
+    return {};
+}
+
+const data = await res.json();
   return data.results || [];
 }
 async function searchTMDBSeries(query) {
@@ -22,7 +37,16 @@ async function searchTMDBSeries(query) {
     `${TMDB_BASE}/search/tv?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}`
   );
 
-  const data = await res.json();
+if (!res.ok) {
+    console.error(
+      "TMDB Error:",
+      res.status
+    );
+
+    return {};
+}
+
+const data = await res.json();
 
   return data.results || [];
 }
@@ -31,7 +55,16 @@ async function getTMDBMovieDetails(id) {
     `${TMDB_BASE}/movie/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
   );
 
-  const data = await res.json();
+if (!res.ok) {
+    console.error(
+      "TMDB Error:",
+      res.status
+    );
+
+    return {};
+}
+
+const data = await res.json();
 
   return {
     title: data.title,
@@ -154,8 +187,16 @@ async function getTMDBSeriesDetails(id) {
     `${TMDB_BASE}/tv/${id}?api_key=${TMDB_API_KEY}&append_to_response=videos`
   );
 
-  const data = await res.json();
+if (!res.ok) {
+    console.error(
+      "TMDB Error:",
+      res.status
+    );
 
+    return {};
+}
+
+const data = await res.json();
   return {
     title: data.name,
     overview: data.overview,
@@ -402,8 +443,7 @@ async function loadMovies() {
 
   /* TMDB ENRICH */
 
-  const enrichedMovies =
-    await Promise.all(
+ const enrichedMovies = combined;
 
       combined.map(async item => {
 
@@ -3712,4 +3752,24 @@ document.getElementById("hero-slider").style.backgroundImage =
 
 loadHeroTrailer(movie);
 
+}
+async function fetchWithTimeout(url, timeout = 5000) {
+  const controller = new AbortController();
+
+  const timer = setTimeout(() => {
+      controller.abort();
+  }, timeout);
+
+  try {
+      const response = await fetch(url, {
+          signal: controller.signal
+      });
+
+      clearTimeout(timer);
+      return response;
+
+  } catch(err) {
+      console.error(err);
+      return null;
+  }
 }
