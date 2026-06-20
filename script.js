@@ -440,9 +440,38 @@ async function loadMovies() {
 
   });
 
-/* TMDB ENRICH - TEMPORARILY DISABLED FOR SPEED */
+/* TMDB ENRICH */
 
-const enrichedMovies = combined;
+const enrichedMovies = await Promise.all(
+  combined.map(async (item) => {
+    try {
+
+      if (item.type === "series") {
+
+        const results = await searchTMDBSeries(item.title);
+
+        if (!results || !results.length) {
+          return item;
+        }
+
+        const tmdb = await getTMDBSeriesDetails(results[0].id);
+
+        return {
+          ...item,
+          ...tmdb
+        };
+      }
+
+      return await cachedTMDB(item);
+
+    } catch (err) {
+
+      console.error("TMDB ERROR:", err);
+
+      return item;
+    }
+  })
+);
 
 console.log(
   "SORTED RECENT:",
