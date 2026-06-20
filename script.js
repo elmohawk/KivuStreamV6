@@ -440,75 +440,17 @@ async function loadMovies() {
 
   });
 
+/* TMDB ENRICH - TEMPORARILY DISABLED FOR SPEED */
 
-  /* TMDB ENRICH */
+const enrichedMovies = combined;
 
- const enrichedMovies = combined;
-
-      combined.map(async item => {
-
-        try {
-
-          if (
-            item.type !==
-            "series"
-          ) {
-
-            return await cachedTMDB(
-              item
-            );
-
-          }
-
-          const results =
-            await searchTMDBSeries(
-              item.title
-            );
-
-          if (
-            !results.length
-          ) {
-
-            return item;
-
-          }
-
-          const tmdb =
-            await getTMDBSeriesDetails(
-              results[0].id
-            );
-
-          return {
-            ...item,
-            ...tmdb
-          };
-
-        } catch (err) {
-
-          console.log(
-            "TMDB ERROR",
-            err
-          );
-
-          return item;
-        }
-
-      })
-
-    );
-
-
-  console.log(
-    "SORTED RECENT:",
-    enrichedMovies.map(x => ({
-      title:
-        x.title,
-
-      activity:
-        x.activity_date
-    }))
-  );
-
+console.log(
+  "SORTED RECENT:",
+  enrichedMovies.map(x => ({
+    title: x.title,
+    activity: x.activity_date
+  }))
+);
 /* =========================
 ATTACH LATEST EPISODES
 ========================= */
