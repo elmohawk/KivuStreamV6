@@ -1031,26 +1031,23 @@ function initHero(movies) {
     return;
   }
 
-  // Sort by newest first
   heroMovies = [...movies]
     .sort((a, b) => {
       return new Date(b.created_at || 0) -
              new Date(a.created_at || 0);
     })
-    .slice(0, 10); // Only latest 10 items
-
-  if (heroMovies.length === 0) return;
+    .slice(0, 10);
 
   heroIndex = 0;
   currentHero = heroMovies[0];
 
-  renderHero();
+  showHero(heroIndex);
 
   clearInterval(heroInterval);
 
   heroInterval = setInterval(() => {
     nextHero();
-  }, 6000);
+  }, 10000);
 }
 
 function renderHero() {
@@ -1135,10 +1132,9 @@ function nextHero() {
     heroIndex = 0;
   }
 
-  currentHero =
-    heroMovies[heroIndex];
+  currentHero = heroMovies[heroIndex];
 
-  renderHero();
+  showHero(heroIndex);
 }
 
 function prevHero() {
@@ -1148,14 +1144,12 @@ function prevHero() {
   heroIndex--;
 
   if (heroIndex < 0) {
-    heroIndex =
-      heroMovies.length - 1;
+    heroIndex = heroMovies.length - 1;
   }
 
-  currentHero =
-    heroMovies[heroIndex];
+  currentHero = heroMovies[heroIndex];
 
-  renderHero();
+  showHero(heroIndex);
 }
 
 /* =========================
@@ -3668,61 +3662,85 @@ window.addEventListener(
 );
 async function loadHeroTrailer(movie){
 
-const iframe =
-document.getElementById("heroTrailer");
+  const iframe =
+    document.getElementById("heroTrailer");
 
-const heroVideo =
-document.querySelector(".hero-video");
+  const heroVideo =
+    document.querySelector(".hero-video");
 
-if(!iframe || !movie) return;
+  if(!iframe || !movie) return;
 
-const trailer =
-await getTrailer(
-movie.title,
-movie.type === "series"
-? "series"
-: "movie"
-);
+  try{
 
-if(!trailer){
-iframe.src="";
-return;
-}
+    const trailer =
+      await getTrailer(
+        movie.title,
+        movie.type === "series"
+          ? "series"
+          : "movie"
+      );
 
-/* show poster first */
-heroVideo.classList.remove("show");
+    if(!trailer){
 
-setTimeout(()=>{
+      iframe.src = "";
 
-iframe.src =
-trailer +
-"&mute=1" +
-"&controls=0" +
-"&loop=1" +
-"&playlist=" +
-trailer.split("/embed/")[1].split("?")[0];
+      heroVideo.classList.remove("show");
 
-heroVideo.classList.add("show");
+      return;
+    }
 
-},2500);
+    const trailerId =
+      trailer
+        .split("/embed/")[1]
+        ?.split("?")[0];
 
+    iframe.src =
+      `${trailer}` +
+      `?autoplay=1` +
+      `&mute=1` +
+      `&controls=0` +
+      `&loop=1` +
+      `&playlist=${trailerId}` +
+      `&modestbranding=1` +
+      `&rel=0`;
+
+    heroVideo.classList.add("show");
+
+  }catch(err){
+
+    console.error(
+      "Trailer Load Error",
+      err
+    );
+  }
 }
 async function showHero(index){
 
-const movie =
-heroMovies[index];
+  const movie = heroMovies[index];
 
-document.getElementById("hero-title").textContent =
-movie.title;
+  if(!movie) return;
 
-document.getElementById("hero-description").textContent =
-movie.description || "";
+  currentHero = movie;
 
-document.getElementById("hero-slider").style.backgroundImage =
-`url('${movie.banner || movie.poster || movie.image}')`;
+  document.getElementById("hero-title").textContent =
+    movie.title || "Untitled";
 
-loadHeroTrailer(movie);
+  document.getElementById("hero-description").textContent =
+    movie.description ||
+    movie.overview ||
+    "Watch now on KivuStream";
 
+  document.getElementById("hero-slider").style.backgroundImage =
+    `
+    linear-gradient(
+      to right,
+      rgba(0,0,0,.85),
+      rgba(0,0,0,.25)
+    ),
+    url('${movie.banner || movie.poster || movie.image}')
+    `;
+
+  await loadHeroTrailer(movie);
 }
 async function fetchWithTimeout(url, timeout = 5000) {
   const controller = new AbortController();
