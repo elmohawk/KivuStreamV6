@@ -1045,9 +1045,9 @@ function initHero(movies) {
 
   clearInterval(heroInterval);
 
-  heroInterval = setInterval(() => {
+heroInterval = setInterval(() => {
     nextHero();
-  }, 10000);
+}, 5000);
 }
 
 function renderHero() {
@@ -1108,7 +1108,7 @@ function renderHero() {
 
     if (
       currentHero.type === "series" &&
-      recentDays <= 30
+      recentDays <= 10
     ) {
       badge.textContent =
         "🔥 NEW EPISODE";
