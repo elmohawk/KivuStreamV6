@@ -2939,10 +2939,6 @@ const HOMEPAGE_LIMIT = 6;
 
 const sectionPages = {};
 const sectionData = {};
-/* =========================
-   PAGINATED RENDER
-========================= */
-
 function renderPaginatedRow(id, items) {
 
   const container = $(id);
@@ -2951,7 +2947,6 @@ function renderPaginatedRow(id, items) {
 
   container.innerHTML = "";
 
-  /* ONLY SHOW 5 */
   const latest =
     items.slice(0, HOMEPAGE_LIMIT);
 
@@ -2961,40 +2956,6 @@ function renderPaginatedRow(id, items) {
     );
   });
 
-  /* VIEW ALL BUTTON */
-
-  if (
-    items.length >
-    HOMEPAGE_LIMIT
-  ) {
-
-    const btn =
-      document.createElement(
-        "button"
-      );
-
-    btn.className =
-      "view-all-btn";
-
-    btn.innerHTML =
-      "View All →";
-
-    btn.onclick =
-      () => {
-
-        localStorage.setItem(
-          "viewAllData",
-          JSON.stringify(items)
-        );
-
-        window.location.href =
-          "viewall.html";
-      };
-
-    container.appendChild(
-      btn
-    );
-  }
 }
 /* =========================
    PAGINATION BUTTONS
