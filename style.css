@@ -4080,3 +4080,454 @@ background:#22c55e;
 border-radius:999px;
 font-weight:700;
 }
+/* =========================================
+   PREMIUM FOOTER
+========================================= */
+
+.site-footer{
+    position:relative;
+    margin-top:80px;
+    padding:70px 5% 30px;
+    background:linear-gradient(
+        to bottom,
+        #070d1a,
+        #03060f
+    );
+    border-top:1px solid rgba(255,255,255,.06);
+}
+
+.footer-grid{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+    gap:40px;
+}
+
+.footer-column h3{
+    margin-bottom:20px;
+    font-size:1.3rem;
+}
+
+.footer-column p{
+    color:var(--text2);
+    line-height:1.8;
+}
+
+.footer-links{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.footer-links a{
+    text-decoration:none;
+    color:var(--text2);
+    transition:.3s;
+}
+
+.footer-links a:hover{
+    color:var(--blue2);
+    transform:translateX(5px);
+}
+
+.footer-newsletter{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.footer-newsletter input{
+    margin:0;
+}
+
+.footer-newsletter button{
+    background:var(--blue);
+    color:#fff;
+    border:none;
+    padding:14px 20px;
+    border-radius:14px;
+}
+
+/* =========================================
+   FLOATING ACTION BUTTONS
+========================================= */
+
+.float-actions{
+    position:fixed;
+    right:20px;
+    bottom:100px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    z-index:99999;
+}
+
+.float-btn{
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:50%;
+    color:#fff;
+    font-size:22px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(15px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.35s;
+}
+
+.float-btn:hover{
+    transform:translateY(-6px) scale(1.08);
+}
+
+.float-btn.whatsapp{
+    background:#25D366;
+}
+
+.float-btn.telegram{
+    background:#229ED9;
+}
+
+.float-btn.support{
+    background:linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue2)
+    );
+}
+
+/* =========================================
+   BACK TO TOP BUTTON
+========================================= */
+
+.back-to-top{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+
+    width:60px;
+    height:60px;
+
+    border:none;
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue2)
+    );
+
+    color:white;
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:99999;
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.4s;
+}
+
+.back-to-top.show{
+    opacity:1;
+    visibility:visible;
+}
+
+/* =========================================
+   MOBILE BOTTOM NAVIGATION
+========================================= */
+
+.mobile-footer-nav{
+
+    position:fixed;
+
+    bottom:0;
+    left:0;
+
+    width:100%;
+    height:75px;
+
+    background:rgba(5,8,22,.95);
+
+    backdrop-filter:blur(25px);
+
+    border-top:
+    1px solid rgba(255,255,255,.08);
+
+    display:none;
+
+    justify-content:space-around;
+    align-items:center;
+
+    z-index:99999;
+}
+
+.mobile-footer-nav .mobile-item{
+
+    flex:1;
+
+    height:100%;
+
+    justify-content:center;
+
+    transition:.3s;
+
+}
+
+.mobile-footer-nav .mobile-item.active{
+
+    color:var(--blue2);
+
+}
+
+.mobile-footer-nav .mobile-item.active .mobile-icon{
+
+    transform:translateY(-4px);
+
+}
+
+@media(max-width:768px){
+
+    .mobile-footer-nav{
+        display:flex;
+    }
+
+    body{
+        padding-bottom:90px;
+    }
+
+}
+
+/* =========================================
+   MOBILE MENU OVERLAY
+========================================= */
+
+.mobile-overlay{
+
+    position:fixed;
+    inset:0;
+
+    background:rgba(0,0,0,.6);
+
+    backdrop-filter:blur(4px);
+
+    opacity:0;
+    visibility:hidden;
+
+    transition:.3s;
+
+    z-index:9998;
+}
+
+.mobile-overlay.show{
+
+    opacity:1;
+    visibility:visible;
+}
+
+/* =========================================
+   ADMIN MOBILE TOGGLE
+========================================= */
+
+.admin-toggle{
+
+    position:fixed;
+
+    top:20px;
+    left:20px;
+
+    width:55px;
+    height:55px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:linear-gradient(
+        135deg,
+        var(--blue),
+        var(--blue2)
+    );
+
+    color:white;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    z-index:999999;
+
+    display:none;
+}
+
+@media(max-width:900px){
+
+    .admin-toggle{
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+}
+
+/* =========================================
+   ADMIN SIDEBAR OVERLAY
+========================================= */
+
+.admin-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.65);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.35s;
+
+    z-index:998;
+}
+
+.admin-overlay.show{
+
+    opacity:1;
+    visibility:visible;
+}
+
+/* =========================================
+   NOTIFICATION BADGE
+========================================= */
+
+.notification-badge{
+
+    position:absolute;
+
+    top:-5px;
+    right:-5px;
+
+    min-width:22px;
+    height:22px;
+
+    padding:0 6px;
+
+    border-radius:50px;
+
+    background:#ff3b30;
+
+    color:#fff;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:
+    0 0 15px rgba(255,59,48,.45);
+}
+
+/* =========================================
+   FLOATING SOCIAL DOCK
+========================================= */
+
+.social-dock{
+
+    position:fixed;
+
+    left:20px;
+    top:50%;
+
+    transform:translateY(-50%);
+
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+
+    z-index:99999;
+}
+
+.social-dock a{
+
+    width:50px;
+    height:50px;
+
+    border-radius:50%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:white;
+
+    text-decoration:none;
+
+    backdrop-filter:blur(15px);
+
+    background:rgba(255,255,255,.08);
+
+    transition:.35s;
+}
+
+.social-dock a:hover{
+
+    transform:translateX(8px);
+
+}
+
+@media(max-width:768px){
+
+    .social-dock{
+        display:none;
+    }
+
+}
+
+/* =========================================
+   LIVE STATUS BADGE
+========================================= */
+
+.live-badge{
+
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 14px;
+
+    border-radius:50px;
+
+    background:rgba(255,0,0,.12);
+
+    color:#ff4d67;
+
+    font-weight:700;
+}
+
+.live-badge::before{
+
+    content:"";
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:#ff0000;
+
+    animation:pulse 1.5s infinite;
+}
