@@ -15,8 +15,8 @@ h1,h2,h3,h4,h5{
 .episode-meta{
   margin-top:6px;
   color:#ff3b30;
-  font-weight:700;
-  font-size:13px;
+  font-weight:500;
+  font-size:8px;
 }
 @keyframes pulse{
   0%{transform:scale(1);}
@@ -37,7 +37,7 @@ h1,h2,h3,h4,h5{
   display: none;
   background: transparent;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
   border: none;
 }
 /* =========================================
@@ -106,8 +106,8 @@ body{
 ========================= */
 
 ::-webkit-scrollbar{
-  width:10px;
-  height:10px;
+  width:8px;
+  height:8px;
 }
 
 ::-webkit-scrollbar-track{
@@ -152,8 +152,8 @@ body{
 }
 .spinner{
 
-  width:70px;
-  height:70px;
+  width:50px;
+  height:50px;
 
   border-radius:50%;
 
@@ -280,9 +280,9 @@ body{
 
 .search-box input{
 
-  width:260px;
+  width:240px;
 
-  padding:14px 18px;
+  padding:8px 12px;
 
   border:none;
   outline:none;
@@ -313,8 +313,8 @@ body{
 .profile-btn,
 #theme-toggle{
 
-  width:48px;
-  height:48px;
+  width:30px;
+  height:30px;
 
   border:none;
 
@@ -322,7 +322,7 @@ body{
 
   cursor:pointer;
 
-  font-size:18px;
+  font-size:8px;
 
   color:white;
 
@@ -368,30 +368,30 @@ body{
   font-weight:800;
 
   text-shadow:
-  0 10px 25px rgba(0,0,0,.45);
+  0 8px 19px rgba(0,0,0,.45);
 
 }
 
 .hero-meta{
 
   display:flex;
-  gap:15px;
+  gap:8px;
   flex-wrap:wrap;
 
-  margin-bottom:20px;
+  margin-bottom:12px;
 
 }
 
 .hero-meta span{
 
-  padding:10px 14px;
+  padding:8px 12px;
 
-  border-radius:50px;
+  border-radius:38px;
 
   background:
   rgba(255,255,255,.08);
 
-  font-size:.9rem;
+  font-size:.7rem;
 
 }
 
@@ -410,7 +410,7 @@ body{
 .hero-buttons{
 
   display:flex;
-  gap:15px;
+  gap:8px;
   flex-wrap:wrap;
 
 }
@@ -431,7 +431,7 @@ body{
 
   border-radius:50px;
 
-  font-weight:700;
+  font-weight:500;
 
   transition:.35s;
 
@@ -528,9 +528,9 @@ body{
 
   cursor:pointer;
 
-  font-size:20px;
+  font-size:12px;
 
-  backdrop-filter:blur(15px);
+  backdrop-filter:blur(8px);
 
   transition:.3s;
 
