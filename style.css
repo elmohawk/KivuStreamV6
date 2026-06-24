@@ -1352,10 +1352,10 @@ select:focus{
 /* TRANSLATOR */
 .translator-badge{
     position:absolute;
-    top:6px;
-    right:6px;
+    top:2px;
+    right:2px;
 
-    backdrop-filter:blur(15px);
+    backdrop-filter:blur(9px);
 
     background:
     rgba(0,191,255,.18);
@@ -1365,14 +1365,14 @@ select:focus{
 
     color:#00bfff;
 
-    padding:2px 8px;
+    padding:1px 5px;
 
     border-radius:50px;
 
-    font-size:.40rem;
-    font-weight:700;
+    font-size:.20rem;
+    font-weight:500;
 
-    z-index:10;
+    z-index:6;
 }
 
 /* RATING BADGE */
@@ -1449,17 +1449,17 @@ select:focus{
 }
 
 /* MOBILE */
-@media(max-width:768px){
+@media(max-width:656px){
 
     .movies-row{
         grid-template-columns:
         repeat(2,1fr);
 
-        gap:16px;
+        gap:12px;
     }
 
     .movie-card img{
-        height:220px;
+        height:180px;
     }
 
     .movie-title{
@@ -1467,12 +1467,12 @@ select:focus{
     }
 
     .translator-badge{
-        font-size:.65rem;
-        padding:6px 10px;
+        font-size:.45rem;
+        padding:1px 5px;
     }
 
     .movie-badge{
-        font-size:.65rem;
+        font-size:.45rem;
     }
 }
 /* =========================
