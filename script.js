@@ -890,79 +890,61 @@ function renderRow(id, items) {
 
 function createMovieCard(movie){
 
-const card=
-document.createElement(
-"div"
-);
+const card =
+document.createElement("div");
 
-card.className=
+card.className =
 "movie-card";
 
-card.onclick=
-()=>
-openMovie(
-movie.id
-);
+card.onclick =
+() => openMovie(movie.id);
 
-card.innerHTML=`
+card.innerHTML = `
 
 <div class="
 movie-badge
-${movie.type==="series"
-?
-"series"
-:
-""}
+${movie.type === "series" ? "series" : ""}
 ">
 
-${
-movie.type==="series"
-?
-"SERIES"
-:
-"MOVIE"
-}
+${movie.type === "series" ? "SERIES" : "MOVIE"}
 
 </div>
 
+<div class="translator-badge">
+
+🛡
+
+${movie.translator || "KivuStream"}
+
+</div>
 
 <img
 src="${
-movie.poster||
-movie.image||
+movie.poster ||
+movie.image ||
 './logo.png'
 }"
 loading="lazy"
 >
 
-
-<div class="
-movie-info
-">
+<div class="movie-info">
 
 <h3>
 
-${
-movie.title
-}
+${movie.title}
 
 </h3>
-
 
 ${
 movie.latestEpisode
 ?
 
 `
-<div class="
-episode-meta
-">
+<div class="episode-meta">
 
-🔥 S
-${movie.latestSeason}
+🔥 S${movie.latestSeason}
 
-EP
-${movie.latestEpisode}
+EP${movie.latestEpisode}
 
 </div>
 `
@@ -973,58 +955,25 @@ ${movie.latestEpisode}
 
 }
 
-
-<div class="
-movie-meta
-">
+<div class="movie-meta">
 
 <span>
 
-⭐
-${
-movie.rating
-||
-"8.5"
-}
+⭐ ${movie.rating || "8.5"}
 
 </span>
-
 
 <span>
 
-${
-movie.category
-||
-"Drama"
-}
+${movie.category || "Drama"}
 
 </span>
-
 
 <span>
 
-${
-movie.year
-||
-"2026"
-}
+${movie.year || "2026"}
 
 </span>
-
-</div>
-
-
-<div class="
-translator-badge
-">
-
-🛡
-
-${
-movie.translator
-||
-"KivuStream"
-}
 
 </div>
 
