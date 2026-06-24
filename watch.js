@@ -337,12 +337,22 @@ try {
   console.log("TMDB Error:", err);
 
 }
-
 state.movie = movie;
 
 await renderMovie(movie);
 
-  if (movie.type === "series") {
+/* SHOW/HIDE DOWNLOAD SECTION */
+const downloadSection =
+document.getElementById("downloadSection");
+
+if (downloadSection) {
+  downloadSection.style.display =
+    movie.type === "series"
+      ? "none"
+      : "block";
+}
+
+if (movie.type === "series") {
 
   const section =
     $("series-section");
@@ -355,11 +365,10 @@ await renderMovie(movie);
 }
 
 loadComments(movie.id);
-  loadRecommended();
+loadRecommended();
 
 document.getElementById("loading-screen")?.remove();
 }
-
 /* ===========================
    RENDER
 =========================== */
