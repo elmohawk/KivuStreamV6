@@ -9,7 +9,7 @@ body{
 }
 
 {
-    font-family:'Poppins',sans-serif;
+    font-family:'Poppins',;
 }
 .episode-meta{
   margin-top:6px;
@@ -43,29 +43,67 @@ body{
    KIVUSTREAM PRO ULTRA CSS
    PREMIUM CINEMATIC UI
 ========================================= */
-
 :root{
 
-  --bg:#050816;
-  --bg2:#0c1024;
-  --card:#10182d;
-  --glass:rgba(255,255,255,.05);
+  /* BACKGROUNDS */
+  --bg:#040814;
+  --bg2:#0b1228;
+  --bg3:#111a35;
 
+  /* CARDS */
+  --card:#111b33;
+  --card-hover:#172544;
+
+  /* GLASS */
+  --glass:rgba(255,255,255,.06);
+  --glass-strong:rgba(255,255,255,.12);
+
+  /* PRIMARY */
   --blue:#1e90ff;
-  --blue2:#00bfff;
-  --green:#16d96f;
+  --blue2:#00cfff;
+  --blue3:#66d9ff;
+
+  /* ACCENT */
+  --gold:#ffd700;
+  --gold2:#ffb300;
+
+  /* STATUS */
+  --green:#1fe38a;
   --red:#ff4d67;
+  --purple:#b100ff;
 
+  /* TEXT */
   --text:#ffffff;
-  --text2:#b7bfd6;
+  --text2:#d8e4ff;
+  --text3:#9fb2d9;
 
-  --radius:22px;
+  /* RADIUS */
+  --radius:24px;
+  --radius-sm:16px;
 
+  /* SHADOWS */
   --shadow:
-  0 10px 35px rgba(0,0,0,.45);
+  0 15px 40px rgba(0,0,0,.45);
 
+  --shadow-lg:
+  0 25px 60px rgba(0,0,0,.55);
+
+  /* GLOWS */
   --glow:
-  0 0 25px rgba(30,144,255,.35);
+  0 0 25px rgba(0,191,255,.35);
+
+  --glow-blue:
+  0 0 40px rgba(0,191,255,.45);
+
+  --glow-gold:
+  0 0 25px rgba(255,215,0,.35);
+
+  /* BORDERS */
+  --border:
+  rgba(255,255,255,.08);
+
+  --border-active:
+  rgba(0,191,255,.35);
 
 }
 
