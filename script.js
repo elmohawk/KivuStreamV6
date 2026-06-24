@@ -1,3 +1,4 @@
+let searchInput;
 const tmdbCache = new Map();
 /* =========================
    TMDB API INTEGRATION
@@ -1310,7 +1311,7 @@ async function loadComments(movieId) {
     .join("");
 }
 /* =========================================
-   KIVUSTREAM AI SEARCH ENGINE PRO v2
+   KIVUSTREAM AI SEARCH ENGINE PRO v3
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1324,7 +1325,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =========================
-       CREATE RESULTS CONTAINER
+       CREATE SEARCH BOX
     ========================= */
 
     const searchResults =
@@ -1349,62 +1350,149 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getAllContent() {
 
-        return [
+        const content = [
+
             ...(window.movies || []),
+
             ...(window.seriesList || []),
-            ...(window.heroMovies || [])
+
+            ...(window.heroMovies || []),
+
+            ...(window.allMovies || [])
+
         ];
+
+        // Remove duplicates
+
+        return [...new Map(
+            content.map(item => [
+                String(item.id || item.title),
+                item
+            ])
+        ).values()];
     }
 
     /* =========================
-       AI SEARCH ALGORITHM
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHTML(text) {
+
+        return String(text || "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    /* =========================
+       HIGHLIGHT MATCH
+    ========================= */
+
+    function highlight(text, keyword) {
+
+        if (!keyword) return escapeHTML(text);
+
+        const escaped =
+            keyword.replace(
+                /[.*+?^${}()|[\]\\]/g,
+                "\\$&"
+            );
+
+        const regex =
+            new RegExp(`(${escaped})`, "ig");
+
+        return escapeHTML(text)
+            .replace(
+                regex,
+                '<span class="search-highlight">$1</span>'
+            );
+    }
+
+    /* =========================
+       AI SEARCH
     ========================= */
 
     function searchContent(query) {
 
         if (!query) return [];
 
-        query = query.toLowerCase().trim();
+        query =
+            query.toLowerCase().trim();
 
-        return getAllContent()
+        const results = getAllContent()
 
-            .filter(item =>
-                item &&
-                item.title &&
-                item.title.toLowerCase()
-                    .includes(query)
-            )
+            .filter(item => {
 
-            .sort((a, b) => {
+                if (!item) return false;
 
-                const aTitle =
-                    a.title.toLowerCase();
+                const title =
+                    (item.title || "")
+                    .toLowerCase();
 
-                const bTitle =
-                    b.title.toLowerCase();
+                const category =
+                    (item.category || "")
+                    .toLowerCase();
 
-                // Exact matches first
-                if (aTitle === query) return -1;
-                if (bTitle === query) return 1;
+                const desc =
+                    (item.description ||
+                     item.overview ||
+                     "")
+                    .toLowerCase();
 
-                // Starts with query
-                if (aTitle.startsWith(query))
-                    return -1;
-
-                if (bTitle.startsWith(query))
-                    return 1;
-
-                return 0;
+                return (
+                    title.includes(query) ||
+                    category.includes(query) ||
+                    desc.includes(query)
+                );
             })
 
-            .slice(0, 8);
+            .map(item => {
+
+                let score = 0;
+
+                const title =
+                    (item.title || "")
+                    .toLowerCase();
+
+                if (title === query)
+                    score += 100;
+
+                if (title.startsWith(query))
+                    score += 50;
+
+                if (title.includes(query))
+                    score += 30;
+
+                if (
+                    (item.category || "")
+                    .toLowerCase()
+                    .includes(query)
+                )
+                    score += 15;
+
+                return {
+                    ...item,
+                    score
+                };
+
+            })
+
+            .sort((a, b) =>
+                b.score - a.score
+            )
+
+            .slice(0, 10);
+
+        return results;
     }
 
     /* =========================
        RENDER RESULTS
     ========================= */
 
-    function renderResults(results) {
+    function renderResults(results, keyword) {
 
         currentResults = results;
         selectedIndex = -1;
@@ -1412,430 +1500,317 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!results.length) {
 
             searchResults.innerHTML = `
+
                 <div class="search-empty">
-                    No content found
+
+                    🎬 No content found
+
                 </div>
+
             `;
 
             searchResults.classList.add("show");
+
             return;
         }
 
         searchResults.innerHTML =
+
             results.map((item, index) => `
 
-            <div class="search-item"
-                 data-index="${index}"
-                 onclick="openSearchResult('${item.id}')">
+                <div class="search-item"
+                     data-index="${index}">
 
-                <img
-                    src="${item.poster ||
-                           item.image ||
-                           item.banner ||
-                           'placeholder.jpg'}"
-                    loading="lazy">
+                    <img
+                        src="${
+                            item.poster ||
+                            item.image ||
+                            item.banner ||
+                            'placeholder.jpg'
+                        }"
 
-                <div class="search-info">
+                        loading="lazy">
 
-                    <h4>${item.title}</h4>
+                    <div class="search-info">
 
-                    <p>
-                        ${item.category || 'Entertainment'}
-                        •
-                        ${item.type || 'Movie'}
-                    </p>
+                        <h4>
+
+                            ${highlight(
+                                item.title,
+                                keyword
+                            )}
+
+                        </h4>
+
+                        <p>
+
+                            ${escapeHTML(
+                                item.category ||
+                                "Entertainment"
+                            )}
+
+                            •
+
+                            ${escapeHTML(
+                                item.type ||
+                                "Movie"
+                            )}
+
+                        </p>
+
+                    </div>
 
                 </div>
 
-            </div>
-
-        `).join("");
+            `).join("");
 
         searchResults.classList.add("show");
+
+        /* CLICK EVENTS */
+
+        searchResults
+            .querySelectorAll(".search-item")
+
+            .forEach(card => {
+
+                card.addEventListener(
+                    "click",
+                    () => {
+
+                        const index =
+                            Number(
+                                card.dataset.index
+                            );
+
+                        openSearchResult(
+                            currentResults[index]
+                        );
+                    }
+                );
+            });
     }
 
     /* =========================
-       SEARCH INPUT EVENT
+       HIDE SEARCH
     ========================= */
 
-    searchInput.addEventListener("input", e => {
+    function hideSearch() {
 
-        const query = e.target.value;
+        searchResults.classList.remove("show");
 
-        clearTimeout(debounceTimer);
+        selectedIndex = -1;
+    }
 
-        debounceTimer = setTimeout(() => {
+    /* =========================
+       OPEN RESULT
+    ========================= */
 
-            if (!query.trim()) {
+    function openSearchResult(item) {
 
-                searchResults.classList.remove("show");
-                return;
-            }
+        if (!item) return;
 
-            const results =
-                searchContent(query);
+        hideSearch();
 
-            renderResults(results);
+        searchInput.value = "";
 
-        }, 250);
+        if (
+            typeof openMovieModal ===
+            "function"
+        ) {
 
-    });
+            openMovieModal(item);
+
+        } else if (
+            typeof playMovie ===
+            "function"
+        ) {
+
+            playMovie(item);
+
+        } else if (
+            typeof openMovie ===
+            "function"
+        ) {
+
+            openMovie(item.id);
+
+        } else {
+
+            console.log(item);
+        }
+    }
+
+    /* =========================
+       INPUT SEARCH
+    ========================= */
+
+    searchInput.addEventListener(
+        "input",
+        e => {
+
+            clearTimeout(debounceTimer);
+
+            debounceTimer =
+                setTimeout(() => {
+
+                    const query =
+                        e.target.value.trim();
+
+                    if (!query) {
+
+                        hideSearch();
+
+                        return;
+                    }
+
+                    const results =
+                        searchContent(query);
+
+                    renderResults(
+                        results,
+                        query
+                    );
+
+                }, 200);
+        }
+    );
 
     /* =========================
        KEYBOARD NAVIGATION
     ========================= */
 
-    searchInput.addEventListener("keydown", e => {
+    searchInput.addEventListener(
+        "keydown",
+        e => {
 
-        const items =
-            searchResults.querySelectorAll(
-                ".search-item"
-            );
-
-        if (!items.length) return;
-
-        if (e.key === "ArrowDown") {
-
-            e.preventDefault();
-
-            selectedIndex =
-                Math.min(
-                    selectedIndex + 1,
-                    items.length - 1
+            const items =
+                searchResults.querySelectorAll(
+                    ".search-item"
                 );
 
-            updateSelection(items);
-        }
+            if (!items.length)
+                return;
 
-        if (e.key === "ArrowUp") {
+            if (e.key === "ArrowDown") {
 
-            e.preventDefault();
+                e.preventDefault();
 
-            selectedIndex =
-                Math.max(
-                    selectedIndex - 1,
-                    0
-                );
+                selectedIndex++;
 
-            updateSelection(items);
-        }
+                if (
+                    selectedIndex >=
+                    items.length
+                ) {
 
-        if (e.key === "Enter") {
+                    selectedIndex = 0;
+                }
+            }
 
-            e.preventDefault();
-
-            if (
-                selectedIndex >= 0 &&
-                currentResults[selectedIndex]
+            else if (
+                e.key === "ArrowUp"
             ) {
 
-                openSearchResult(
-                    currentResults[selectedIndex].id
-                );
+                e.preventDefault();
+
+                selectedIndex--;
+
+                if (
+                    selectedIndex < 0
+                ) {
+
+                    selectedIndex =
+                        items.length - 1;
+                }
+            }
+
+            else if (
+                e.key === "Enter"
+            ) {
+
+                e.preventDefault();
+
+                if (
+                    selectedIndex >= 0
+                ) {
+
+                    openSearchResult(
+                        currentResults[
+                            selectedIndex
+                        ]
+                    );
+                }
+            }
+
+            else if (
+                e.key === "Escape"
+            ) {
+
+                hideSearch();
+            }
+
+            items.forEach(item =>
+                item.classList.remove(
+                    "active"
+                )
+            );
+
+            if (
+                items[selectedIndex]
+            ) {
+
+                items[selectedIndex]
+                    .classList.add(
+                        "active"
+                    );
+
+                items[selectedIndex]
+                    .scrollIntoView({
+                        block: "nearest"
+                    });
             }
         }
-
-    });
-
-    /* =========================
-       UPDATE ACTIVE ITEM
-    ========================= */
-
-    function updateSelection(items) {
-
-        items.forEach(item =>
-            item.classList.remove("active")
-        );
-
-        if (items[selectedIndex]) {
-
-            items[selectedIndex]
-                .classList.add("active");
-
-            items[selectedIndex]
-                .scrollIntoView({
-                    block: "nearest"
-                });
-        }
-    }
+    );
 
     /* =========================
-       CLOSE WHEN CLICK OUTSIDE
+       CLOSE OUTSIDE
     ========================= */
 
-    document.addEventListener("click", e => {
+    document.addEventListener(
+        "click",
+        e => {
 
-        if (
-            !searchInput.contains(e.target) &&
-            !searchResults.contains(e.target)
-        ) {
+            if (
+                !e.target.closest(
+                    ".search-results"
+                ) &&
+                !e.target.closest(
+                    "#search-input"
+                )
+            ) {
 
-            searchResults.classList.remove("show");
+                hideSearch();
+            }
         }
-
-    });
+    );
 
     /* =========================
-       GLOBAL OPEN FUNCTION
+       MOBILE CLOSE
     ========================= */
 
-    window.openSearchResult = function(id) {
+    window.addEventListener(
+        "resize",
+        () => {
 
-        const item = getAllContent()
-            .find(m => String(m.id) === String(id));
+            if (
+                window.innerWidth < 768
+            ) {
 
-        if (!item) return;
-
-        searchResults.classList.remove("show");
-        searchInput.value = "";
-
-        // Replace with your modal/player function
-        if (typeof openMovieModal === "function") {
-            openMovieModal(item);
-        } else if (typeof playMovie === "function") {
-            playMovie(item);
-        } else {
-            console.log("Selected:", item);
+                hideSearch();
+            }
         }
-    };
+    );
 
 });
-  /* =========================
-     ESCAPE HTML
-  ========================= */
-
-  function escapeHTML(text) {
-    text = String(text || "");
-
-    return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  /* =========================
-     HIGHLIGHT TEXT
-  ========================= */
-
-  function highlightMatch(
-  text,
-  keyword
-) {
-  if (!keyword) return text;
-
-  const escaped =
-    keyword.replace(
-      /[.*+?^${}()|[\]\\]/g,
-      "\\$&"
-    );
-
-  const regex =
-    new RegExp(
-      `(${escaped})`,
-      "gi"
-    );
-
-  return text.replace(
-    regex,
-    '<span class="search-highlight">$1</span>'
-  );
-}
-
-  /* =========================
-     HIDE SEARCH
-  ========================= */
-
-  function hideSearch() {
-    searchResults.style.display = "none";
-
-    selectedIndex = -1;
-  }
-
-  /* =========================
-     RENDER SEARCH RESULTS
-  ========================= */
-
-  function renderResults(results, keyword) {
-    searchResults.innerHTML = "";
-
-    /* NO RESULTS */
-
-    if (!results.length) {
-      searchResults.innerHTML = `
-
-        <div class="search-empty">
-
-          🎬 No movies found
-
-        </div>
-
-      `;
-
-      searchResults.style.display = "block";
-
-      return;
-    }
-
-    /* LIMIT RESULTS */
-
-    results.slice(0, 10).forEach((movie, index) => {
-      const card = document.createElement("div");
-
-      card.className = "search-card";
-
-      card.dataset.index = index;
-
-      card.innerHTML = `
-
-        <img
-          src="${escapeHTML(movie.image || "fallback.jpg")}"
-          alt="${escapeHTML(movie.title || "Movie")}"
-          loading="lazy"
-        >
-
-        <div class="search-info">
-
-          <h4>
-
-            ${highlightMatch(escapeHTML(movie.title || "Untitled"), keyword)}
-
-          </h4>
-
-          <p>
-
-            ${highlightMatch(escapeHTML(movie.category || "Movie"), keyword)}
-
-          </p>
-
-        </div>
-
-      `;
-
-      card.addEventListener("click", () => {
-        openMovie(movie.id);
-
-        hideSearch();
-      });
-
-      searchResults.appendChild(card);
-    });
-
-    searchResults.style.display = "block";
-  }
-
-  /* =========================
-     SEARCH ENGINE
-  ========================= */
-
-  function performSearch(value) {
-    const keyword = value.toLowerCase().trim();
-
-    if (!keyword) {
-      hideSearch();
-
-      return;
-    }
-
-    const movies = window.allMovies || [];
-
-    const filtered = movies.filter((movie) => {
-      return (
-        (movie.title || "").toLowerCase().includes(keyword) ||
-        (movie.category || "").toLowerCase().includes(keyword) ||
-        (movie.description || "").toLowerCase().includes(keyword)
-      );
-    });
-
-    renderResults(filtered, keyword);
-  }
-
-  /* =========================
-     INPUT SEARCH
-  ========================= */
-
-  searchInput.addEventListener("input", (e) => {
-    clearTimeout(debounceTimer);
-
-    debounceTimer = setTimeout(() => {
-      performSearch(e.target.value);
-    }, 180);
-  });
-
-  /* =========================
-     KEYBOARD NAVIGATION
-  ========================= */
-
-  searchInput.addEventListener("keydown", (e) => {
-    const cards = searchResults.querySelectorAll(".search-card");
-
-    if (!cards.length) return;
-
-    /* DOWN */
-
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-
-      selectedIndex++;
-
-      if (selectedIndex >= cards.length) {
-        selectedIndex = 0;
-      }
-    } else if (e.key === "ArrowUp") {
-      /* UP */
-      e.preventDefault();
-
-      selectedIndex--;
-
-      if (selectedIndex < 0) {
-        selectedIndex = cards.length - 1;
-      }
-    } else if (e.key === "Enter") {
-      /* ENTER */
-      e.preventDefault();
-
-      if (selectedIndex >= 0) {
-        cards[selectedIndex].click();
-      }
-    } else if (e.key === "Escape") {
-      /* ESC */
-      hideSearch();
-    }
-
-    cards.forEach((card) => card.classList.remove("active"));
-
-    if (cards[selectedIndex]) {
-      cards[selectedIndex].classList.add("active");
-
-      cards[selectedIndex].scrollIntoView({
-        block: "nearest"
-      });
-    }
-  });
-
-  /* =========================
-     CLICK OUTSIDE
-  ========================= */
-
-  document.addEventListener("click", (e) => {
-    if (
-      !e.target.closest(".search-results") &&
-      !e.target.closest("#search-input")
-    ) {
-      hideSearch();
-    }
-  });
-
-  /* =========================
-     AUTO CLOSE MOBILE
-  ========================= */
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth < 768) {
-      hideSearch();
-    }
-  });
 /* =========================
    SUPABASE ADMIN AUTH
 ========================= */
