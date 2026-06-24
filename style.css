@@ -4080,39 +4080,79 @@ background:#22c55e;
 border-radius:999px;
 font-weight:700;
 }
-/* =========================
-   GLOBAL FOOTER
-========================= */
+/* =========================================
+   PREMIUM FOOTER 2026
+========================================= */
+
 .footer{
-    background: linear-gradient(180deg,#060b18,#020409);
-    padding:70px 6%;
-    border-top:1px solid rgba(255,255,255,.08);
     position:relative;
     overflow:hidden;
+    background:
+    linear-gradient(
+        180deg,
+        #08111f 0%,
+        #04070d 100%
+    );
+
+    padding:80px 6% 120px;
+    border-top:1px solid rgba(255,255,255,.08);
 }
 
 .footer::before{
     content:"";
     position:absolute;
     inset:0;
+
     background:
-    radial-gradient(circle at top left,
-    rgba(0,180,255,.12),transparent 40%);
+    radial-gradient(
+        circle at top left,
+        rgba(0,191,255,.12),
+        transparent 40%
+    ),
+    radial-gradient(
+        circle at bottom right,
+        rgba(255,0,80,.08),
+        transparent 35%
+    );
+
     pointer-events:none;
 }
 
 .footer-wrapper{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
     position:relative;
     z-index:2;
+
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:50px;
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.footer-brand,
+.footer-explore,
+.footer-follow{
+
+    background:rgba(255,255,255,.03);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:28px;
+
+    padding:30px;
+
+    backdrop-filter:blur(20px);
 }
 
 .footer-logo{
-    font-size:2.3rem;
+    font-size:2.7rem;
+    font-weight:900;
     color:#fff;
-    font-weight:800;
+    margin-bottom:20px;
 }
 
 .footer-logo span{
@@ -4121,170 +4161,313 @@ font-weight:700;
 
 .footer-description,
 .copyright-text{
-    color:#9ba4b5;
-    line-height:1.8;
+
+    color:#b8c0d0;
+    line-height:1.9;
+    font-size:.95rem;
     margin-top:15px;
 }
 
+/* =========================================
+   TITLES
+========================================= */
+
 .footer h3{
     color:#fff;
+    font-size:1.4rem;
     margin-bottom:25px;
-    font-size:1.2rem;
 }
 
-/* =========================
+/* =========================================
    EXPLORE CARDS
-========================= */
+========================================= */
 
 .explore-card{
+
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:14px 18px;
-    margin-bottom:15px;
-    border-radius:16px;
+
+    gap:14px;
+
     text-decoration:none;
+
+    padding:16px 18px;
+
+    margin-bottom:16px;
+
+    border-radius:18px;
+
     color:#fff;
+
     background:rgba(255,255,255,.05);
-    backdrop-filter:blur(15px);
+
     border:1px solid rgba(255,255,255,.08);
-    transition:.35s;
+
+    transition:.35s ease;
 }
 
 .explore-card:hover{
-    transform:translateX(10px);
+
     background:#00bfff;
-    box-shadow:0 12px 35px rgba(0,191,255,.35);
+
+    transform:translateX(8px);
+
+    box-shadow:
+    0 15px 35px
+    rgba(0,191,255,.35);
 }
 
-/* =========================
-   SOCIAL LINKS PRO
-========================= */
+/* =========================================
+   SOCIAL SECTION
+========================================= */
 
 .social-wrapper{
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.08);
+
+    max-width:1400px;
+
+    margin:70px auto;
+
+    padding:45px;
+
     border-radius:30px;
-    padding:40px;
-    margin:50px auto;
-    text-align:center;
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
     backdrop-filter:blur(20px);
 }
 
 .social-title{
+
     color:#fff;
-    margin-bottom:30px;
+
     font-size:2rem;
+
+    text-align:center;
+
+    margin-bottom:35px;
 }
 
 .social-links-pro{
+
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(200px,1fr));
+
     gap:20px;
 }
 
 .social-pro{
-    text-decoration:none;
-    color:#fff;
-    padding:18px;
-    border-radius:20px;
-    font-weight:600;
-    transition:.4s;
+
     display:flex;
+
     justify-content:center;
     align-items:center;
-    gap:10px;
+
+    gap:12px;
+
+    text-decoration:none;
+
+    color:#fff;
+
+    font-weight:700;
+
+    padding:18px;
+
+    border-radius:22px;
+
+    transition:.35s;
 }
 
 .social-pro:hover{
-    transform:translateY(-8px) scale(1.03);
+
+    transform:
+    translateY(-8px)
+    scale(1.03);
+
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.3);
 }
 
-.whatsapp{
-    background:#25d366;
-}
+/* SOCIAL COLORS */
 
-.facebook{
-    background:#1877f2;
+.whatsapp{background:#25d366;}
+.facebook{background:#1877f2;}
+.youtube{background:#ff0000;}
+.telegram{background:#0088cc;}
+.twitter{background:#000;}
+.tiktok{
+background:linear-gradient(45deg,#25f4ee,#fe2c55);
 }
 
 .instagram{
-    background:linear-gradient(
-    45deg,
-    #833ab4,#fd1d1d,#fcb045);
+background:linear-gradient(
+45deg,
+#833ab4,
+#fd1d1d,
+#fcb045
+);
 }
 
-.youtube{
-    background:#ff0000;
-}
-
-.telegram{
-    background:#0088cc;
-}
-
-.twitter{
-    background:#000;
-}
-
-.tiktok{
-    background:linear-gradient(
-    45deg,#25f4ee,#fe2c55);
-}
-
-/* =========================
-   FOLLOW ROW
-========================= */
+/* =========================================
+   FOLLOW LINKS
+========================================= */
 
 .social-row{
+
     display:flex;
     flex-wrap:wrap;
     gap:12px;
 }
 
 .social-row a{
+
     text-decoration:none;
+
     color:#fff;
+
     padding:12px 18px;
-    border-radius:40px;
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.06);
+
+    border-radius:50px;
+
+    background:rgba(255,255,255,.06);
+
+    border:1px solid rgba(255,255,255,.08);
+
     transition:.3s;
 }
 
 .social-row a:hover{
+
     background:#00bfff;
+
     transform:translateY(-4px);
 }
 
-/* =========================
+/* =========================================
+   PHONE
+========================================= */
+
+.phone-number{
+
+    margin-bottom:25px;
+
+    color:#fff;
+
+    font-size:1.05rem;
+
+    font-weight:700;
+}
+
+/* =========================================
+   FOOTER BOTTOM
+========================================= */
+
+.footer-bottom{
+
+    margin-top:60px;
+
+    padding-top:30px;
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+    color:#9aa6bc;
+}
+
+/* =========================================
+   TERMS & PRIVACY PREMIUM
+========================================= */
+
+.footer-bottom a{
+
+    text-decoration:none;
+
+    color:#fff;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00bfff,
+        #008cff
+    );
+
+    padding:14px 24px;
+
+    border-radius:50px;
+
+    font-weight:700;
+
+    transition:.35s;
+}
+
+.footer-bottom a:hover{
+
+    transform:
+    translateY(-4px)
+    scale(1.05);
+
+    box-shadow:
+    0 15px 35px
+    rgba(0,191,255,.4);
+}
+
+/* =========================================
    FLOAT BUTTONS
-========================= */
+========================================= */
 
 .call-float,
 .whatsapp-float{
+
     position:fixed;
-    right:25px;
-    z-index:9999;
+
+    right:20px;
+
     width:65px;
     height:65px;
+
     border-radius:50%;
+
     display:flex;
     align-items:center;
     justify-content:center;
-    box-shadow:0 12px 30px rgba(0,0,0,.4);
+
+    z-index:99999;
+
+    box-shadow:
+    0 15px 35px rgba(0,0,0,.45);
+
     transition:.3s;
 }
 
 .call-float{
-    bottom:105px;
+
+    bottom:120px;
+
     background:#00bfff;
+
     color:#fff;
+
     font-size:28px;
+
     text-decoration:none;
 }
 
 .whatsapp-float{
-    bottom:25px;
+
+    bottom:40px;
+
     background:#25d366;
 }
 
@@ -4294,39 +4477,77 @@ font-weight:700;
 
 .call-float:hover,
 .whatsapp-float:hover{
+
     transform:scale(1.12);
 }
 
-/* =========================
-   MOBILE NAV PRO
-========================= */
+/* =========================================
+   MOBILE NAV
+========================================= */
 
 .mobile-nav{
+
     position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:rgba(3,8,20,.95);
+
+    bottom:15px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:95%;
+
+    max-width:650px;
+
+    padding:12px 8px;
+
+    border-radius:30px;
+
+    background:rgba(5,10,25,.95);
+
     backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.08);
+
     display:flex;
+
     justify-content:space-around;
-    padding:12px 0;
-    border-top:1px solid rgba(255,255,255,.08);
-    z-index:999;
+
+    z-index:9999;
+
+    transition:.4s;
+}
+
+.mobile-nav.hide{
+
+    transform:
+    translateX(-50%)
+    translateY(150%);
 }
 
 .mobile-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+
     text-decoration:none;
-    color:#999;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:5px;
+
+    color:#9ba4b5;
+
     transition:.3s;
 }
 
-.mobile-item.active,
-.mobile-item:hover{
+.mobile-item:hover,
+.mobile-item.active{
+
     color:#00bfff;
+
+    transform:translateY(-3px);
 }
 
 .mobile-icon{
@@ -4334,10 +4555,73 @@ font-weight:700;
 }
 
 .mobile-text{
-    font-size:.8rem;
-    margin-top:5px;
+    font-size:.75rem;
 }
 
+/* =========================================
+   MOBILE NAV TOGGLE BUTTON
+========================================= */
+
+.nav-toggle-btn{
+
+    position:fixed;
+
+    bottom:95px;
+
+    left:20px;
+
+    width:55px;
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#00bfff;
+
+    color:#fff;
+
+    font-size:24px;
+
+    cursor:pointer;
+
+    z-index:10000;
+
+    box-shadow:
+    0 10px 30px rgba(0,191,255,.35);
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+    .footer{
+        padding:60px 20px 140px;
+    }
+
+    .footer-logo{
+        font-size:2rem;
+    }
+
+    .social-wrapper{
+        padding:30px 20px;
+    }
+
+    .social-title{
+        font-size:1.6rem;
+    }
+
+    .footer-bottom{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .call-float{
+        bottom:150px;
+    }
+}
 /* =========================
    ADMIN PANEL PRO
 ========================= */
