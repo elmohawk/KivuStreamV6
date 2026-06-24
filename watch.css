@@ -490,9 +490,10 @@ body{
 
 #episodes-container{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
-  gap:24px;
-  padding:25px;
+  grid-template-columns:repeat(auto-fill,minmax(280px,280px));
+  gap:16px;
+  padding:20px;
+  justify-content:center;
 }
 
 /* CARD */
@@ -726,26 +727,26 @@ body{
 @media(max-width:768px){
 
   #episodes-container{
-    grid-template-columns:1fr;
-    padding:15px;
-    gap:15px;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:12px;
   }
 
   .episode-card{
-    padding:18px;
-    border-radius:20px;
-  }
-
-  .episode-badge{
-    width:50px;
-    height:50px;
-    font-size:13px;
+    min-height:160px;
+    padding:14px;
   }
 
   .episode-card h3{
-    font-size:18px;
-    margin-top:60px;
+    font-size:15px;
+    margin-top:55px;
   }
+
+  .episode-badge{
+    width:42px;
+    height:42px;
+  }
+}
 
   .watch-episode{
     padding:13px;
@@ -775,7 +776,21 @@ body{
   }
 
 }
+.episode-card{
+  position:relative;
+  z-index:1;
+}
 
+.episode-actions{
+  position:relative;
+  z-index:10;
+}
+
+.watch-episode,
+.download-episode{
+  pointer-events:auto;
+  cursor:pointer;
+}
 /* =========================
    COMMENTS (PRO NETFLIX STYLE)
 ========================= */
