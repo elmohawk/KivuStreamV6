@@ -497,33 +497,27 @@ body{
 }
 
 /* CARD */
-
 .episode-card{
   position:relative;
+  overflow:hidden;
 
-  background:
-  linear-gradient(
+  background:linear-gradient(
     145deg,
-    rgba(255,255,255,.06),
-    rgba(255,255,255,.02)
+    #081225,
+    #0d1830
   );
 
-  border:1px solid rgba(255,255,255,.08);
+  border:1px solid rgba(59,130,246,.15);
 
-  border-radius:20px;
+  border-radius:18px;
 
   padding:18px;
 
-  overflow:hidden;
-
-  backdrop-filter:blur(18px);
-
-  transition:.35s ease;
+  transition:.3s ease;
 
   box-shadow:
-  0 10px 30px rgba(0,0,0,.25);
+  0 8px 25px rgba(0,0,0,.35);
 }
-
 /* Glow Layer */
 
 .episode-card::before{
@@ -548,62 +542,59 @@ body{
 }
 
 .episode-card:hover{
-  transform:
-  translateY(-6px)
-  scale(1.02);
+  transform:translateY(-5px);
 
-  border-color:
-  rgba(99,102,241,.4);
+  border-color:#3b82f6;
 
   box-shadow:
-  0 25px 50px rgba(0,0,0,.5),
-  0 0 25px rgba(99,102,241,.15);
+  0 15px 35px rgba(59,130,246,.15);
 }
 
 /* EP NUMBER */
-
 .episode-badge{
   position:absolute;
-  top:14px;
-  right:14px;
+  top:15px;
+  left:15px;
 
-  width:45px;
-  height:45px;
+  width:42px;
+  height:42px;
+
+  border-radius:50%;
 
   display:flex;
   align-items:center;
   justify-content:center;
 
-  border-radius:50%;
-
-  font-size:15px;
-  font-weight:800;
-
-  color:white;
-
-  background:
-  linear-gradient(
+  background:linear-gradient(
     135deg,
-    #6366f1,
-    #8b5cf6
+    #3b82f6,
+    #2563eb
   );
 
-  box-shadow:
-  0 10px 25px rgba(99,102,241,.35);
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
 }
+.ep-code{
+  position:absolute;
+  top:18px;
+  right:18px;
 
+  font-size:11px;
+  font-weight:600;
+
+  color:#94a3b8;
+}
 /* TITLE */
 
 .episode-card h3{
-  margin-top:70px;
+  margin-top:65px;
   margin-bottom:20px;
 
-  font-size:20px;
+  font-size:18px;
   font-weight:700;
 
-  color:white;
-
-  line-height:1.4;
+  color:#fff;
 }
 
 /* OPTIONAL SUBTEXT */
@@ -628,38 +619,34 @@ body{
 
   border:none;
 
-  padding:14px;
+  border-radius:12px;
 
-  border-radius:14px;
+  padding:12px;
 
   cursor:pointer;
 
-  color:white;
-
   font-weight:700;
 
-  background:
-  linear-gradient(
-    135deg,
-    #ffb300,
-    #ffcc00
-  );
+  color:white;
 
-  color:#111;
+  background:linear-gradient(
+    135deg,
+    #3b82f6,
+    #2563eb
+  );
 
   transition:.3s;
 }
 
 .watch-episode:hover{
   transform:translateY(-2px);
+
   box-shadow:
-  0 12px 25px rgba(255,204,0,.3);
+  0 10px 20px rgba(59,130,246,.35);
 }
-
 /* DOWNLOAD */
-
 .download-episode{
-  width:42px;
+  width:46px;
 
   border:none;
 
@@ -669,25 +656,24 @@ body{
 
   color:white;
 
-  font-size:12px;
-
-  background:
-  linear-gradient(
+  background:linear-gradient(
     135deg,
-    #00c853,
-    #00e676
+    #475569,
+    #64748b
   );
 
   transition:.3s;
 }
 
 .download-episode:hover{
+  background:linear-gradient(
+    135deg,
+    #22c55e,
+    #16a34a
+  );
+
   transform:translateY(-2px);
-
-  box-shadow:
-  0 12px 25px rgba(0,230,118,.3);
 }
-
 /* PLAYING CARD */
 
 .episode-card.playing{
