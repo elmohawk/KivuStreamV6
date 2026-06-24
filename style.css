@@ -34,17 +34,6 @@ color:#9fd4ff;
 font-size:13px;
 
 }
-.hero-badge{
-  display:none;
-  background:#ff3b30;
-  color:white;
-  padding:8px 14px;
-  border-radius:30px;
-  font-weight:700;
-  margin-bottom:10px;
-  width:max-content;
-  animation:pulse 1.5s infinite;
-}
 
 @keyframes pulse{
   0%{transform:scale(1);}
@@ -65,11 +54,6 @@ font-size:13px;
 
 
 /* RIGHT SIDE */
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
 
 .nav-right input {
   padding: 8px 12px;
@@ -501,29 +485,6 @@ body{
 
 }
 
-.hero-badge{
-
-  width:max-content;
-
-  padding:10px 18px;
-
-  border-radius:50px;
-
-  background:
-  rgba(30,144,255,.16);
-
-  border:
-  1px solid rgba(30,144,255,.35);
-
-  margin-bottom:20px;
-
-  font-size:.9rem;
-  font-weight:600;
-
-  backdrop-filter:blur(15px);
-
-}
-
 #hero-title{
 
   font-size:4rem;
@@ -851,92 +812,6 @@ padding-top:10px;
 
 }
 
-/* =========================
-   MOVIE CARD
-========================= */
-
-.movie-card{
-
-  position:relative;
-
-  overflow:hidden;
-
-  border-radius:16px;
-
-  background:var(--card);
-
-  cursor:pointer;
-
-  transition:
-  transform .35s ease,
-  box-shadow .35s ease;
-
-  box-shadow:var(--shadow);
-
-  transform-style:preserve-3d;
-max-width:220px;
-margin:auto;
-}
-
-.movie-card:hover{
-
-  transform:
-  translateY(-8px)
-  scale(1.02);
-
-  box-shadow:
-  0 20px 40px rgba(0,0,0,.55),
-  0 0 25px rgba(30,144,255,.25);
-
-}
-
-.movie-card img{
-
-  width:100%;
-  aspect-ratio:2/3;
-
-height:auto;
-
-max-height:300px;
-
-  object-fit:cover;
-
-  display:block;
-
-  transition:transform .5s ease;
-
-}
-
-.movie-card:hover img{
-  transform:scale(1.08);
-}
-
-.movie-overlay{
-
-  position:absolute;
-  inset:0;
-
-  background:
-  linear-gradient(
-    to top,
-    rgba(0,0,0,.85),
-    transparent
-  );
-
-  opacity:0;
-
-  transition:.35s;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-}
-
-.movie-card:hover .movie-overlay{
-  opacity:1;
-}
-
 .play-btn{
 
   width:75px;
@@ -980,20 +855,6 @@ max-height:300px;
   line-height:1.6;
 
 }
-
-.movie-meta{
-
-  display:flex;
-  justify-content:space-between;
-
-  margin-top:14px;
-
-  color:#9ab4ff;
-
-  font-size:.85rem;
-
-}
-
 .movie-badge{
 
   position:absolute;
@@ -1692,37 +1553,6 @@ select:focus{
    SEARCH RESULTS
 ========================= */
 
-.search-results{
-
-  position:fixed;
-
-  top:90px;
-  right:5%;
-
-  width:360px;
-
-  max-height:500px;
-
-  overflow-y:auto;
-
-  border-radius:24px;
-
-  background:
-  rgba(10,15,28,.96);
-
-  backdrop-filter:blur(18px);
-
-  z-index:9999;
-
-  display:none;
-
-  padding:15px;
-
-  box-shadow:
-  0 20px 50px rgba(0,0,0,.55);
-
-}
-
 .search-card{
 
   display:flex;
@@ -1805,10 +1635,6 @@ select:focus{
 
   }
 
-  .movie-card img{
-    height:250px;
-  }
-
   .mobile-nav{
     display:flex;
   }
@@ -1849,10 +1675,6 @@ select:focus{
 
     gap:16px;
 
-  }
-
-  .movie-card img{
-    height:220px;
   }
 
   .section-header h2{
@@ -1983,10 +1805,6 @@ select:focus{
 .movie-info{
   position:relative;
   z-index:3;
-}
-
-.movie-overlay{
-  z-index:4;
 }
 
 .movie-card:hover{
@@ -2120,14 +1938,6 @@ select:focus{
 
 .dashboard-table tr:hover{
   background:rgba(255,255,255,.03);
-}
-
-/* =========================
-   SEARCH RESULTS IMPROVED
-========================= */
-
-.search-results{
-  border:1px solid rgba(255,255,255,.06);
 }
 
 .search-card{
@@ -4127,12 +3937,6 @@ footer footer{
    FIX MOVIE CARD IMAGE
 ========================= */
 
-.movie-card img{
-
-  background:#0b1223;
-
-}
-
 /* =========================
    FIX MOVIES ROW OVERFLOW
 ========================= */
@@ -4294,16 +4098,6 @@ textarea::placeholder{
 }
 
 /* =========================
-   FIX MOVIE OVERLAY
-========================= */
-
-.movie-overlay{
-
-  backdrop-filter:blur(3px);
-
-}
-
-/* =========================
    FIX HERO TEXT
 ========================= */
 
@@ -4337,14 +4131,7 @@ textarea::placeholder{
 
   }
 
-  .search-results{
-
-    width:92%;
-    right:4%;
-
-  }
-
-  .footer-container{
+   .footer-container{
 
     gap:40px;
 
@@ -4367,12 +4154,6 @@ textarea::placeholder{
   .movie-card{
 
     border-radius:20px;
-
-  }
-
-  .movie-card img{
-
-    height:220px;
 
   }
 
@@ -4499,24 +4280,6 @@ textarea::placeholder{
 }
 
 /* =========================
-   FIX MOVIE CARD OVERLAY
-========================= */
-
-.movie-overlay{
-
-  opacity:0;
-
-  transition:.35s ease;
-
-  backdrop-filter:blur(4px);
-
-}
-
-.movie-card:hover .movie-overlay{
-  opacity:1;
-}
-
-/* =========================
    REMOVE IMAGE STRETCH
 ========================= */
 
@@ -4599,19 +4362,6 @@ a{
   background .35s ease,
   box-shadow .35s ease,
   color .35s ease;
-
-}
-
-/* =========================
-   FIX SEARCH RESULTS
-========================= */
-
-.search-results{
-
-  border:
-  1px solid rgba(255,255,255,.08);
-
-  overflow-x:hidden;
 
 }
 
@@ -6334,18 +6084,6 @@ button {
 
 .card:hover {
   transform: scale(1.03);
-}
-
-.movie-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  font-size:13px;
-  margin-top:8px;
-}
-
-.movie-meta span{
-  color:#ddd;
 }
 
 .episode-meta{
