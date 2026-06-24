@@ -1364,11 +1364,18 @@ z-index: 9999 !important;
 
     padding: 6px 12px;
 
-    background: linear-gradient(
-        135deg,
-        rgba(90,105,125,0.95),
-        rgba(55,70,90,0.95)
-    );
+  background:linear-gradient(
+    135deg,
+    rgba(255,215,0,.95),
+    rgba(255,170,0,.95)
+);
+
+color:#111;
+
+border:1px solid rgba(255,255,255,.25);
+
+box-shadow:
+    0 0 15px rgba(255,215,0,.35);
 
     border: 1px solid rgba(180,200,220,0.2);
 
