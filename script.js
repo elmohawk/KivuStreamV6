@@ -2902,7 +2902,7 @@ document.addEventListener("DOMContentLoaded", () => {
    PAGINATION ENGINE
 ========================= */
 
-const HOMEPAGE_LIMIT = 6;
+const HOMEPAGE_LIMIT = 7;
 
 const sectionPages = {};
 const sectionData = {};
