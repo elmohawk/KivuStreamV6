@@ -678,19 +678,12 @@ scale(.95);
 
 .glass-panel,
 .panel,
-.admin-card,
-  background:
-  rgba(255,255,255,.05);
-
-  border:
-  1px solid rgba(255,255,255,.08);
-
-  backdrop-filter:blur(18px);
-
-  border-radius:28px;
-
-  box-shadow:var(--shadow);
-
+.admin-card{
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(18px);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
 }
 
 .panel-grid{
@@ -2487,25 +2480,23 @@ a{
 /* =========================
    FIX PANEL HEIGHTS
 ========================= */
-
 .panel,
-.support-card,
+.support-card{
   height:100%;
-
 }
 /* =========================
    SHINE ANIMATION
 ========================= */
 
 @keyframes shineMove{
-
   0%{
     transform:translateX(-100%);
   }
 
   100%{
     transform:translateX(100%);
-
+  }
+}
 /* =========================
    FLOAT ANIMATION
 ========================= */
