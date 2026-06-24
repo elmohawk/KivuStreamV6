@@ -860,17 +860,6 @@ class="download-btn"
 });
 
 }
-// Hide "GET IT HERE" section for series
-document.addEventListener("DOMContentLoaded", () => {
-    const downloadSection = document.getElementById("downloadSection");
-
-    // If episode cards exist, treat as a series
-    const episodes = document.querySelectorAll(".episode-card");
-
-    if (downloadSection && episodes.length > 0) {
-        downloadSection.style.display = "none";
-    }
-});
 async function setupHeroTrailer(movie){
 
 const trailer =
