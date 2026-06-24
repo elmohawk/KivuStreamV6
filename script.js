@@ -1310,34 +1310,296 @@ async function loadComments(movieId) {
     .join("");
 }
 /* =========================================
-   KIVUSTREAM AI SEARCH ENGINE PRO
+   KIVUSTREAM AI SEARCH ENGINE PRO v2
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("search-input");
 
-  if (!searchInput) {
-    console.warn("Search input not found");
-    return;
-  }
+    const searchInput =
+        document.getElementById("search-input");
 
-  /* =========================
-     CREATE SEARCH CONTAINER
-  ========================= */
+    if (!searchInput) {
+        console.warn("Search input not found");
+        return;
+    }
 
-  const searchResults = document.createElement("div");
+    /* =========================
+       CREATE RESULTS CONTAINER
+    ========================= */
 
-  searchResults.className = "search-results";
+    const searchResults =
+        document.createElement("div");
 
-  document.body.appendChild(searchResults);
+    searchResults.className =
+        "search-results";
 
-  /* =========================
-     SEARCH STATE
-  ========================= */
+    document.body.appendChild(searchResults);
 
-  let debounceTimer = null;
-  let selectedIndex = -1;
+    /* =========================
+       SEARCH STATE
+    ========================= */
 
+    let debounceTimer = null;
+    let selectedIndex = -1;
+    let currentResults = [];
+
+    /* =========================
+       GET ALL CONTENT
+    ========================= */
+
+    function getAllContent() {
+
+        return [
+            ...(window.movies || []),
+            ...(window.seriesList || []),
+            ...(window.heroMovies || [])
+        ];
+    }
+
+    /* =========================
+       AI SEARCH ALGORITHM
+    ========================= */
+
+    function searchContent(query) {
+
+        if (!query) return [];
+
+        query = query.toLowerCase().trim();
+
+        return getAllContent()
+
+            .filter(item =>
+                item &&
+                item.title &&
+                item.title.toLowerCase()
+                    .includes(query)
+            )
+
+            .sort((a, b) => {
+
+                const aTitle =
+                    a.title.toLowerCase();
+
+                const bTitle =
+                    b.title.toLowerCase();
+
+                // Exact matches first
+                if (aTitle === query) return -1;
+                if (bTitle === query) return 1;
+
+                // Starts with query
+                if (aTitle.startsWith(query))
+                    return -1;
+
+                if (bTitle.startsWith(query))
+                    return 1;
+
+                return 0;
+            })
+
+            .slice(0, 8);
+    }
+
+    /* =========================
+       RENDER RESULTS
+    ========================= */
+
+    function renderResults(results) {
+
+        currentResults = results;
+        selectedIndex = -1;
+
+        if (!results.length) {
+
+            searchResults.innerHTML = `
+                <div class="search-empty">
+                    No content found
+                </div>
+            `;
+
+            searchResults.classList.add("show");
+            return;
+        }
+
+        searchResults.innerHTML =
+            results.map((item, index) => `
+
+            <div class="search-item"
+                 data-index="${index}"
+                 onclick="openSearchResult('${item.id}')">
+
+                <img
+                    src="${item.poster ||
+                           item.image ||
+                           item.banner ||
+                           'placeholder.jpg'}"
+                    loading="lazy">
+
+                <div class="search-info">
+
+                    <h4>${item.title}</h4>
+
+                    <p>
+                        ${item.category || 'Entertainment'}
+                        •
+                        ${item.type || 'Movie'}
+                    </p>
+
+                </div>
+
+            </div>
+
+        `).join("");
+
+        searchResults.classList.add("show");
+    }
+
+    /* =========================
+       SEARCH INPUT EVENT
+    ========================= */
+
+    searchInput.addEventListener("input", e => {
+
+        const query = e.target.value;
+
+        clearTimeout(debounceTimer);
+
+        debounceTimer = setTimeout(() => {
+
+            if (!query.trim()) {
+
+                searchResults.classList.remove("show");
+                return;
+            }
+
+            const results =
+                searchContent(query);
+
+            renderResults(results);
+
+        }, 250);
+
+    });
+
+    /* =========================
+       KEYBOARD NAVIGATION
+    ========================= */
+
+    searchInput.addEventListener("keydown", e => {
+
+        const items =
+            searchResults.querySelectorAll(
+                ".search-item"
+            );
+
+        if (!items.length) return;
+
+        if (e.key === "ArrowDown") {
+
+            e.preventDefault();
+
+            selectedIndex =
+                Math.min(
+                    selectedIndex + 1,
+                    items.length - 1
+                );
+
+            updateSelection(items);
+        }
+
+        if (e.key === "ArrowUp") {
+
+            e.preventDefault();
+
+            selectedIndex =
+                Math.max(
+                    selectedIndex - 1,
+                    0
+                );
+
+            updateSelection(items);
+        }
+
+        if (e.key === "Enter") {
+
+            e.preventDefault();
+
+            if (
+                selectedIndex >= 0 &&
+                currentResults[selectedIndex]
+            ) {
+
+                openSearchResult(
+                    currentResults[selectedIndex].id
+                );
+            }
+        }
+
+    });
+
+    /* =========================
+       UPDATE ACTIVE ITEM
+    ========================= */
+
+    function updateSelection(items) {
+
+        items.forEach(item =>
+            item.classList.remove("active")
+        );
+
+        if (items[selectedIndex]) {
+
+            items[selectedIndex]
+                .classList.add("active");
+
+            items[selectedIndex]
+                .scrollIntoView({
+                    block: "nearest"
+                });
+        }
+    }
+
+    /* =========================
+       CLOSE WHEN CLICK OUTSIDE
+    ========================= */
+
+    document.addEventListener("click", e => {
+
+        if (
+            !searchInput.contains(e.target) &&
+            !searchResults.contains(e.target)
+        ) {
+
+            searchResults.classList.remove("show");
+        }
+
+    });
+
+    /* =========================
+       GLOBAL OPEN FUNCTION
+    ========================= */
+
+    window.openSearchResult = function(id) {
+
+        const item = getAllContent()
+            .find(m => String(m.id) === String(id));
+
+        if (!item) return;
+
+        searchResults.classList.remove("show");
+        searchInput.value = "";
+
+        // Replace with your modal/player function
+        if (typeof openMovieModal === "function") {
+            openMovieModal(item);
+        } else if (typeof playMovie === "function") {
+            playMovie(item);
+        } else {
+            console.log("Selected:", item);
+        }
+    };
+
+});
   /* =========================
      ESCAPE HTML
   ========================= */
