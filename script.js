@@ -828,13 +828,31 @@ renderPaginatedRow("recent-slider", latest.slice(0, 10));
       normalize(m.category) === "other movies"
     )
   );
+function loadRecommendations(allContent) {
 
-  // RECOMMENDED
- renderPaginatedRow(
-  "updates-container",
-  sortedContent.slice(0, 15)
-);
+    const lastCategory =
+        localStorage.getItem("lastCategory");
 
+    const lastMovieId =
+        localStorage.getItem("lastMovieId");
+
+    let recommendations =
+        allContent.filter(movie =>
+            movie.category === lastCategory &&
+            movie.id != lastMovieId
+        );
+
+    recommendations.sort((a,b)=>
+        new Date(b.created_at) -
+        new Date(a.created_at)
+    );
+
+    renderPaginatedRow(
+        "updates-container",
+        recommendations.slice(0,15)
+    );
+}
+   loadRecommendations(sortedContent);
   // CONTINUE WATCHING
   const continueWatching =
     JSON.parse(localStorage.getItem("continueWatching")) || [];
