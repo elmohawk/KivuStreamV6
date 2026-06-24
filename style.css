@@ -1350,9 +1350,13 @@ select:focus{
 }
 /* TRANSLATOR CARD */
 .translator-badge{
-    position: absolute;
-    top: 10px;
-    right: 10px;
+   position: absolute !important;
+top: 12px !important;
+right: 12px !important;
+left: auto !important;
+bottom: auto !important;
+
+z-index: 9999 !important;
 
     display: flex;
     align-items: center;
