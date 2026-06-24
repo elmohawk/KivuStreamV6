@@ -1,15 +1,10 @@
 /* GLOBAL FONT */
-body{
-    margin:0;
-    padding:0;
-    font-family: Georgia, "Times New Roman", serif;
-    background:#02050d;
-    color:#fff;
-    overflow-x:hidden;
+body{ 
+  margin:0;
+  background:linear-gradient(to bottom,#040816,#07111f);
+  color:#fff;
+  font-family:Arial,;
 }
-
-{
-    font-family:'Poppins',;
 }
 .episode-meta{
   margin-top:6px;
@@ -4337,11 +4332,15 @@ button {
     border-radius:14px;
     margin-bottom:10px;
 }
-.site-title{
-    font-size:2rem;
-    font-weight:800;
-    color:#ffffff;
-    letter-spacing:-0.5px;
+.site-title {
+  color: Blue, white;
+  font-weight: 900;
+  text-decoration: none;
+  font-size: 45px;
+}
+
+.site-title span {
+  color: #00c3ff;
 }
 .support-label{
     font-size:14px;
