@@ -3660,7 +3660,105 @@ window.addEventListener(
 
   }
 );
-async function loadHeroTrailer(movie){
+/* =========================================
+   HERO TRAILER SYSTEM PRO
+========================================= */
+
+const trailerCache = new Map();
+
+/* =========================================
+   GET TRAILER
+========================================= */
+
+async function getTrailer(title, type = "movie") {
+
+  try {
+
+    if (!title) return null;
+
+    const cacheKey = `${title}-${type}`;
+
+    // Use cache first
+    if (trailerCache.has(cacheKey)) {
+      return trailerCache.get(cacheKey);
+    }
+
+    const endpoint =
+      type === "series" || type === "tv"
+        ? "tv"
+        : "movie";
+
+    // Search movie/series
+    const searchRes = await fetch(
+      `https://api.themoviedb.org/3/search/${endpoint}` +
+      `?api_key=${TMDB_API_KEY}` +
+      `&query=${encodeURIComponent(title)}`
+    );
+
+    if (!searchRes.ok)
+      throw new Error("TMDB search failed");
+
+    const searchData = await searchRes.json();
+
+    if (!searchData.results?.length)
+      return null;
+
+    const item = searchData.results[0];
+
+    // Get videos
+    const videosRes = await fetch(
+      `https://api.themoviedb.org/3/${endpoint}/${item.id}/videos` +
+      `?api_key=${TMDB_API_KEY}`
+    );
+
+    if (!videosRes.ok)
+      throw new Error("Video request failed");
+
+    const videosData = await videosRes.json();
+
+    // Official trailer first
+    let trailer = videosData.results.find(video =>
+      video.site === "YouTube" &&
+      video.type === "Trailer" &&
+      video.official
+    );
+
+    // Any trailer fallback
+    if (!trailer) {
+
+      trailer = videosData.results.find(video =>
+        video.site === "YouTube" &&
+        video.type === "Trailer"
+      );
+
+    }
+
+    // Teaser fallback
+    if (!trailer) {
+
+      trailer = videosData.results.find(video =>
+        video.site === "YouTube"
+      );
+
+    }
+
+    if (!trailer) return null;
+
+    const url =
+      `https://www.youtube.com/embed/${trailer.key}`;
+
+    trailerCache.set(cacheKey, url);
+
+    return url;
+
+  } catch (err) {
+
+    console.error("getTrailer Error:", err);
+
+    return null;
+  }
+}
+async function loadHeroTrailer(movie) {
 
   const iframe =
     document.getElementById("heroTrailer");
@@ -3668,31 +3766,22 @@ async function loadHeroTrailer(movie){
   const heroVideo =
     document.querySelector(".hero-video");
 
-  if(!iframe || !movie) return;
+  if (!iframe || !heroVideo || !movie) return;
 
-  try{
+  try {
 
-    const trailer =
-      await getTrailer(
-        movie.title,
-        movie.type === "series"
-          ? "series"
-          : "movie"
-      );
+    heroVideo.classList.remove("show");
+    iframe.src = "";
 
-    if(!trailer){
+    const trailer = await getTrailer(
+      movie.title || movie.name,
+      movie.type
+    );
 
-      iframe.src = "";
-
-      heroVideo.classList.remove("show");
-
-      return;
-    }
+    if (!trailer) return;
 
     const trailerId =
-      trailer
-        .split("/embed/")[1]
-        ?.split("?")[0];
+      trailer.match(/embed\/([^?]+)/)?.[1];
 
     iframe.src =
       `${trailer}` +
@@ -3702,63 +3791,67 @@ async function loadHeroTrailer(movie){
       `&loop=1` +
       `&playlist=${trailerId}` +
       `&modestbranding=1` +
-      `&rel=0`;
+      `&rel=0` +
+      `&playsinline=1` +
+      `&enablejsapi=1`;
 
     heroVideo.classList.add("show");
 
-  }catch(err){
+  } catch (err) {
 
     console.error(
-      "Trailer Load Error",
+      "Trailer Load Error:",
       err
     );
+
+    iframe.src = "";
+    heroVideo.classList.remove("show");
   }
 }
-async function showHero(index){
+async function showHero(index) {
+
+  if (!heroMovies?.length) return;
+
+  if (index >= heroMovies.length)
+    index = 0;
+
+  if (index < 0)
+    index = heroMovies.length - 1;
 
   const movie = heroMovies[index];
 
-  if(!movie) return;
+  if (!movie) return;
 
   currentHero = movie;
 
   document.getElementById("hero-title").textContent =
-    movie.title || "Untitled";
+    movie.title || movie.name || "Untitled";
 
   document.getElementById("hero-description").textContent =
     movie.description ||
     movie.overview ||
-    "Watch now on KivuStream";
+    "Watch now on KivuStream.";
 
-  document.getElementById("hero-slider").style.backgroundImage =
-    `
+  const heroSlider =
+    document.getElementById("hero-slider");
+
+  heroSlider.style.backgroundImage = `
     linear-gradient(
       to right,
-      rgba(0,0,0,.85),
-      rgba(0,0,0,.25)
+      rgba(0,0,0,.88),
+      rgba(0,0,0,.35)
     ),
-    url('${movie.banner || movie.poster || movie.image}')
-    `;
+    url('${
+      movie.banner ||
+      movie.backdrop ||
+      movie.poster ||
+      movie.image ||
+      ""
+    }')
+  `;
+
+  heroSlider.style.backgroundSize = "cover";
+  heroSlider.style.backgroundPosition = "center";
 
   await loadHeroTrailer(movie);
-}
-async function fetchWithTimeout(url, timeout = 5000) {
-  const controller = new AbortController();
-
-  const timer = setTimeout(() => {
-      controller.abort();
-  }, timeout);
-
-  try {
-      const response = await fetch(url, {
-          signal: controller.signal
-      });
-
-      clearTimeout(timer);
-      return response;
-
-  } catch(err) {
-      console.error(err);
-      return null;
-  }
 }
