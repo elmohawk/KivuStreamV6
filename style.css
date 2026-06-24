@@ -27,22 +27,6 @@ font-size:14px;
 
 }
 
-.movie-meta{
-
-display:flex;
-
-gap:14px;
-
-flex-wrap:wrap;
-
-font-size:13px;
-
-color:#ddd;
-
-margin-bottom:10px;
-
-}
-
 .translator-badge{
 
 color:#9fd4ff;
