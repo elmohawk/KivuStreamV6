@@ -405,9 +405,6 @@ renderDownloadButtons(movie);
 setupHeroTrailer(movie);
 }
 /* ===========================
-   PLAYER
-=========================== */
-/* ===========================
    PLAYER + AUTO TRAILER
 =========================== */
 async function setupPlayer(movie){
@@ -568,38 +565,51 @@ async function loadEpisodes(seriesId) {
 
   renderSeason(seasons[0]);
 }
-
+/* ===========================
+       RENDER SEASON
+=========================== */
 function renderSeason(season) {
 
   const container = $("episodes-container");
   container.innerHTML = "";
 
-  state.episodes
-    .filter(ep => ep.season == season)
-    .forEach(ep => {
+ state.episodes
+  .filter(ep => ep.season == season)
+  .sort((a, b) => b.episode_number - a.episode_number)
+  .forEach(ep => {
 
       const card = document.createElement("div");
       card.className = "episode-card";
 
-      card.innerHTML = `
-        <div class="episode-badge">
-         EP ${ep.episode_number}
-        </div>
+     card.innerHTML = `
+<div class="episode-header">
 
-       <h3>Episode ${ep.episode_number}</h3>
+  <div class="episode-number">
+    ${ep.episode_number}
+  </div>
 
-        <div class="episode-actions">
+  <span class="episode-code">
+    S${ep.season}E${ep.episode_number}
+  </span>
 
-          <button class="watch-episode">
-            ▶ Watch
-          </button>
+</div>
 
-          <button class="download-episode">
-            ⬇ Download
-          </button>
+<h3 class="episode-title">
+  ${ep.title || `Episode ${ep.episode_number}`}
+</h3>
 
-        </div>
-      `;
+<div class="episode-actions">
+
+  <button class="watch-episode">
+    ▶ Watch
+  </button>
+
+  <button class="download-episode">
+    ⬇
+  </button>
+
+</div>
+`;
 
       /* WATCH */
       card.querySelector(".watch-episode").onclick = () => {
