@@ -4993,7 +4993,7 @@ background:linear-gradient(
     display:grid;
 
     grid-template-columns:
-    repeat(auto-fill,minmax(210px,1fr));
+    repeat(auto-fill,minmax(150px,1fr));
 
-    gap:25px;
+    gap:15px;
 }
