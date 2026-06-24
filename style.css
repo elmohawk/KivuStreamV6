@@ -4510,30 +4510,24 @@ background:linear-gradient(
 }
 
 /* =========================================
-   FOOTER BOTTOM PRO MAX
+   PREMIUM FOOTER BOTTOM
 ========================================= */
 
 .footer-bottom{
 
-    margin-top:60px;
-
-    padding:28px 0;
+    margin-top:50px;
 
     border-top:1px solid rgba(255,255,255,.08);
 
-    display:flex;
+    background:rgba(255,255,255,.02);
 
-    justify-content:space-between;
+    backdrop-filter:blur(12px);
 
-    align-items:center;
-
-    flex-wrap:wrap;
-
-    gap:20px;
-
-    color:#9aa6bc;
+    padding:25px 30px;
 
     position:relative;
+
+    overflow:hidden;
 }
 
 .footer-bottom::before{
@@ -4542,12 +4536,12 @@ background:linear-gradient(
 
     position:absolute;
 
-    top:-1px;
+    top:0;
     left:50%;
 
     transform:translateX(-50%);
 
-    width:180px;
+    width:220px;
     height:2px;
 
     background:linear-gradient(
@@ -4558,65 +4552,82 @@ background:linear-gradient(
     );
 }
 
-/* =========================================
-   COPYRIGHT
-========================================= */
+.footer-bottom-content{
 
-.footer-copy{
+    max-width:1400px;
+
+    margin:auto;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+}
+
+/* COPYRIGHT */
+
+.footer-bottom-content span{
+
+    color:#a8b3cf;
 
     font-size:14px;
 
     font-weight:500;
 
-    letter-spacing:.4px;
-
-    color:#9aa6bc;
+    letter-spacing:.5px;
 }
 
-/* =========================================
-   TERMS & PRIVACY
-========================================= */
+/* LINKS */
 
-.footer-links{
+.footer-bottom-links{
 
     display:flex;
+
+    align-items:center;
 
     gap:14px;
 
     flex-wrap:wrap;
 }
 
-.footer-links a{
+.footer-bottom-links a{
 
     text-decoration:none;
 
     color:#fff;
 
-    background:linear-gradient(
-        135deg,
-        #00bfff,
-        #008cff
-    );
+    padding:12px 22px;
 
-    padding:13px 24px;
-
-    border-radius:999px;
+    border-radius:50px;
 
     font-size:14px;
 
     font-weight:700;
 
-    transition:all .35s ease;
+    background:linear-gradient(
+        135deg,
+        #00bfff,
+        #006eff
+    );
 
     box-shadow:
     0 10px 25px rgba(0,191,255,.25);
+
+    transition:all .35s ease;
 
     position:relative;
 
     overflow:hidden;
 }
 
-.footer-links a::before{
+/* Shine Effect */
+
+.footer-bottom-links a::before{
 
     content:"";
 
@@ -4631,28 +4642,56 @@ background:linear-gradient(
     background:linear-gradient(
         90deg,
         transparent,
-        rgba(255,255,255,.25),
+        rgba(255,255,255,.3),
         transparent
     );
 
-    transition:.6s;
+    transition:.7s;
 }
 
-.footer-links a:hover::before{
+.footer-bottom-links a:hover::before{
 
     left:100%;
 }
 
-.footer-links a:hover{
+.footer-bottom-links a:hover{
 
     transform:
     translateY(-4px)
-    scale(1.04);
+    scale(1.05);
 
     box-shadow:
     0 15px 35px rgba(0,191,255,.45);
 }
 
+/* MOBILE */
+
+@media (max-width:768px){
+
+    .footer-bottom{
+
+        padding:20px;
+    }
+
+    .footer-bottom-content{
+
+        flex-direction:column;
+
+        text-align:center;
+    }
+
+    .footer-bottom-links{
+
+        justify-content:center;
+    }
+
+    .footer-bottom-links a{
+
+        padding:11px 18px;
+
+        font-size:13px;
+    }
+}
 /* ===================================
    PREMIUM FLOAT BUTTONS
 =================================== */
