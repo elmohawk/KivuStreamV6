@@ -588,9 +588,9 @@ function renderSeason(season) {
     ${ep.episode_number}
   </div>
 
-  <span class="episode-code">
-    S${ep.season}E${ep.episode_number}
-  </span>
+ <div class="ep-code">
+S${ep.season}E${ep.episode_number}
+</div>
 
 </div>
 
