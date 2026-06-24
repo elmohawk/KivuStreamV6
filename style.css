@@ -1,58 +1,14 @@
-
-
-.movie-info h3{
-font-size:18px;
-font-weight:700;
-
-margin-bottom:8px;
-
-display:-webkit-box;
-
--webkit-line-clamp:2;
-
--webkit-box-orient:vertical;
-
-overflow:hidden;
-}
-
 .episode-meta{
-
-color:#00ff88;
-
-font-weight:700;
-
-margin-bottom:10px;
-
-font-size:14px;
-
+  margin-top:6px;
+  color:#ff3b30;
+  font-weight:700;
+  font-size:13px;
 }
-
-.translator-badge{
-
-color:#9fd4ff;
-
-font-size:13px;
-
-}
-
 @keyframes pulse{
   0%{transform:scale(1);}
   50%{transform:scale(1.08);}
   100%{transform:scale(1);}
 }
-
-
-/* BACK BUTTON */
-.back-btn {
-  background: rgba(255,255,255,0.08);
-  border: none;
-  color: white;
-  padding: 8px 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-
 /* RIGHT SIDE */
 
 .nav-right input {
@@ -232,44 +188,13 @@ body{
   1px solid rgba(255,255,255,.06);
 
 }
-
-.logo-wrap{
-
-  display:flex;
-  align-items:center;
-  gap:12px;
-
-}
-
 .site-logo{
-
-  width:48px;
-  height:48px;
-
-  border-radius:14px;
-
-  object-fit:cover;
-
-  box-shadow:
-  0 0 20px rgba(30,144,255,.45);
-
+    width:60px;
+    height:60px;
+    object-fit:contain;
+    border-radius:14px;
+    flex-shrink:0;
 }
-
-.site-title{
-
-  text-decoration:none;
-
-  color:white;
-
-  font-size:1.6rem;
-  font-weight:800;
-
-}
-
-.site-title span{
-  color:var(--blue2);
-}
-
 /* =========================
    NAVBAR
 ========================= */
@@ -416,52 +341,6 @@ body{
   height:100vh;
 
   overflow:hidden;
-
-}
-
-.hero-slider{
-
-  position:absolute;
-  inset:0;
-
-  background-size:cover;
-  background-position:center;
-
-  transition:1s ease;
-
-  transform:scale(1.02);
-
-}
-
-.hero-overlay{
-
-  position:absolute;
-  inset:0;
-
-  background:
-  linear-gradient(
-    to right,
-    rgba(0,0,0,.85),
-    rgba(0,0,0,.25)
-  );
-
-}
-
-.hero-content{
-
-  position:relative;
-
-  z-index:2;
-
-  height:100%;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-
-  padding:0 7%;
-
-  max-width:760px;
 
 }
 
@@ -660,32 +539,9 @@ body{
   padding:45px 5%;
 
 }
-
-.section-header{
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:25px;
-
-}
 /* =========================
    VIEW ALL BUTTON
 ========================= */
-
-.section-header{
-
-display:flex;
-
-justify-content:
-space-between;
-
-align-items:center;
-
-gap:20px;
-
-}
 
 .view-all-btn{
 
@@ -762,36 +618,16 @@ transform:
 scale(.95);
 
 }
-.section-header h2{
-
-  font-size:2rem;
-
-  font-weight:700;
-
+.section-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:25px;
+  gap:20px;
 }
 /* =========================
    MOVIES ROW
 ========================= */
-
-.movies-row{
-
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fill,
-minmax(
-190px,
-1fr
-)
-);
-
-gap:18px;
-
-padding-top:10px;
-
-}
-
 .play-btn{
 
   width:75px;
@@ -809,30 +645,6 @@ padding-top:10px;
   font-size:26px;
 
   backdrop-filter:blur(15px);
-
-}
-
-.movie-info{
-
- padding:12px;
-
-}
-
-.movie-info h3{
-
-  font-size:.95rem;
-
-  margin-bottom:8px;
-
-}
-
-.movie-info p{
-
-  color:var(--text2);
-
-  font-size:.8rem;
-
-  line-height:1.6;
 
 }
 .movie-badge{
@@ -853,11 +665,13 @@ padding-top:10px;
   background:var(--blue);
 
 }
-
 .movie-badge.series{
-  background:#8a2be2;
+  background:linear-gradient(
+    135deg,
+    #8a2be2,
+    #ff00ff
+  );
 }
-
 /* =========================
    GLASS PANEL
 ========================= */
@@ -942,35 +756,6 @@ padding-top:10px;
   margin-top:30px;
 
 }
-
-.social-btn{
-
-  padding:9px 18px;
-
-  border-radius:50px;
-
-  text-decoration:none;
-
-  color:white;
-
-  font-weight:600;
-
-  transition:.35s;
-
-  background:
-  rgba(255,255,255,.08);
-
-}
-
-.social-btn:hover{
-
-  transform:
-  translateY(-4px);
-
-  background:var(--blue);
-
-}
-
 .close-btn{
 
   position:absolute;
@@ -1134,25 +919,6 @@ select:focus{
 .delete-btn{
   background:var(--red);
 }
-/* =========================
-   FLOAT ANIMATION
-========================= */
-
-@keyframes floatMove{
-
-  0%{
-    transform:translateY(0px);
-  }
-
-  50%{
-    transform:translateY(-6px);
-  }
-
-  100%{
-    transform:translateY(0px);
-  }
-
-}
 .mobile-item{
 
   text-decoration:none;
@@ -1179,20 +945,6 @@ select:focus{
    SEARCH RESULTS
 ========================= */
 
-.search-card{
-
-  display:flex;
-  gap:12px;
-
-  padding:12px;
-
-  border-radius:18px;
-
-  cursor:pointer;
-
-  transition:.3s;
-
-}
 
 .search-card:hover{
 
@@ -1249,19 +1001,17 @@ select:focus{
   #hero-title{
     font-size:2.3rem;
   }
-
-  .hero-content{
-    padding:0 5%;
-  }
-
-  .movies-row{
-
-    grid-template-columns:
-    repeat(auto-fill,minmax(160px,1fr));
-
-  }
 }
-
+.hero-content{
+  position:relative;
+  z-index:3;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:0 7%;
+  max-width:760px;
+}
 @media(max-width:540px){
 
   .search-box{
@@ -1284,20 +1034,6 @@ select:focus{
   .hero-info-btn{
     width:100%;
   }
-
-  .movies-row{
-
-    grid-template-columns:
-    repeat(2,1fr);
-
-    gap:16px;
-
-  }
-
-  .section-header h2{
-    font-size:1.4rem;
-  }
-
 }
 /* =========================
    GLOBAL ANIMATION
@@ -1418,26 +1154,13 @@ select:focus{
   );
   z-index:1;
 }
-
-.movie-info{
-  position:relative;
-  z-index:3;
-}
-
 .movie-card:hover{
   animation:pulseGlow 2s infinite;
 }
-
-/* =========================
-   SERIES BADGE
-========================= */
-
-.movie-badge.series{
-  background:linear-gradient(
-    135deg,
-    #8a2be2,
-    #ff00ff
-  );
+.movie-info{
+  padding:12px;
+  position:relative;
+  z-index:3;
 }
 /* =========================
    FOOTER COPYRIGHT
@@ -1584,25 +1307,6 @@ select:focus{
 .profile-dropdown a:hover{
   background:rgba(255,255,255,.06);
 }
-
-/* =========================
-   TOAST NOTIFICATION
-========================= */
-
-.toast{
-  position:fixed;
-  top:100px;
-  right:20px;
-  background:#111a30;
-  padding:18px 22px;
-  border-radius:18px;
-  color:white;
-  z-index:99999;
-  box-shadow:var(--shadow);
-  border-left:4px solid var(--blue2);
-  animation:fadeIn .4s ease;
-}
-
 /* =========================
    EMPTY STATE
 ========================= */
@@ -1695,17 +1399,6 @@ select:focus{
   box-shadow:
     0 8px 32px rgba(0,0,0,.35);
 }
-
-/* =========================
-   PREMIUM HOVER
-========================= */
-
-button:hover,
-.social-btn:hover,
-.icon:hover{
-  filter:brightness(1.08);
-}
-
 /* =========================
    FIX IMAGE QUALITY
 ========================= */
@@ -1728,19 +1421,20 @@ img{
   opacity:1;
   transform:translateY(0);
 }
-
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+      to right,
+      rgba(0,0,0,.85),
+      rgba(0,0,0,.25)
+  );
+  pointer-events:none;
+  z-index:2;
+}
 .main-header{
   z-index:99999;
 }
-
-.hero-overlay{
-  pointer-events:none;
-}
-
-.hero-content{
-  z-index:10;
-}
-
 .search-empty{
 
   padding:30px;
@@ -1893,46 +1587,6 @@ img{
   text-align:center;
 
 }
-
-/* =========================
-   ADMIN PANEL
-========================= */
-
-#admin-panel{
-
-  display:none;
-
-  padding:140px 5% 60px;
-
-  min-height:100vh;
-
-}
-
-/* =========================
-   ADMIN CARD
-========================= */
-
-.admin-card{
-
-  padding:28px;
-
-  margin-bottom:30px;
-
-  border-radius:28px;
-
-  background:
-  rgba(255,255,255,.05);
-
-  border:
-  1px solid rgba(255,255,255,.08);
-
-  backdrop-filter:blur(18px);
-
-  box-shadow:
-  0 15px 40px rgba(0,0,0,.35);
-
-}
-
 .admin-card h2{
 
   margin-bottom:25px;
@@ -2108,10 +1762,6 @@ img{
   margin-top:18px;
 
 }
-
-.edit-btn,
-.delete-btn{
-
   flex:1;
 
   border:none;
@@ -2133,11 +1783,6 @@ img{
 .edit-btn{
   background:#1e90ff;
 }
-
-.delete-btn{
-  background:#ff4d67;
-}
-
 .edit-btn:hover,
 .delete-btn:hover{
 
@@ -2494,30 +2139,6 @@ img{
   margin-top:20px;
 
 }
-
-.support-item{
-
-  padding:18px;
-
-  margin-bottom:15px;
-
-  border-radius:20px;
-
-  background:
-  rgba(255,255,255,.05);
-
-}
-
-.support-label{
-
-  display:block;
-
-  font-weight:700;
-
-  margin-bottom:8px;
-
-}
-
 .support-value{
 
   color:#b7bfd6;
@@ -2710,6 +2331,12 @@ img{
   }
 
 }
+#admin-panel{
+  display:none;
+  min-height:100vh;
+  background:#050816;
+  display:flex;
+}
 /* =========================
    FIX DUPLICATE FOOTERS
 ========================= */
@@ -2717,21 +2344,6 @@ img{
 footer footer{
   display:none;
 }
-
-/* =========================
-   FIX ADMIN PANEL
-========================= */
-
-#admin-panel{
-
-  display:none;
-
-  margin-top:120px;
-
-  animation:fadeAdmin .4s ease;
-
-}
-
 @keyframes fadeAdmin{
 
   from{
@@ -2745,26 +2357,6 @@ footer footer{
   }
 
 }
-/* =========================
-   FIX MOVIES ROW OVERFLOW
-========================= */
-
-.movies-row{
-
-  width:100%;
-
-}
-
-/* =========================
-   FIX BUTTONS
-========================= */
-
-button{
-
-  font-family:inherit;
-
-}
-
 button:focus,
 input:focus,
 textarea:focus,
@@ -2783,22 +2375,20 @@ textarea::placeholder{
   color:#aeb7d0;
 
 }
-
 /* =========================
-   FIX SOCIAL BUTTONS
+   PREMIUM HOVER
 ========================= */
 
-.social-btn{
-
-  min-width:150px;
-
-  justify-content:center;
-
-  display:flex;
-  align-items:center;
-
+button:hover,
+.social-btn:hover,
+.icon:hover{
+  filter:brightness(1.08);
 }
-
+.social-btn:hover{
+  transform:
+  translateY(-4px);
+  background:var(--blue);
+}
 /* =========================
    FIX HERO TEXT
 ========================= */
@@ -2819,7 +2409,14 @@ textarea::placeholder{
   scrollbar-color:var(--blue) #050816;
 
 }
-
+.movies-row{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fill,minmax(190px,1fr));
+  gap:18px;
+  padding-top:10px;
+  width:100%;
+}
 /* =========================
    FIX MOBILE RESPONSIVE
 ========================= */
@@ -2854,19 +2451,6 @@ textarea::placeholder{
   0 5px 25px rgba(0,0,0,.35);
 
 }
-
-/* =========================
-   REMOVE IMAGE STRETCH
-========================= */
-
-img{
-
-  max-width:100%;
-
-  display:block;
-
-}
-
 /* =========================
    SOCIAL BUTTON FIX
 ========================= */
@@ -2921,12 +2505,9 @@ a{
 
   100%{
     transform:translateX(100%);
-  }
-
-}
 
 /* =========================
-   FLOATING ANIMATION
+   FLOAT ANIMATION
 ========================= */
 
 @keyframes floatMove{
@@ -2944,7 +2525,6 @@ a{
   }
 
 }
-
 /* =========================
    MOBILE ULTRA FIX
 ========================= */
@@ -2954,12 +2534,6 @@ a{
   .navbar{
 
     z-index:99999;
-
-  }
-
-  .hero-content{
-
-    padding-top:120px;
 
   }
   .social-btn{
@@ -3417,23 +2991,6 @@ button:disabled{
   font-size:14px;
 
 }
-
-/* =========================
-   HORIZONTAL ADMIN PANEL
-========================= */
-
-#admin-panel{
-
-  display:none;
-
-  min-height:100vh;
-
-  background:#050816;
-
-  display:flex;
-
-}
-
 /* SIDEBAR */
 
 .admin-sidebar{
@@ -3573,13 +3130,6 @@ button:disabled{
 /* MOBILE */
 
 @media(max-width:900px){
-
-  #admin-panel{
-
-    flex-direction:column;
-
-  }
-
   .admin-sidebar{
 
     width:100%;
@@ -3595,55 +3145,12 @@ button:disabled{
 /* =========================
    BIG PROFESSIONAL LOGO
 ========================= */
-
 .logo-wrap{
-  display:flex;
-  align-items:center;
-  gap:14px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    text-decoration:none;
 }
-
-.site-logo{
-  width:70px;
-  height:70px;
-  object-fit:cover;
-  border-radius:18px;
-  box-shadow:
-    0 0 20px rgba(0,140,255,.4),
-    0 0 40px rgba(0,140,255,.2);
-
-  transition:.3s;
-}
-
-.site-logo:hover{
-  transform:scale(1.08) rotate(2deg);
-}
-
-.site-title{
-  font-size:2rem;
-  font-weight:800;
-  color:white;
-  text-decoration:none;
-}
-
-.site-title span{
-  color:#00aaff;
-}
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-  .site-logo{
-    width:55px;
-    height:55px;
-  }
-
-  .site-title{
-    font-size:1.4rem;
-  }
-
-}
-
 /* =========================
    EPISODES UI
 ========================= */
@@ -4438,14 +3945,6 @@ button {
 .card:hover {
   transform: scale(1.03);
 }
-
-.episode-meta{
-  margin-top:6px;
-  color:#ff3b30;
-  font-weight:700;
-  font-size:13px;
-}
-
 .translator-badge{
   margin-top:8px;
   display:inline-block;
@@ -4467,22 +3966,18 @@ button {
   opacity:0;
   transition:.8s;
 }
-
-.hero-video.show iframe{
-  opacity:1;
-}
-
 .hero-slider{
   position:absolute;
   inset:0;
   background-size:cover;
   background-position:center;
   transition:all .8s ease;
+  transform:scale(1.02);
+  animation:heroZoom 10s linear;
 }
-.hero-slider{
- animation:heroZoom 10s linear;
+.hero-video.show iframe{
+  opacity:1;
 }
-
 @keyframes heroZoom{
  from{
   transform:scale(1);
@@ -4496,53 +3991,14 @@ button {
     border-radius:14px;
     margin-bottom:10px;
 }
-
-.support-label{
-    font-size:14px;
-}
-
-.support-value{
-    font-size:14px;
-}
-/* ===== PROFESSIONAL LOGO FIX ===== */
-
-.logo-wrap{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    text-decoration:none;
-}
-
-.site-logo{
-    width:60px;
-    height:60px;
-    object-fit:contain;
-    border-radius:14px;
-    flex-shrink:0;
-}
-
 .site-title{
     font-size:2rem;
     font-weight:800;
     color:#ffffff;
     letter-spacing:-0.5px;
 }
-
-.site-title .accent{
-    color:#00bfff;
-}
-
-@media (max-width:768px){
-
-    .site-logo{
-        width:50px;
-        height:50px;
-    }
-
-    .site-title{
-        font-size:1.6rem;
-    }
-
+.support-label{
+    font-size:14px;
 }
 .hero-video{
     position:absolute;
@@ -4563,16 +4019,6 @@ button {
 .hero-video.show iframe{
     opacity:1;
 }
-
-.hero-overlay{
-    z-index:2;
-}
-
-.hero-content{
-    position:relative;
-    z-index:3;
-}
-
 .hero-controls{
     z-index:4;
 }
