@@ -1048,7 +1048,7 @@ function initHero(movies) {
 
 heroInterval = setInterval(() => {
     nextHero();
-},1200);
+},16000);
 }
 
 function renderHero() {
