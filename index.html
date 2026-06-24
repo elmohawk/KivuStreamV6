@@ -11,8 +11,23 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <meta property="og:title"
+content="KivuStream">
+
+<meta property="og:description"
+content="Watch trending movies, series and anime online.">
+
+<meta property="og:image"
+content="logo.png">
+
+<meta property="og:type"
+content="website">
+
+<meta name="robots"
+content="index, follow">
 </head>
 <body>
+  <main>
   <!-- BLUE GRID BACKGROUND -->
   <div class="bg-grid"></div>
   <!-- LOADER -->
@@ -51,6 +66,9 @@
   <div class="nav-right">
 
     <input id="search-input" type="text" placeholder="Search movies...">
+    <div id="search-results"
+     class="search-results">
+</div>
 
    <button class="profile-btn"
         onclick="openAdminLogin()">
@@ -691,59 +709,90 @@ View All →
             <div class="phone-number">
                 📞 +250794669266
             </div>
+<div class="footer-social-grid">
 
-            <div class="social-row">
+<a href="https://wa.me/250794669266"
+target="_blank">
 
-                <a href="https://wa.me/250794669266" target="_blank">
-                    WhatsApp
-                </a>
+<i class="fab fa-whatsapp"></i>
+<span>WhatsApp</span>
 
-                <a href="https://www.tiktok.com/@mrhawk733" target="_blank">
-                    TikTok
-                </a>
+</a>
 
-                <a href="https://x.com/mrhawk2007" target="_blank">
-                    X
-                </a>
+<a href="https://www.tiktok.com/@mrhawk733"
+target="_blank">
 
-                <a href="https://www.facebook.com/mrhawk734" target="_blank">
-                    Facebook
-                </a>
+<i class="fab fa-tiktok"></i>
+<span>TikTok</span>
 
-                <a href="https://www.instagram.com/hawk_mrperfect/" target="_blank">
-                    Instagram
-                </a>
+</a>
 
-                <a href="https://youtube.com/@mrhawk_rw" target="_blank">
-                    YouTube
-                </a>
+<a href="https://x.com/mrhawk2007"
+target="_blank">
 
-                <a href="https://t.me/it_hawk_rw" target="_blank">
-                    Telegram
-                </a>
+<i class="fab fa-x-twitter"></i>
+<span>X</span>
 
-            </div>
+</a>
 
-        </div>
+<a href="https://www.facebook.com/mrhawk734"
+target="_blank">
 
-    </div>
+<i class="fab fa-facebook-f"></i>
+<span>Facebook</span>
 
-    <div class="footer-bottom">
+</a>
 
-        <div>
-            © 2026 KivuStream • Built By IT HAWK_RW
-        </div>
+<a href="https://www.instagram.com/hawk_mrperfect/"
+target="_blank">
 
-        <a href="/terms.html">
-            📜 Terms & Conditions
-        </a>
+<i class="fab fa-instagram"></i>
+<span>Instagram</span>
 
-        <a href="/privacy.html">
-            🔒 Privacy Policy
-        </a>
+</a>
 
-    </div>
+<a href="https://youtube.com/@mrhawk_rw"
+target="_blank">
 
+<i class="fab fa-youtube"></i>
+<span>YouTube</span>
+
+</a>
+
+<a href="https://t.me/it_hawk_rw"
+target="_blank">
+
+<i class="fab fa-telegram"></i>
+<span>Telegram</span>
+
+</a>
+
+</div>
+   <div class="footer-bottom">
+
+<div class="footer-copy">
+
+© 2026 KivuStream • Built By IT HAWK_RW
+
+</div>
+
+<div class="footer-links">
+
+<a href="/terms.html">
+
+📜 Terms
+
+</a>
+
+<a href="/privacy.html">
+
+🔒 Privacy
+
+</a>
+
+</div>
+
+</div>
 </footer>
 
       <a
@@ -802,7 +851,8 @@ src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg">
           <!-- =========================
      ADMIN DASHBOARD
 ========================= -->
-          <section id="admin-panel">
+         <section id="admin-panel"
+style="display:none;">
 
             <!-- TOP BAR -->
 
@@ -1101,6 +1151,36 @@ placeholder="Series ID">
                 </div>
 
               </div>
+              <div class="mobile-nav hide">
+
+<a href="/">
+<i class="fas fa-house"></i>
+<span>Home</span>
+</a>
+
+<a href="#latestMovies">
+<i class="fas fa-film"></i>
+<span>Movies</span>
+</a>
+
+<a href="#latestSeries">
+<i class="fas fa-tv"></i>
+<span>Series</span>
+</a>
+
+<a href="#support">
+<i class="fas fa-headset"></i>
+<span>Support</span>
+</a>
+
+</div>
+
+<button class="mobile-nav-toggle">
+
+<i class="fas fa-bars"></i>
+
+</button>
+</main>
  <!-- APP JS -->
              <script src="./script.js"></script>
 
