@@ -1146,9 +1146,9 @@ select:focus{
 
 .movies-row{
     display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
     gap:6px;
-    margin-top:18px;
+    margin-top:20px;
 }
 
 /* CARD */
@@ -1156,7 +1156,7 @@ select:focus{
     position:relative;
     overflow:hidden;
 
-    border-radius:16px;
+    border-radius:20px;
 
     background:
     linear-gradient(
