@@ -69,42 +69,7 @@ font-size:13px;
   50%{transform:scale(1.08);}
   100%{transform:scale(1);}
 }
-/* ===== HEADER BASE ===== */
-.main-header, .watch-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  background: rgba(5, 8, 22, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
 
-/* LOGO */
-.logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.site-logo {
-  width: 38px;
-  height: 38px;
-}
-
-.site-title {
-  color: white;
-  font-weight: 700;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-.site-title span {
-  color: #00c3ff;
-}
 
 /* BACK BUTTON */
 .back-btn {
@@ -116,21 +81,6 @@ font-size:13px;
   cursor: pointer;
 }
 
-/* NAVBAR */
-.navbar {
-  display: flex;
-  gap: 20px;
-}
-
-.navbar a {
-  color: #ccc;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.navbar a:hover {
-  color: #00c3ff;
-}
 
 /* RIGHT SIDE */
 .nav-right {
@@ -153,27 +103,6 @@ font-size:13px;
   color: white;
   font-size: 20px;
   border: none;
-}
-
-@media (max-width: 768px) {
-  .navbar {
-    display: none;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    background: #050816;
-    flex-direction: column;
-    padding: 15px;
-  }
-
-  .navbar.active {
-    display: flex;
-  }
-
-  .menu-btn {
-    display: block;
-  }
 }
 /* =========================================
    KIVUSTREAM PRO ULTRA CSS
@@ -1477,110 +1406,6 @@ select:focus{
 .delete-btn{
   background:var(--red);
 }
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-
-  padding:40px 5% 80px;
-
-  background:
-  linear-gradient(
-    to top,
-    rgba(0,0,0,.5),
-    transparent
-  );
-
-}
-
-.footer-container{
-
-  display:grid;
-
-  grid-template-columns:
-  repeat(auto-fit,minmax(260px,1fr));
-
-  gap:30px;
-
-}
-
-.footer-logo{
-
-  font-size:2rem;
-
-}
-
-.footer-logo span{
-  color:var(--blue2);
-}
-
-.footer-text{
-
-  color:var(--text2);
-
-  margin-top:15px;
-
-  line-height:1.7;
-
-}
-
-.footer-links{
-
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-
-}
-
-.footer-links a{
-
-  color:#d9e4ff;
-
-  text-decoration:none;
-
-}
-
-.social-icons{
-
-  display:flex;
-  gap:8px;
-
-  margin-top:15px;
-
-}
-
-.icon{
-
-  width:45px;
-  height:45px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-radius:50%;
-
-  background:
-  rgba(255,255,255,.08);
-
-  text-decoration:none;
-
-  color:white;
-
-  transition:.3s;
-
-}
-
-.icon:hover{
-
-  background:var(--blue);
-
-  transform:translateY(-4px);
-
-}
-
 /* =========================================
    PREMIUM FLOATING BUTTONS PRO
 ========================================= */
