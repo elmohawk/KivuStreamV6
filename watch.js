@@ -235,7 +235,9 @@ function getMovieId() {
 }
 
 const $ = (id) => document.getElementById(id);
-
+/* ===========================
+     LOAD MOVIE
+=========================== */
 async function loadMovie(id) {
 let movie = null;
 
@@ -341,6 +343,10 @@ state.movie = movie;
 
 await renderMovie(movie);
 
+await loadStats(movie);
+await increaseViews(movie);
+
+await loadStats(movie);
 /* SHOW/HIDE DOWNLOAD SECTION */
 const downloadSection =
 document.getElementById("downloadSection");
@@ -931,3 +937,78 @@ player.src=movie.video;
 player.play();
 
 };
+async function loadStats(movie){
+
+    /* Release Date */
+
+    document.getElementById("releaseDate").textContent =
+        movie.created_at
+        ? new Date(movie.created_at).toLocaleDateString(
+            "en-US",
+            {
+                year:"numeric",
+                month:"short",
+                day:"numeric"
+            }
+        )
+        : "-";
+
+    /* Views */
+
+    document.getElementById("viewCount").textContent =
+        (movie.views || 0).toLocaleString();
+
+    /* Movies */
+
+    if(movie.type !== "series"){
+
+        document.getElementById("seasonCount").textContent = "1";
+
+        document.getElementById("episodeCount").textContent = "1";
+
+        return;
+    }
+
+    /* Series */
+
+    const { data: episodes } =
+    await supabaseClient
+        .from("episodes")
+        .select("season")
+        .eq("series_id", movie.id);
+
+    const seasons =
+        [...new Set(
+            (episodes || []).map(
+                ep => ep.season
+            )
+        )];
+
+    document.getElementById("seasonCount").textContent =
+        seasons.length;
+
+    document.getElementById("episodeCount").textContent =
+        episodes?.length || 0;
+}
+async function increaseViews(movie){
+
+    const newViews =
+    (movie.views || 0) + 1;
+
+    const table =
+    movie.type === "series"
+    ? "series"
+    : "movies";
+
+    await supabaseClient
+        .from(table)
+        .update({
+            views:newViews
+        })
+        .eq("id",movie.id);
+
+    document.getElementById("viewCount").textContent =
+        newViews.toLocaleString();
+
+    movie.views = newViews;
+}
