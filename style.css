@@ -4493,3 +4493,42 @@ font-weight:700;
     text-align:center;
     padding:30px;
 }
+/* Hide admin sections by default */
+
+#admin-login {
+    display: none;
+}
+
+#admin-login.show {
+    display: flex;
+}
+
+#admin-panel {
+    display: none;
+}
+
+#admin-panel.show {
+    display: block;
+}
+
+/* Modal style */
+
+.admin-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.9);
+    backdrop-filter: blur(15px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+}
+
+.admin-login-card {
+    width: 90%;
+    max-width: 420px;
+    background: #111;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 25px;
+    padding: 30px;
+}
