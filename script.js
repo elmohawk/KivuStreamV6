@@ -1836,8 +1836,6 @@ document.addEventListener("DOMContentLoaded", () => {
       hideSearch();
     }
   });
-});
-
 /* =========================
    SUPABASE ADMIN AUTH
 ========================= */
