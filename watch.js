@@ -93,7 +93,25 @@ function renderMovie() {
 "movie-title",
 movie.title || "Unknown Movie"
 );
+setText(
+  "movie-director",
+  movie.director || "Unknown"
+);
 
+setText(
+  "movie-language",
+  movie.language || "English"
+);
+
+setText(
+  "movie-duration",
+  movie.duration || "N/A"
+);
+
+setText(
+  "movie-release",
+  movie.release_year || movie.year || "N/A"
+);
 setText(
 "movie-description",
 movie.description ||
@@ -104,12 +122,17 @@ movie.description ||
 
  document.getElementById("movie-translator").innerHTML =
   `🎙 ${movie.translator || "KivuStream"}`;
-
- setAttr(
-"movie-poster",
-"src",
-movie.image || "./logo.png"
+const poster =
+document.getElementById(
+"movie-poster"
 );
+
+poster.src =
+movie.image || "./logo.png";
+
+poster.onerror = () => {
+poster.src = "./logo.png";
+};
   const backdrop = document.querySelector(".hero-backdrop");
 
 if (backdrop) {
@@ -144,6 +167,37 @@ document.getElementById("movie-type").innerHTML =
     player.play();
 
   };
+}
+  const trailerBtn =
+document.getElementById("trailer-btn");
+
+if(trailerBtn){
+
+  if(movie.trailer){
+
+    trailerBtn.style.display = "inline-flex";
+
+    trailerBtn.onclick = () => {
+
+      const player =
+      document.getElementById("player");
+
+      player.src = movie.trailer;
+
+      player.scrollIntoView({
+        behavior:"smooth"
+      });
+
+      player.play();
+
+    };
+
+  }else{
+
+    trailerBtn.style.display = "none";
+
+  }
+
 }
   /* DOWNLOAD */
   const downloadBtn = document.getElementById("download-btn");
