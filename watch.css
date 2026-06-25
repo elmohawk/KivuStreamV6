@@ -14,21 +14,6 @@
   z-index: 1000;
 }
 
-/* LOGO */
-.watch-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: white;
-  font-weight: 700;
-}
-
-.watch-logo img {
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-}
-
 /* PRO BACK BUTTON */
 .back-btn-pro {
   display: flex;
@@ -53,19 +38,6 @@
 .back-btn-pro span {
   font-size: 16px;
   font-weight: bold;
-}
-/* ===== HEADER BASE ===== */
-.main-header, .watch-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 20px;
-  background: rgba(5, 8, 22, 0.85);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 /* LOGO */
@@ -316,32 +288,12 @@ body{
 .rating-badge{
     color:#ffd700;
 }
-
-/* ===================================
-   META
-=================================== */
-
 .meta{
     display:flex;
-    gap:15px;
     flex-wrap:wrap;
-
-    margin-top:10px;
+    gap:10px;
+    margin:15px 0;
 }
-
-.meta span{
-    padding:8px 14px;
-
-    background:
-    rgba(255,255,255,.08);
-
-    border-radius:50px;
-
-    color:#fff;
-
-    backdrop-filter:blur(15px);
-}
-
 /* ===================================
    BUTTONS
 =================================== */
@@ -707,44 +659,6 @@ body{
     #00e676
   );
 }
-
-/* MOBILE */
-
-@media(max-width:768px){
-
-  #episodes-container{
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    padding:12px;
-  }
-
-  .episode-card{
-    min-height:160px;
-    padding:14px;
-  }
-
-  .episode-card h3{
-    font-size:15px;
-    margin-top:55px;
-  }
-
-  .episode-badge{
-    width:42px;
-    height:42px;
-  }
-}
-
-  .watch-episode{
-    padding:13px;
-    font-size:14px;
-  }
-
-  .download-episode{
-    width:52px;
-  }
-
-}
-
 /* SMALL PHONES */
 
 @media(max-width:480px){
@@ -1656,40 +1570,6 @@ transform:translateY(-2px);
 
     margin:20px 0 30px;
 }
-
-.watch-navbar a{
-
-    text-decoration:none;
-
-    color:#fff;
-
-    background:
-    rgba(255,255,255,.05);
-
-    border:1px solid
-    rgba(255,255,255,.08);
-
-    padding:12px 20px;
-
-    border-radius:999px;
-
-    transition:.3s;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
-}
-
-.watch-navbar a:hover{
-
-    background:#00bfff;
-
-    border-color:#00bfff;
-
-    transform:translateY(-2px);
-}
 .watch-stats{
 
     display:grid;
@@ -1967,23 +1847,6 @@ transform:translateY(-2px);
         grid-template-columns:repeat(2,1fr);
     }
 }
-.watch-header{
-    position:sticky;
-    top:0;
-    z-index:1000;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:14px 30px;
-
-    background:rgba(5,8,22,.85);
-    backdrop-filter:blur(18px);
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-}
-
 .watch-left{
     display:flex;
     align-items:center;
@@ -2029,31 +1892,6 @@ transform:translateY(-2px);
 .accent{
     color:#0ea5e9;
 }
-
-.watch-navbar{
-    display:flex;
-    gap:10px;
-}
-
-.watch-navbar a{
-    display:flex;
-    align-items:center;
-    gap:8px;
-
-    padding:10px 16px;
-
-    color:#fff;
-    text-decoration:none;
-
-    border-radius:12px;
-
-    transition:.3s;
-}
-
-.watch-navbar a:hover{
-    background:rgba(255,255,255,.08);
-}
-
 .watch-actions{
     display:flex;
     gap:10px;
@@ -2076,27 +1914,24 @@ transform:translateY(-2px);
 .header-action:hover{
     background:#0ea5e9;
 }
-
+.watch-header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 30px;
+    background:rgba(5,8,22,.85);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
 /* MOBILE */
 
 @media(max-width:768px){
 
     .watch-header{
         padding:12px 15px;
-    }
-
-    .watch-navbar{
-        position:fixed;
-        bottom:0;
-        left:0;
-        width:100%;
-
-        justify-content:space-around;
-
-        background:#050816;
-        padding:12px 5px;
-
-        border-top:1px solid rgba(255,255,255,.08);
     }
 
     .watch-navbar a{
@@ -2112,4 +1947,26 @@ transform:translateY(-2px);
     .watch-actions{
         display:none;
     }
+}
+.watch-navbar{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+.watch-navbar a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    text-decoration:none;
+    color:#fff;
+
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+
+    padding:10px 16px;
+    border-radius:12px;
+
+    transition:.3s;
 }
