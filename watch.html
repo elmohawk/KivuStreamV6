@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -7,14 +7,13 @@
 
 <link rel="stylesheet" href="style.css"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
 </head>
+<body>
 <div id="loading-screen">
 
     <div class="loader"></div>
 
 </div>
-<body>
 
 <!-- HERO -->
 <!-- HERO SECTION -->
@@ -31,7 +30,13 @@
 
         <!-- Poster -->
         <div class="poster-wrapper">
-            <img id="movie-poster" class="poster" />
+         <img
+  id="movie-poster"
+  class="poster"
+  loading="eager"
+  alt="Movie Poster"
+  onerror="this.src='fallback-poster.jpg'"
+/>
         </div>
 
         <!-- Info -->
@@ -103,6 +108,9 @@
                 <button id="download-btn" class="download-btn">
                     ⬇ Download
                 </button>
+                 <button id="trailer-btn" class="trailer-btn">
+    🎬 Trailer
+  </button>
 
                 <button class="wishlist-btn">
                     ❤ My List
@@ -113,13 +121,56 @@
         </div>
 
     </div>
+<!-- FLOATING INFO BAR -->
+<div class="floating-info">
 
+  <div class="info-item">
+   <span>
+⭐ <span id="movie-rating">9.8</span> Rating
+</span>
+  </div>
+
+  <div class="info-item">
+  <span>
+👁 <span id="movie-views">2.5M</span> Views
+</span>
+  </div>
+
+  <div class="info-item">
+    <span>🔥 Trending #1</span>
+  </div>
+
+</div>
 </header>
 <!-- PLAYER -->
 <div class="player-wrap">
-  <video id="player" controls></video>
+ <video
+  id="player"
+  controls
+  preload="metadata"
+  playsinline
+></video>
 </div>
+<!-- PLAYER ACTIONS -->
+<section class="player-actions">
 
+  <button class="action-btn">
+    👍 Like
+  </button>
+
+  <button class="action-btn">
+    👎 Dislike
+  </button>
+
+  <button id="share-btn" class="action-btn">
+🔗 Share
+</button>
+
+  <button class="action-btn">
+    📌 Save
+  </button>
+
+</section>
 <!-- SERIES EPISODES (ONLY IF SERIES) -->
 <section id="series-section" style="display:none; padding:20px;">
 
@@ -130,7 +181,61 @@
   <div id="episodes-container"></div>
 
 </section>
+<section class="movie-info-pro">
 
+<h2>📖 About This Movie</h2>
+
+<div class="info-grid">
+
+<div>
+<strong>Director:</strong>
+<span id="movie-director">Unknown</span>
+</div>
+
+<div>
+<strong>Language:</strong>
+<span id="movie-language">English</span>
+</div>
+
+<div>
+<strong>Duration:</strong>
+<span id="movie-duration">120 Min</span>
+</div>
+
+<div>
+<strong>Release:</strong>
+<span id="movie-release">2026</span>
+</div>
+
+</div>
+
+</section>
+<section class="cast-section">
+
+<h2>🎭 Cast</h2>
+
+<div class="cast-slider">
+
+<div class="cast-card">
+<img
+  loading="lazy"
+  src="https://via.placeholder.com/100"
+  alt="Actor"
+/>
+<p>Actor Name</p>
+</div>
+
+<div class="cast-card">
+<img loading="lazy"
+     src="actor.jpg"
+     alt="Actor">
+<p>Actor Name</p>
+</div>
+
+</div>
+
+</section>
+    
 <!-- COMMENTS -->
 <section class="comments-section">
 
@@ -156,7 +261,14 @@
   <div id="recommended-container"
        class="recommended-grid">
   </div>
+</section>
+<section class="continue-watching">
 
+  <h2>⏯ Continue Watching</h2>
+
+  <div id="continue-container"
+       class="recommended-grid">
+  </div>
 </section>
 <section id="support" class="support-section">
 
@@ -242,8 +354,6 @@
   </div>
 
 </div>
-
-</div>
    <!-- SOCIAL -->
 <div class="footer-social">
 
@@ -291,6 +401,29 @@
   </div>
 
 </div>
+  <div class="footer-stats">
+
+  <div>
+    <h3>10K+</h3>
+    <p>Movies</p>
+  </div>
+
+  <div>
+    <h3>5K+</h3>
+    <p>Episodes</p>
+  </div>
+
+  <div>
+    <h3>100K+</h3>
+    <p>Users</p>
+  </div>
+
+  <div>
+    <h3>24/7</h3>
+    <p>Support</p>
+  </div>
+
+</div>
       <!-- BOTTOM LINKS -->
       <div class="footer-bottom-links">
 
@@ -302,11 +435,7 @@
         <a href="/privacy.html">🔒 Privacy Policy</a>
 
       </div>
-
     </div>
-
-  </div>
-
 </footer>
 <script src="watch.js"></script>
 
