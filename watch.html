@@ -1,35 +1,58 @@
 <header class="watch-header">
 
-  <button class="back-btn-pro" onclick="goBack()">
-    <span>←</span> Back
-  </button>
-<nav class="watch-navbar">
+    <!-- LOGO + BACK -->
+    <div class="watch-left">
 
-    <a href="index.html">
-        <i class="fas fa-house"></i>
-        Home
-    </a>
+        <button class="back-btn-pro" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
 
-    <a href="#episodes">
-        <i class="fas fa-play-circle"></i>
-        Episodes
-    </a>
+        <a href="index.html" class="watch-logo">
+            <img
+                src="https://kivustream.mrhawk2007.workers.dev/logo.png?v=2"
+                alt="KivuStream Logo">
+            <span>Kivu<span class="accent">Stream</span></span>
+        </a>
 
-    <a href="#details">
-        <i class="fas fa-circle-info"></i>
-        Details
-    </a>
+    </div>
 
-    <a href="#recommended">
-        <i class="fas fa-fire"></i>
-        Recommended
-    </a>
+    <!-- NAVIGATION -->
+    <nav class="watch-navbar">
 
-</nav>
-  <div class="watch-logo">
-    <img src="logo.png" alt="logo">
-    <span>KivuStream</span>
-  </div>
+        <a href="index.html">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+        </a>
+
+        <a href="#episodes">
+            <i class="fas fa-play-circle"></i>
+            <span>Episodes</span>
+        </a>
+
+        <a href="#details">
+            <i class="fas fa-circle-info"></i>
+            <span>Details</span>
+        </a>
+
+        <a href="#recommended">
+            <i class="fas fa-fire"></i>
+            <span>Recommended</span>
+        </a>
+
+    </nav>
+
+    <!-- RIGHT SIDE -->
+    <div class="watch-actions">
+
+        <button class="header-action">
+            <i class="fas fa-heart"></i>
+        </button>
+
+        <button class="header-action">
+            <i class="fas fa-share-alt"></i>
+        </button>
+
+    </div>
 
 </header>
 <html lang="en">
