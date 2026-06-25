@@ -118,9 +118,6 @@ async function enrichMovieWithTMDB(item) {
       rating:
         tmdb.rating || item.rating,
 
-      year:
-        tmdb.release || item.year,
-
       seasons:
         tmdb.seasons,
 
@@ -966,12 +963,6 @@ EP${movie.latestEpisode}
 <span>
 
 ${movie.category || "Drama"}
-
-</span>
-
-<span>
-
-${movie.year || "2026"}
 
 </span>
 
