@@ -5687,3 +5687,35 @@ background:linear-gradient(
         grid-template-columns:repeat(2,1fr);
     }
 }
+/* KEEP DESKTOP LAYOUT ON MOBILE */
+
+@media screen and (max-width: 768px){
+
+    .movies-row{
+        grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)) !important;
+    }
+
+    .footer-wrapper{
+        grid-template-columns: 2fr 1fr 1fr !important;
+    }
+
+    .help-grid{
+        grid-template-columns: repeat(3,1fr) !important;
+    }
+
+    .admin-grid{
+        grid-template-columns: repeat(2,1fr) !important;
+    }
+
+    .main-header{
+        flex-wrap: nowrap !important;
+    }
+
+    .hero-content h1{
+        font-size: 4rem !important;
+    }
+
+    .mobile-nav{
+        display: none !important;
+    }
+}
